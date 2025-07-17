@@ -225,3 +225,66 @@ No transaction limits, fraud detection, or audit trail required for MVP
 ---
 
 Welcome to the HAi Wallet team. Build with confidence. 
+
+---
+
+## AI Agent Pipeline Plugin: Natural Language Processing & OpenAI Integration
+
+The AI Agent Pipeline is a core backend plugin responsible for processing user natural language prompts and converting them into structured transaction plans. This pipeline is designed to be modular, extensible, and powered by real OpenAI integration—no mock data or hardcoding.
+
+### Purpose
+- To interpret user prompts (e.g., “Send 100 USDC to Bob”) and output actionable, structured transaction instructions for the wallet engine and UI.
+- To orchestrate a multi-step pipeline: intent recognition, parameter extraction, validation/enrichment, route optimization, risk assessment, and transaction simulation.
+
+### Key Files & Locations
+- **Plugin Interface & Types:** `packages/core/plugin/AIAgentPipelinePlugin.ts`
+  - Defines the `IAIAgentPipelinePlugin` interface and all related types (intent, parameters, routes, risks, simulation, etc.).
+- **Plugin Implementation:** `apps/api/modules/AIAgentPipelinePlugin.ts`
+  - The actual plugin that implements the interface and exposes the `processPrompt` method.
+
+### Interface Overview
+```typescript
+export interface IAIAgentPipelinePlugin extends IPlugin<AIAgentPipelineContext> {
+  processPrompt(prompt: string, context: AIAgentPipelineContext): Promise<AIPipelineResult>;
+}
+```
+- The `processPrompt` method is the main entry point. It takes a user prompt and context, runs it through the full pipeline, and returns a structured result.
+
+### OpenAI Integration
+- The plugin is designed to call the OpenAI API for:
+  - Intent recognition (classifying the user’s goal)
+  - Parameter extraction (pulling out amounts, tokens, recipients, etc.)
+  - Optionally, validation, enrichment, risk assessment, and simulation (for reasoning and explanations)
+- All OpenAI credentials and configuration should be managed securely via environment variables (`.env`).
+- The plugin must parse OpenAI responses into the strict types defined in the interface, ensuring the UI and transaction engine always receive reliable, structured data.
+
+### Extensibility
+- Each pipeline step is modular and can be swapped or extended as needed (e.g., to support new transaction types or integrate additional reasoning engines).
+- The plugin can be registered, upgraded, or replaced without modifying the core application logic, thanks to the project’s plugin architecture.
+
+### Development Notes
+- All prompt handling must use real OpenAI integration—no mock data or hardcoding is permitted for the MVP.
+- The plugin should be thoroughly tested with all critical demo prompts listed in the MVP feature breakdown.
+- For implementation details, refer to the journal and the code in the files above.
+
+--- 
+
+---
+
+## OpenAI SDK & Dependency Setup
+
+Before running or developing the AI Agent Pipeline plugin, ensure that all required dependencies are installed:
+
+- Install the official OpenAI SDK:
+  ```bash
+  npm install openai
+  ```
+- Ensure your `.env` file contains a valid OpenAI API key:
+  ```env
+  OPENAI_API_KEY=sk-...
+  ```
+- Additional dependencies may be required for other pipeline steps or integrations. Refer to the package.json and documentation as needed.
+
+The AI Agent Pipeline test suite covers all critical demo prompts and validates OpenAI integration. Always verify your environment is correctly configured before running tests or deploying new features.
+
+--- 

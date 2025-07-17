@@ -349,3 +349,19 @@ Big step forward! We just scaffolded the AI Agent Pipeline as a proper plugin, f
 What’s next? We’ll wire up the real OpenAI integration inside `processPrompt`, so every prompt goes through the full pipeline (intent, params, validation, etc.) and returns structured results for the UI. No mocks, no hardcoding—just real AI.
 
 This is a major milestone for the MVP’s natural language handling. The foundation is set—now it’s time to make the AI agent actually smart! 
+
+---
+
+### Prepping for AI Agent Pipeline Testing (Don’t Forget the Packages!)
+
+Heads up: Before we run the intent recognition tests for the AI Agent Pipeline, we need to make sure the OpenAI SDK (and any other required packages) are installed. No point in running tests if the code can’t talk to OpenAI!
+
+What’s new:
+- We expanded the test file to run all the critical demo prompts (plus a complex combo prompt) through the pipeline’s intent recognition step.
+- Each prompt’s result will be logged, so we can see exactly how OpenAI is handling our real-world scenarios.
+
+Next up:
+- Install the OpenAI SDK (`npm install openai`) and double-check that your `.env` has the right API key.
+- Then, run the test file and review the outputs. If everything looks good, we’ll move on to the next pipeline step.
+
+Let’s make sure the plumbing is in place before we turn on the faucet! 
