@@ -1,4 +1,4 @@
-import { AIAgentPipelinePlugin } from './AIAgentPipelinePlugin';
+import { recognizeIntent } from './AIAgentPipelinePlugin';
 
 const testContext = {
   userId: 'test-user',
@@ -14,22 +14,27 @@ const demoPrompts = [
   'Swap 100 ETH to USDC and send half to Bob',
   'Bridge 100 USDC to Polygon and send to Alice',
   'Swap ETH to USDC, bridge to Arbitrum, send to Bob',
-  // Combined/complex prompt for diversity
   'Swap 100 ETH to USDC, bridge to Polygon, then send 50 USDC to Bob and 50 USDC to Alice',
 ];
 
 async function testIntentRecognition() {
-  await AIAgentPipelinePlugin.init(testContext);
   for (const prompt of demoPrompts) {
     try {
-      await AIAgentPipelinePlugin.processPrompt(prompt, testContext);
+      const intent = await recognizeIntent(prompt, testContext);
+      console.log(`Prompt: "${prompt}"`);
+      console.log('Intent Recognition Result:', intent);
+      console.log('---');
     } catch (e) {
       console.log(`Prompt: "${prompt}"`);
-      console.log('Intent Recognition Output:', e.message);
+      if (typeof e === 'object' && e && 'message' in e) {
+        // @ts-ignore
+        console.log('Error:', e.message);
+      } else {
+        console.log('Error:', e);
+      }
       console.log('---');
     }
   }
-  await AIAgentPipelinePlugin.dispose();
 }
 
-testIntentRecognition(); 
+testIntentRecognition();

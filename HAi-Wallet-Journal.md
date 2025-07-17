@@ -365,3 +365,13 @@ Next up:
 - Then, run the test file and review the outputs. If everything looks good, we’ll move on to the next pipeline step.
 
 Let’s make sure the plumbing is in place before we turn on the faucet! 
+
+---
+
+### Intent Recognition: Clean, Structured Results (Markdown Fix)
+
+We hit a snag where OpenAI (or OpenRouter) would return the intent as a JSON object inside a markdown code block (```json ... ```), which broke our parser and made the type always 'unknown'.
+
+The fix: Before parsing, we now strip out any markdown code block formatting from the response. This means the intent, description, and confidence fields are now properly extracted and returned as a clean, structured object—just like we want for the MVP.
+
+Now, every demo prompt returns a real, usable intent result, and the pipeline is ready for the next step. No more type: 'unknown' when the model actually gets it right! 

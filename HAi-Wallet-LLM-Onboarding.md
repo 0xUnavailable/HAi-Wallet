@@ -288,3 +288,21 @@ Before running or developing the AI Agent Pipeline plugin, ensure that all requi
 The AI Agent Pipeline test suite covers all critical demo prompts and validates OpenAI integration. Always verify your environment is correctly configured before running tests or deploying new features.
 
 --- 
+
+---
+
+## Intent Recognition: Handling Markdown Code Blocks in OpenAI Responses
+
+When using OpenAI or OpenRouter, the model may return JSON results inside markdown code blocks (e.g., ```json ... ```). This can cause JSON parsing to fail if not handled properly.
+
+**Solution:**
+- The AI Agent Pipeline now strips any markdown code block formatting from the response before attempting to parse it as JSON.
+- This ensures that intent, description, and confidence fields are always extracted as clean, structured data.
+
+**Impact:**
+- All demo prompts now return properly formatted intent results, with no more fallback to type: 'unknown' when the model actually provides a valid intent.
+- The pipeline is robust against markdown-formatted responses and ready for further development.
+
+For implementation details, see the `recognizeIntent` function in the AI Agent Pipeline plugin.
+
+--- 

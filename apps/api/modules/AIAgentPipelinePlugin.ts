@@ -8,10 +8,17 @@ function buildIntentPrompt(userPrompt: string): string {
 
 async function recognizeIntent(prompt: string, context: AIAgentPipelineContext): Promise<IntentResult> {
   const systemPrompt = buildIntentPrompt(prompt);
-  const response = await getOpenAICompletion(systemPrompt, { model: 'gpt-3.5-turbo', temperature: 0 });
+  const response = await getOpenAICompletion(systemPrompt);
+
+  // Remove markdown formatting if present
+  let cleaned = response.trim();
+  // Remove triple backticks and optional 'json' after them
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/```json|```/g, '').trim();
+  }
+
   try {
-    // Try to parse the response as JSON
-    const parsed = JSON.parse(response);
+    const parsed = JSON.parse(cleaned);
     return {
       type: parsed.type,
       description: parsed.description,
@@ -19,15 +26,17 @@ async function recognizeIntent(prompt: string, context: AIAgentPipelineContext):
       raw: prompt,
     };
   } catch (e) {
-    // Fallback: If not JSON, return a default intent
+    // Fallback: If not JSON, return a default intent with the cleaned string as description
     return {
       type: 'unknown',
-      description: response,
+      description: cleaned,
       confidence: 0.5,
       raw: prompt,
     };
   }
 }
+
+export { recognizeIntent };
 
 export const AIAgentPipelinePlugin: IAIAgentPipelinePlugin = {
   id: 'ai-agent-pipeline',
