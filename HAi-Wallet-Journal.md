@@ -388,3 +388,11 @@ This means:
 - The output is always as structured as possible, with actionable feedback for the user.
 
 Ready for the next step in the AI agent pipeline! 
+
+---
+
+### Validation & Enrichment: Smart Clarifications and Defaults
+
+We just finished the validation & enrichment step! Now, if any required fields are missing or ambiguous after parameter extraction, the pipeline uses OpenAI to suggest clarifying questions or reasonable defaults. The result is merged back into the parameters, so the user (or UI) always knows what’s missing and what can be auto-filled.
+
+This makes the system much more user-friendly and robust, especially for prompts that are incomplete or a bit vague. The pipeline is now ready to move on to the next step: route optimization! 

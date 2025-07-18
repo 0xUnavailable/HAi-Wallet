@@ -102,7 +102,35 @@ async function extractParameters(prompt: string, intent: IntentResult, context: 
   }
 }
 
-export { recognizeIntent, extractParameters };
+// Validation & Enrichment step
+async function validateAndEnrich(params: ParameterMap, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<ParameterMap> {
+  // If there are no missing fields, return as-is
+  if (!params.missing || params.missing.length === 0) {
+    return params;
+  }
+
+  // Build a clarifying prompt for OpenAI
+  const missingFields = params.missing.join(', ');
+  const systemPrompt = `The following crypto transaction parameters are missing or ambiguous: ${missingFields}.\nPrompt: "${prompt}"\nIntent: ${intent.type}\nCurrent parameters: ${JSON.stringify(params)}\n\nSuggest clarifying questions for the user or reasonable defaults for each missing field. Respond in JSON with fields for each missing parameter, using null if you cannot infer a value, and a 'clarification' field with suggested questions if needed.`;
+
+  const response = await getOpenAICompletion(systemPrompt);
+
+  // Remove markdown formatting if present
+  let cleaned = response.trim();
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/```json|```/g, '').trim();
+  }
+
+  try {
+    const parsed = JSON.parse(cleaned);
+    // Merge the enriched/clarified fields into the original params
+    return { ...params, ...parsed };
+  } catch (e) {
+    return { ...params, enrichmentError: cleaned };
+  }
+}
+
+export { recognizeIntent, extractParameters, validateAndEnrich };
 
 export const AIAgentPipelinePlugin: IAIAgentPipelinePlugin = {
   id: 'ai-agent-pipeline',

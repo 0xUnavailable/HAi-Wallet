@@ -1,4 +1,4 @@
-import { recognizeIntent, extractParameters } from './AIAgentPipelinePlugin';
+import { recognizeIntent, extractParameters, validateAndEnrich } from './AIAgentPipelinePlugin';
 
 const testContext = {
   userId: 'test-user',
@@ -7,29 +7,29 @@ const testContext = {
 };
 
 const demoPrompts = [
-  "Send 0.5 BTC to John's wallet address 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
-  "Transfer 1000 XRP to my friend Sarah’s Ripple wallet",
-  "Deposit 250 DAI into my DeFi lending protocol on Ethereum",
-  "Buy 500 USDT using my ETH balance on Uniswap",
-  "Withdraw 0.1 ETH from my Binance account to my MetaMask wallet",
-  "Swap 2 ETH for USDC on SushiSwap, then send 50% to Alice and 25% to Bob",
-  "Bridge 500 USDC from Ethereum to Avalanche, swap half to AVAX, and send the AVAX to Charlie",
-  "Convert 0.3 BTC to ETH on Coinbase, transfer 0.1 ETH to my hardware wallet, and stake the rest on Lido",
-  "Send 100 USDT to Bob, bridge 200 USDC to Polygon, and stake 50 MATIC in a Polygon staking pool",
-  "Swap 1000 DAI to LINK on Curve, send 20 LINK to Alice, and bridge the remaining LINK to Optimism",
-  "If the price of ETH is above $3000, swap 1 ETH for USDC on lave Uniswap, bridge 50% to Arbitrum, and send the rest to Bob’s Arbitrum wallet",
-  "Split 1000 USDC equally among Bob, Alice, Charles and if the gas fee is below 10 MATIC, only then send to their Polygon wallets",
-  "Swap 0.5 ETH to DAI on 1inch, use 50% to buy LINK, bridge the LINK to Arbitrum, and stake it in a yield farming pool",
+  // Prompts with likely missing/ambiguous fields for enrichment
+  'Send 100 USDT to Bob', // No network specified
+  'Bridge 200 USDC', // No recipient or destination network
+  'Stake 50 MATIC', // No staking pool or network specified
+  'Transfer 0.5 BTC', // No recipient specified
+  'Swap 1 ETH to USDC', // No DEX or network specified
+  'Send 100 to Alice', // No token or network specified
+  'Bridge 100 USDC to Polygon', // No recipient specified
+  // More complex/ambiguous
+  'Send 100 USDT to Bob, bridge 200 USDC to Polygon, and stake 50 MATIC in a Polygon staking pool',
+  'Swap 2 ETH for USDC, then send 50% to Alice and 25% to Bob',
 ];
 
-async function testIntentAndParameterExtraction() {
+async function testFullPipeline() {
   for (const prompt of demoPrompts) {
     try {
       const intent = await recognizeIntent(prompt, testContext);
       const params = await extractParameters(prompt, intent, testContext);
+      const enriched = await validateAndEnrich(params, prompt, intent, testContext);
       console.log(`Prompt: "${prompt}"`);
       console.log('Intent Recognition Result:', intent);
       console.log('Parameter Extraction Result:', params);
+      console.log('Validation & Enrichment Result:', enriched);
       console.log('---');
     } catch (e) {
       console.log(`Prompt: "${prompt}"`);
@@ -44,4 +44,4 @@ async function testIntentAndParameterExtraction() {
   }
 }
 
-testIntentAndParameterExtraction();
+testFullPipeline();
