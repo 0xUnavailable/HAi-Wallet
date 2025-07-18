@@ -177,7 +177,89 @@ async function optimizeRoutes(params: ParameterMap, prompt: string, intent: Inte
   }
 }
 
-export { recognizeIntent, extractParameters, validateAndEnrich, optimizeRoutes };
+// Risk Assessment step
+async function assessRisks(params: ParameterMap, routes: any, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<any> {
+  const risks: any[] = [];
+
+  // 1. Insufficient Balance (if wallet and token info available)
+  if (params.amount && params.token && context.wallets && context.wallets.length > 0) {
+    const wallet = context.wallets[0]; // For MVP, use the first wallet
+    if (wallet.tokens && wallet.tokens.includes(params.token)) {
+      // For demo, assume user has 50 of each token (simulate insufficient balance)
+      const fakeBalance = 50;
+      if (Number(params.amount) > fakeBalance) {
+        risks.push({
+          issue: 'Insufficient balance',
+          severity: 'high',
+          suggestion: `Reduce the amount or deposit more ${params.token} (current balance: ${fakeBalance}).`
+        });
+      }
+    }
+  }
+
+  // 2. Unknown Sender
+  if (!params.sender && (!context.wallets || context.wallets.length === 0)) {
+    risks.push({
+      issue: 'Unknown sender wallet',
+      severity: 'high',
+      suggestion: 'Specify a valid sender wallet address from your account.'
+    });
+  }
+
+  // 3. Missing Transaction Parameters
+  if (params.missing && Array.isArray(params.missing) && params.missing.length > 0) {
+    for (const field of params.missing) {
+      risks.push({
+        issue: `Missing transaction parameter: ${field}`,
+        severity: 'high',
+        suggestion: `Please provide a valid value for ${field}.`
+      });
+    }
+  }
+
+  // If we already found risks, return them (for MVP, skip OpenAI call if any are found)
+  if (risks.length > 0) {
+    return risks;
+  }
+
+  // Otherwise, call OpenAI for additional risk analysis
+  const systemPrompt = `Given the following crypto transaction parameters and route recommendations, flag any potential risks or warnings for the user. Focus on: insufficient balance, high gas fees or slippage, and any other warning or risk relevant to the transaction. Respond in JSON as an array of risk objects, each with fields: issue, severity (low|medium|high), and suggestion.\nPrompt: "${prompt}"\nIntent: ${intent.type}\nParameters: ${JSON.stringify(params)}\nRoutes: ${JSON.stringify(routes)}`;
+
+  const response = await getOpenAICompletion(systemPrompt);
+
+  let cleaned = response.trim();
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/```json|```/g, '').trim();
+  }
+
+  try {
+    const parsed = JSON.parse(cleaned);
+    return parsed;
+  } catch (e) {
+    const match = cleaned.match(/```json\n([\s\S]*?)```/);
+    if (match) {
+      try {
+        const jsonBlock = match[1].trim();
+        const parsed = JSON.parse(jsonBlock);
+        return parsed;
+      } catch (e2) {
+        return { error: cleaned };
+      }
+    }
+    const jsonObjMatch = cleaned.match(/\[.*\]|\{[\s\S]*?\}/);
+    if (jsonObjMatch) {
+      try {
+        const parsed = JSON.parse(jsonObjMatch[0]);
+        return parsed;
+      } catch (e3) {
+        return { error: cleaned };
+      }
+    }
+    return { error: cleaned };
+  }
+}
+
+export { recognizeIntent, extractParameters, validateAndEnrich, optimizeRoutes, assessRisks };
 
 export const AIAgentPipelinePlugin: IAIAgentPipelinePlugin = {
   id: 'ai-agent-pipeline',
