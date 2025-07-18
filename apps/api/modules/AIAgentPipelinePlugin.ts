@@ -1,9 +1,14 @@
-import { IAIAgentPipelinePlugin, AIAgentPipelineContext, AIPipelineResult, IntentResult } from '../../../packages/core/plugin/AIAgentPipelinePlugin';
+import { IAIAgentPipelinePlugin, AIAgentPipelineContext, AIPipelineResult, IntentResult, ParameterMap } from '../../../packages/core/plugin/AIAgentPipelinePlugin';
 import { getOpenAICompletion } from '../utils/openaiClient';
 
 // Helper: Prompt engineering for intent recognition
 function buildIntentPrompt(userPrompt: string): string {
   return `Classify the user's intent from the following crypto wallet prompt. Respond in JSON with fields: type (one of transfer, swap, bridge, multi), description, confidence (0-1), and raw (the original prompt).\nPrompt: "${userPrompt}"`;
+}
+
+// Helper: Prompt engineering for parameter extraction
+function buildParameterPrompt(userPrompt: string, intent: IntentResult): string {
+  return `Extract all actionable parameters from the following crypto wallet prompt, given the intent: ${intent.type}. Respond in JSON with fields for each parameter (amount, token, recipient, network, action, etc.).\nPrompt: "${userPrompt}"`;
 }
 
 async function recognizeIntent(prompt: string, context: AIAgentPipelineContext): Promise<IntentResult> {
@@ -12,7 +17,6 @@ async function recognizeIntent(prompt: string, context: AIAgentPipelineContext):
 
   // Remove markdown formatting if present
   let cleaned = response.trim();
-  // Remove triple backticks and optional 'json' after them
   if (cleaned.startsWith('```')) {
     cleaned = cleaned.replace(/```json|```/g, '').trim();
   }
@@ -26,7 +30,6 @@ async function recognizeIntent(prompt: string, context: AIAgentPipelineContext):
       raw: prompt,
     };
   } catch (e) {
-    // Fallback: If not JSON, return a default intent with the cleaned string as description
     return {
       type: 'unknown',
       description: cleaned,
@@ -36,7 +39,26 @@ async function recognizeIntent(prompt: string, context: AIAgentPipelineContext):
   }
 }
 
-export { recognizeIntent };
+// Parameter extraction step
+async function extractParameters(prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<ParameterMap> {
+  const systemPrompt = buildParameterPrompt(prompt, intent);
+  const response = await getOpenAICompletion(systemPrompt);
+
+  // Remove markdown formatting if present
+  let cleaned = response.trim();
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/```json|```/g, '').trim();
+  }
+
+  try {
+    const parsed = JSON.parse(cleaned);
+    return parsed;
+  } catch (e) {
+    return { error: cleaned };
+  }
+}
+
+export { recognizeIntent, extractParameters };
 
 export const AIAgentPipelinePlugin: IAIAgentPipelinePlugin = {
   id: 'ai-agent-pipeline',
