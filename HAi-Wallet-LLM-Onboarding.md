@@ -306,3 +306,21 @@ When using OpenAI or OpenRouter, the model may return JSON results inside markdo
 For implementation details, see the `recognizeIntent` function in the AI Agent Pipeline plugin.
 
 --- 
+
+---
+
+## Parameter Extraction: Robust Handling of LLM Responses
+
+The parameter extraction step in the AI Agent Pipeline is now highly robust and user-friendly:
+
+- The pipeline can extract JSON parameters from markdown code blocks, error strings, or plain text at the top of the LLM response.
+- If any required fields (amount, token, recipient, network, action) are missing or ambiguous, the result includes a `missing` array listing those fields.
+- This ensures that the output is always as structured and actionable as possible, even for prompts with incomplete or ambiguous details.
+
+**Impact:**
+- The system provides clear, actionable feedback to users and the UI, making it easy to request clarification or additional details.
+- The pipeline is now reliable for all prompt types, supporting a seamless, user-friendly experience for the MVP.
+
+For implementation details, see the `extractParameters` function in the AI Agent Pipeline plugin.
+
+--- 

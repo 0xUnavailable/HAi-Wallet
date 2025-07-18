@@ -375,3 +375,16 @@ We hit a snag where OpenAI (or OpenRouter) would return the intent as a JSON obj
 The fix: Before parsing, we now strip out any markdown code block formatting from the response. This means the intent, description, and confidence fields are now properly extracted and returned as a clean, structured object—just like we want for the MVP.
 
 Now, every demo prompt returns a real, usable intent result, and the pipeline is ready for the next step. No more type: 'unknown' when the model actually gets it right! 
+
+---
+
+### Parameter Extraction: Robust, User-Friendly Results
+
+We leveled up the parameter extraction step! Now, even if the LLM returns a JSON object at the top of the response (not in a markdown code block), the pipeline will extract and parse it. If any required fields are missing or ambiguous, we return a `missing` array so the user (or UI) knows exactly what needs clarification.
+
+This means:
+- We handle JSON in markdown, plain text, or even mixed with explanations.
+- The pipeline is much more reliable and user-friendly for all prompt types, even those with incomplete or ambiguous details.
+- The output is always as structured as possible, with actionable feedback for the user.
+
+Ready for the next step in the AI agent pipeline! 

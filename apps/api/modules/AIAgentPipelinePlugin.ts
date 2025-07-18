@@ -39,6 +39,25 @@ async function recognizeIntent(prompt: string, context: AIAgentPipelineContext):
   }
 }
 
+// Helper to find missing fields in a parameter object or array of objects
+function findMissingFields(params: any): string[] {
+  const requiredFields = ['amount', 'token', 'recipient', 'network', 'action'];
+  let missing: string[] = [];
+  const check = (obj: any) => {
+    for (const field of requiredFields) {
+      if (!(field in obj) || obj[field] === null || obj[field] === undefined || obj[field] === '') {
+        if (!missing.includes(field)) missing.push(field);
+      }
+    }
+  };
+  if (Array.isArray(params)) {
+    params.forEach(check);
+  } else if (typeof params === 'object') {
+    check(params);
+  }
+  return missing;
+}
+
 // Parameter extraction step
 async function extractParameters(prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<ParameterMap> {
   const systemPrompt = buildParameterPrompt(prompt, intent);
@@ -50,10 +69,35 @@ async function extractParameters(prompt: string, intent: IntentResult, context: 
     cleaned = cleaned.replace(/```json|```/g, '').trim();
   }
 
+  // Try to parse as JSON directly
   try {
     const parsed = JSON.parse(cleaned);
-    return parsed;
+    const missing = findMissingFields(parsed);
+    return missing.length > 0 ? { ...parsed, missing } : parsed;
   } catch (e) {
+    // Try to extract JSON block from error string
+    const match = cleaned.match(/```json\n([\s\S]*?)```/);
+    if (match) {
+      try {
+        const jsonBlock = match[1].trim();
+        const parsed = JSON.parse(jsonBlock);
+        const missing = findMissingFields(parsed);
+        return missing.length > 0 ? { ...parsed, missing } : parsed;
+      } catch (e2) {
+        // Continue to next fallback
+      }
+    }
+    // Fallback: Try to extract the first JSON object from the string
+    const jsonObjMatch = cleaned.match(/{[\s\S]*?}/);
+    if (jsonObjMatch) {
+      try {
+        const parsed = JSON.parse(jsonObjMatch[0]);
+        const missing = findMissingFields(parsed);
+        return missing.length > 0 ? { ...parsed, missing } : parsed;
+      } catch (e3) {
+        return { error: cleaned };
+      }
+    }
     return { error: cleaned };
   }
 }
