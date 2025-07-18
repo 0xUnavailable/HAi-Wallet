@@ -63,7 +63,6 @@ async function extractParameters(prompt: string, intent: IntentResult, context: 
   const systemPrompt = buildParameterPrompt(prompt, intent);
   const response = await getOpenAICompletion(systemPrompt);
 
-  // Remove markdown formatting if present
   let cleaned = response.trim();
   if (cleaned.startsWith('```')) {
     cleaned = cleaned.replace(/```json|```/g, '').trim();
@@ -82,18 +81,94 @@ async function extractParameters(prompt: string, intent: IntentResult, context: 
         const jsonBlock = match[1].trim();
         const parsed = JSON.parse(jsonBlock);
         const missing = findMissingFields(parsed);
-        return missing.length > 0 ? { ...parsed, missing } : parsed;
+        return missing.length > 0 ? { ...parsed, missing, parsingWarning: 'Parsed from markdown block with extra explanation.' } : { ...parsed, parsingWarning: 'Parsed from markdown block with extra explanation.' };
       } catch (e2) {
         // Continue to next fallback
       }
     }
-    // Fallback: Try to extract the first JSON object from the string
-    const jsonObjMatch = cleaned.match(/{[\s\S]*?}/);
+    // Fallback: Try to extract the first JSON object/array from the string
+    const jsonObjMatch = cleaned.match(/\{[\s\S]*?\}|\[[\s\S]*?\]/);
     if (jsonObjMatch) {
       try {
         const parsed = JSON.parse(jsonObjMatch[0]);
         const missing = findMissingFields(parsed);
-        return missing.length > 0 ? { ...parsed, missing } : parsed;
+        return missing.length > 0 ? { ...parsed, missing, parsingWarning: 'Parsed from partial response with extra explanation.' } : { ...parsed, parsingWarning: 'Parsed from partial response with extra explanation.' };
+      } catch (e3) {
+        return { error: 'Could not parse JSON, see raw response.', raw: cleaned };
+      }
+    }
+    return { error: 'No JSON found in response.', raw: cleaned };
+  }
+}
+
+// Validation & Enrichment step
+async function validateAndEnrich(params: ParameterMap, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<ParameterMap> {
+  if (!params.missing || params.missing.length === 0) {
+    return params;
+  }
+  const missingFields = params.missing.join(', ');
+  const systemPrompt = `The following crypto transaction parameters are missing or ambiguous: ${missingFields}.\nPrompt: "${prompt}"\nIntent: ${intent.type}\nCurrent parameters: ${JSON.stringify(params)}\n\nSuggest clarifying questions for the user or reasonable defaults for each missing field. Respond in JSON with fields for each missing parameter, using null if you cannot infer a value, and a 'clarification' field with suggested questions if needed.`;
+  const response = await getOpenAICompletion(systemPrompt);
+  let cleaned = response.trim();
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/```json|```/g, '').trim();
+  }
+  try {
+    const parsed = JSON.parse(cleaned);
+    return { ...params, ...parsed };
+  } catch (e) {
+    const match = cleaned.match(/```json\n([\s\S]*?)```/);
+    if (match) {
+      try {
+        const jsonBlock = match[1].trim();
+        const parsed = JSON.parse(jsonBlock);
+        return { ...params, ...parsed, parsingWarning: 'Parsed from markdown block with extra explanation.' };
+      } catch (e2) {}
+    }
+    const jsonObjMatch = cleaned.match(/\{[\s\S]*?\}|\[[\s\S]*?\]/);
+    if (jsonObjMatch) {
+      try {
+        const parsed = JSON.parse(jsonObjMatch[0]);
+        return { ...params, ...parsed, parsingWarning: 'Parsed from partial response with extra explanation.' };
+      } catch (e3) {
+        return { ...params, enrichmentError: 'Could not parse JSON, see raw response.', raw: cleaned };
+      }
+    }
+    return { ...params, enrichmentError: 'No JSON found in response.', raw: cleaned };
+  }
+}
+
+// Route Optimization step
+async function optimizeRoutes(params: ParameterMap, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<any> {
+  // Build a prompt for OpenAI to suggest the best route(s)
+  const systemPrompt = `Given the following crypto transaction parameters, suggest a maximum of two route recommendations for swaps, bridges, and transfers. Focus on the best options only. Compare available options (output, gas, time, price impact) and recommend the optimal route. Respond in JSON as an array of up to two route options, each with fields: provider, output, gas, time, priceImpact, recommended (boolean), and a 'reason' field explaining the recommendation.\nPrompt: "${prompt}"\nIntent: ${intent.type}\nParameters: ${JSON.stringify(params)}`;
+
+  const response = await getOpenAICompletion(systemPrompt);
+
+  let cleaned = response.trim();
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/```json|```/g, '').trim();
+  }
+
+  try {
+    const parsed = JSON.parse(cleaned);
+    return parsed;
+  } catch (e) {
+    const match = cleaned.match(/```json\n([\s\S]*?)```/);
+    if (match) {
+      try {
+        const jsonBlock = match[1].trim();
+        const parsed = JSON.parse(jsonBlock);
+        return parsed;
+      } catch (e2) {
+        return { error: cleaned };
+      }
+    }
+    const jsonObjMatch = cleaned.match(/\[.*\]|\{[\s\S]*?\}/);
+    if (jsonObjMatch) {
+      try {
+        const parsed = JSON.parse(jsonObjMatch[0]);
+        return parsed;
       } catch (e3) {
         return { error: cleaned };
       }
@@ -102,35 +177,7 @@ async function extractParameters(prompt: string, intent: IntentResult, context: 
   }
 }
 
-// Validation & Enrichment step
-async function validateAndEnrich(params: ParameterMap, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<ParameterMap> {
-  // If there are no missing fields, return as-is
-  if (!params.missing || params.missing.length === 0) {
-    return params;
-  }
-
-  // Build a clarifying prompt for OpenAI
-  const missingFields = params.missing.join(', ');
-  const systemPrompt = `The following crypto transaction parameters are missing or ambiguous: ${missingFields}.\nPrompt: "${prompt}"\nIntent: ${intent.type}\nCurrent parameters: ${JSON.stringify(params)}\n\nSuggest clarifying questions for the user or reasonable defaults for each missing field. Respond in JSON with fields for each missing parameter, using null if you cannot infer a value, and a 'clarification' field with suggested questions if needed.`;
-
-  const response = await getOpenAICompletion(systemPrompt);
-
-  // Remove markdown formatting if present
-  let cleaned = response.trim();
-  if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/```json|```/g, '').trim();
-  }
-
-  try {
-    const parsed = JSON.parse(cleaned);
-    // Merge the enriched/clarified fields into the original params
-    return { ...params, ...parsed };
-  } catch (e) {
-    return { ...params, enrichmentError: cleaned };
-  }
-}
-
-export { recognizeIntent, extractParameters, validateAndEnrich };
+export { recognizeIntent, extractParameters, validateAndEnrich, optimizeRoutes };
 
 export const AIAgentPipelinePlugin: IAIAgentPipelinePlugin = {
   id: 'ai-agent-pipeline',

@@ -324,3 +324,17 @@ The parameter extraction step in the AI Agent Pipeline is now highly robust and 
 For implementation details, see the `extractParameters` function in the AI Agent Pipeline plugin.
 
 --- 
+
+---
+
+## Pretty-Printed Test Output: Full Visibility for Nested Data
+
+The AI Agent Pipeline test suite now pretty-prints all results using JSON.stringify(..., null, 2). This ensures that nested arrays and objects (such as recipients, actions, or route options) are always fully visible and user-friendly in the output.
+
+**Impact:**
+- No more `[Array]` placeholders—users and developers see the actual data structure.
+- Debugging and user feedback are much clearer, making it easier to understand and act on the pipeline’s results.
+
+This improvement supports a more transparent and accessible development and user experience.
+
+--- 
