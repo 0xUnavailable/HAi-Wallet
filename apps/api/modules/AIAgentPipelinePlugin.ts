@@ -1,6 +1,8 @@
 import { IAIAgentPipelinePlugin, AIAgentPipelineContext, AIPipelineResult, IntentResult, ParameterMap } from '../../../packages/core/plugin/AIAgentPipelinePlugin';
 import { getOpenAICompletion } from '../utils/openaiClient';
 import { getTokenInfo } from './tokenRegistry';
+import { getERC20Balance } from '../utils/onchainBalance';
+import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 
 // Helper: Prompt engineering for intent recognition
 function buildIntentPrompt(userPrompt: string): string {
@@ -164,6 +166,7 @@ async function validateAndEnrich(params: ParameterMap, prompt: string, intent: I
 
 // Route Optimization step
 async function optimizeRoutes(params: ParameterMap, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<any> {
+  // Remove on-chain balance check; rely on DEX API for insufficient balance errors
   // Build a prompt for OpenAI to suggest the best route(s)
   const systemPrompt = `Given the following crypto transaction parameters, suggest a maximum of two route recommendations for swaps, bridges, and transfers. Focus on the best options only. Compare available options (output, gas, time, price impact) and recommend the optimal route. Respond in JSON as an array of up to two route options, each with fields: provider, output, gas, time, priceImpact, recommended (boolean), and a 'reason' field explaining the recommendation.\nPrompt: "${prompt}"\nIntent: ${intent.type}\nParameters: ${JSON.stringify(params)}`;
 
@@ -204,6 +207,81 @@ async function optimizeRoutes(params: ParameterMap, prompt: string, intent: Inte
 // Risk Assessment step
 async function assessRisks(params: ParameterMap, routes: any, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<any> {
   const risks: any[] = [];
+
+  // 1. Recipient address validation (ENS or address)
+  if (params.toAddress || params.recipient) {
+    const recipient = params.toAddress || params.recipient;
+    const network = params.network || 'Ethereum';
+    const infuraKey = process.env.INFURA_API_KEY || '';
+    let resolvedAddress = recipient;
+    let isENS = false;
+    let ensResolved = null;
+    if (typeof recipient === 'string' && recipient.endsWith('.eth')) {
+      isENS = true;
+      try {
+        ensResolved = await resolveENS({ ensName: recipient, network, infuraKey });
+        if (!ensResolved) {
+          risks.push({
+            issue: 'Invalid ENS name',
+            severity: 'high',
+            suggestion: `The ENS name ${recipient} could not be resolved on ${network}. Please check for typos or use a valid ENS name.`
+          });
+        } else {
+          resolvedAddress = ensResolved;
+          risks.push({
+            issue: 'ENS name resolved',
+            severity: 'info',
+            suggestion: `The ENS name ${recipient} resolved to address ${ensResolved}. Please confirm this is the intended recipient.`
+          });
+        }
+      } catch {
+        risks.push({
+          issue: 'ENS resolution error',
+          severity: 'high',
+          suggestion: `There was an error resolving ENS name ${recipient} on ${network}. Please try again later or use a direct address.`
+        });
+      }
+    }
+    if (!isENS) {
+      if (!isValidAddress(resolvedAddress)) {
+        risks.push({
+          issue: 'Invalid recipient address',
+          severity: 'high',
+          suggestion: `The recipient address ${resolvedAddress} is not valid for ${network}. Please check for typos or use a valid address.`
+        });
+      } else {
+        // Check if contract or EOA
+        try {
+          const type = await getAddressType({ address: resolvedAddress, network, infuraKey });
+          if (type === 'CONTRACT') {
+            risks.push({
+              issue: 'Recipient is a contract address',
+              severity: 'medium',
+              suggestion: `You are sending to a contract address (${resolvedAddress}) on ${network}. Make sure this is what you intend. Contract addresses may not accept regular token transfers.`
+            });
+          } else if (type === 'EOA') {
+            risks.push({
+              issue: 'Recipient is a valid wallet address',
+              severity: 'info',
+              suggestion: `The recipient address ${resolvedAddress} is a valid wallet (EOA) on ${network}.`
+            });
+          } else if (type === 'INVALID') {
+            risks.push({
+              issue: 'Invalid recipient address',
+              severity: 'high',
+              suggestion: `The recipient address ${resolvedAddress} could not be validated on ${network}. Please check for typos or use a valid address.`
+            });
+          }
+        } catch {
+          risks.push({
+            issue: 'Address type check error',
+            severity: 'medium',
+            suggestion: `Could not determine if ${resolvedAddress} is a contract or wallet on ${network}. Please double-check the address.`
+          });
+        }
+      }
+    }
+  }
 
   // 1. Insufficient Balance (if wallet and token info available)
   if (params.amount && params.token && context.wallets && context.wallets.length > 0) {

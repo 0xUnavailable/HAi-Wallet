@@ -1,5 +1,6 @@
-import { recognizeIntent, extractParameters, getTokenInfo, toSmallestUnit } from './AIAgentPipelinePlugin';
+import { recognizeIntent, extractParameters, getTokenInfo, toSmallestUnit, assessRisks } from './AIAgentPipelinePlugin';
 import { ZeroXDEXAggregatorPlugin } from './ZeroXDEXAggregatorPlugin';
+import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 
 const SUPPORTED_NETWORKS: Record<string, number> = {
   'Ethereum': 1,
@@ -88,4 +89,56 @@ async function testSwapQuotePipeline() {
   }
 }
 
-testSwapQuotePipeline();
+const testPrompts = [
+  // 1. Valid ENS name (should resolve to a valid address)
+  'Send 10 USDC to vitalik.eth on Ethereum',
+  // 2. Invalid ENS name (should trigger invalid ENS warning)
+  'Send 10 USDC to notarealensnamethatdoesnotexist.eth on Ethereum',
+  // 3. Valid EOA address (should pass validation)
+  'Send 10 USDC to 0xa11B86d8cb6D0E9C8cD84d50260E910789194915 on Ethereum',
+  // 4. Contract address (should warn for contract)
+  'Send 10 USDC to 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 on Ethereum', // WETH contract
+  // 5. Invalid address (should trigger invalid address warning)
+  'Send 10 USDC to 0x1234INVALIDADDRESS on Ethereum',
+];
+
+async function runAddressValidationTests() {
+  const infuraKey = process.env.INFURA_API_KEY || '';
+  for (const prompt of testPrompts) {
+    console.log(`\n---\nPrompt: ${prompt}`);
+    const intent = await recognizeIntent(prompt, testContext);
+    console.log('Intent Recognition Result:', JSON.stringify(intent, null, 2));
+    const params = await extractParameters(prompt, intent, testContext);
+    console.log('Parameter Extraction Result:', JSON.stringify(params, null, 2));
+    // Run risk assessment to test address validation
+    const risks = await assessRisks(params, [], prompt, intent, testContext);
+    console.log('Risk Assessment:', JSON.stringify(risks, null, 2));
+
+    // Direct ENS/address lookup for comparison
+    const recipient = params.toAddress || params.recipient;
+    const network = params.network || 'Ethereum';
+    if (recipient) {
+      if (typeof recipient === 'string' && recipient.endsWith('.eth')) {
+        try {
+          const ensResolved = await resolveENS({ ensName: recipient, network, infuraKey });
+          console.log('Direct ENS Resolution:', ensResolved);
+        } catch (e) {
+          console.log('Direct ENS Resolution Error:', e);
+        }
+      } else if (typeof recipient === 'string') {
+        const valid = isValidAddress(recipient);
+        console.log('Direct Address Validity:', valid);
+        if (valid) {
+          try {
+            const type = await getAddressType({ address: recipient, network, infuraKey });
+            console.log('Direct Address Type:', type);
+          } catch (e) {
+            console.log('Direct Address Type Error:', e);
+          }
+        }
+      }
+    }
+  }
+}
+
+runAddressValidationTests();

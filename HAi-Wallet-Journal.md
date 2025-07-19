@@ -432,3 +432,30 @@ Major progress on the route optimization and swap pipeline! Here’s what’s ne
 This upgrade is a huge step toward a robust, production-ready MVP. The agent can now process prompts like “Swap 100 USDC to WETH on Ethereum” and always resolve the correct contract addresses and decimals, with full support for all MVP networks and tokens.
 
 Next up: continue integrating live data for route optimization and risk assessment, and expand the registry as needed for new tokens or chains! 
+
+---
+
+## [DATE: YYYY-MM-DD] DEX API Debugging and Next Steps
+
+- Debugged swap quote integration with 0x Gasless API.
+- Verified that intent recognition and parameter extraction are working as expected.
+- Confirmed token mapping to contract addresses is correct.
+- All swap quote parameters (chainId, sellToken, buyToken, sellAmount, taker) are being passed correctly to the DEX aggregator plugin and API.
+- 0x API response indicates 'INSUFFICIENT_BALANCE', confirming the wallet address used has no USDC on Ethereum mainnet.
+- No bugs found in parameter passing or API usage; integration is correct.
+- Decision: Add on-chain balance checks before calling the DEX API to provide user-friendly feedback and avoid unnecessary API calls when the wallet has insufficient funds.
+- Next step: Implement on-chain balance check using Ethers.js or Viem in the pipeline before swap quote requests. 
+
+## [DATE: YYYY-MM-DD] Swap Parameter Extraction Bug Fixed & Next Step
+
+- Debugged and resolved an issue where swap parameters (`fromToken`, `toToken`, `amount`) were sometimes undefined, causing DEX API calls to fail.
+- Confirmed that parameter extraction and token mapping now work as expected, and DEX query parameters are logged correctly.
+- Decided to proceed with integrating an on-chain balance checker using Ethers.js and Infura.
+- The new logic will check the user's token balance before making a DEX API call. If the balance is insufficient, a user-friendly error will be returned and the DEX API will not be called, preventing unnecessary API requests.
+- This will improve efficiency, reduce wasted API calls, and provide immediate feedback to the user. 
+
+## [DATE: YYYY-MM-DD] On-Chain Balance Checker Removed, Relying on DEX API
+
+- Removed the on-chain balance checker from the swap pipeline after confirming that the DEX API reliably returns an 'insufficient balance' error.
+- This change simplifies the codebase and avoids redundant checks, relying on the DEX aggregator for live balance validation.
+- The pipeline is now cleaner and easier to maintain, with user-facing errors still handled gracefully. 
