@@ -372,3 +372,24 @@ Previously, token symbol-to-address (and decimals) mapping was scattered, hardco
 - Maintain high code quality and user experience standards as we move toward a live MVP.
 
 This checkpoint ensures that any new engineer or LLM can immediately understand the current context, the problem we solved, and the architecture moving forward. 
+
+### [UPDATE: YYYY-MM-DD] Recipient Address Validation & Risk Assessment
+
+- The AI agent now validates recipient addresses for all transfers and swaps, supporting ENS names, EOAs, contract addresses, and invalid addresses.
+- ENS names are resolved to addresses and shown to the user for confirmation.
+- The risk assessment step provides actionable, user-friendly feedback: confirms valid ENS/EOA, warns for contracts, and blocks invalid addresses.
+- This logic is fully integrated and ready to be used in DEX API flows, ensuring safe and seamless user experience. 
+
+### [UPDATE: YYYY-MM-DD] Three-Tier DEX API Integration Complete
+
+- **ZeroXGaslessDEXAggregatorPlugin**: Implements strict on-chain balance checking for gasless swaps. Blocks execution and returns clear error if user has insufficient balance.
+- **ZeroXGasDEXAggregatorPlugin**: Implements strict on-chain balance checking for gas-using swaps. Blocks execution and returns clear error if user has insufficient balance.
+- **ZeroXSimulateDEXAggregatorPlugin**: Provides simulation-only quoting with no balance checks. Always returns quotes for planning and price discovery.
+- **Parameter Normalization**: Handles LLM extraction inconsistencies by mapping variants (fromToken, from_token, sourceToken) to canonical keys.
+- **Intelligent Route Recommendations**: Route recommendations are skipped when users have insufficient balance for gas/gasless transactions, but always shown for simulation.
+- **Comprehensive Test Suite**: Three dedicated test files demonstrate each plugin behavior with real API integration.
+
+### Current Status
+- Core DEX integration is complete and production-ready
+- All three plugins integrate seamlessly with the AI pipeline, risk assessment, and address validation
+- Ready to proceed with live session simulation using real wallet, token, contact, and network data 

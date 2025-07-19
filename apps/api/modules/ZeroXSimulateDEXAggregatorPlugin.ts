@@ -2,21 +2,20 @@ import { IDEXAggregatorPlugin, SwapQuoteRequest, SwapQuote } from '../../../pack
 import fetch from 'node-fetch';
 import { getTokenInfo } from './tokenRegistry';
 
-const ZEROX_GASLESS_API_BASE = 'https://api.0x.org/gasless/quote';
+const ZEROX_GAS_API_BASE = 'https://api.0x.org/swap/permit2/quote';
 const ZEROX_API_KEY = process.env.ZEROX_API_KEY || '';
 
-export const ZeroXGaslessDEXAggregatorPlugin: IDEXAggregatorPlugin = {
-  id: 'dex-0x-gasless',
-  name: '0x Gasless DEX Aggregator',
+export const ZeroXSimulateDEXAggregatorPlugin: IDEXAggregatorPlugin = {
+  id: 'dex-0x-simulate',
+  name: '0x Simulate DEX Aggregator',
   version: '1.0.0',
   type: 'dex-aggregator',
   async init() {},
   async dispose() {},
-
   async getSwapQuote(request: SwapQuoteRequest): Promise<SwapQuote[]> {
     try {
       const { chainId, sellToken, buyToken, sellAmount, taker } = request;
-      console.log('ZeroXGaslessDEXAggregatorPlugin.getSwapQuote - Query Parameters:', {
+      console.log('ZeroXSimulateDEXAggregatorPlugin.getSwapQuote - Query Parameters:', {
         chainId, sellToken, buyToken, sellAmount, taker
       });
       const params = new URLSearchParams({
@@ -24,9 +23,10 @@ export const ZeroXGaslessDEXAggregatorPlugin: IDEXAggregatorPlugin = {
         sellToken,
         buyToken,
         sellAmount,
-        taker,
+        taker
       });
-      const url = `${ZEROX_GASLESS_API_BASE}?${params.toString()}`;
+      if (taker) params.append('takerAddress', taker);
+      const url = `${ZEROX_GAS_API_BASE}?${params.toString()}`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -40,19 +40,19 @@ export const ZeroXGaslessDEXAggregatorPlugin: IDEXAggregatorPlugin = {
         throw { message: dataObj.message || 'API error', response: { data: dataObj } };
       }
       const quote: SwapQuote = {
-        provider: '0x-gasless',
+        provider: '0x-simulate',
         output: dataObj.buyAmount,
         gas: (dataObj.estimatedGas || dataObj.gas || '').toString(),
         time: (dataObj.expectedDuration || '').toString(),
         priceImpact: dataObj.estimatedPriceImpact ? `${(dataObj.estimatedPriceImpact * 100).toFixed(2)}%` : '',
         recommended: true,
-        reason: dataObj.reason || 'Live quote from 0x Gasless API',
+        reason: dataObj.reason || 'Simulated quote from 0x Gas API',
         rawQuote: dataObj,
       };
       return [quote];
     } catch (e: any) {
       return [{
-        provider: '0x-gasless',
+        provider: '0x-simulate',
         output: '0',
         gas: '',
         time: '',

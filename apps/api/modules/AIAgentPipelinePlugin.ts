@@ -3,6 +3,8 @@ import { getOpenAICompletion } from '../utils/openaiClient';
 import { getTokenInfo } from './tokenRegistry';
 import { getERC20Balance } from '../utils/onchainBalance';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
+import { walletManager, TransactionPreview, TransactionData } from '../utils/walletManager';
+import { ethers } from 'ethers';
 
 // Helper: Prompt engineering for intent recognition
 function buildIntentPrompt(userPrompt: string): string {
@@ -370,13 +372,105 @@ async function assessRisks(params: ParameterMap, routes: any, prompt: string, in
   }
 }
 
+// Transaction Execution step
+async function executeTransaction(
+  params: ParameterMap,
+  routes: any,
+  risks: any,
+  prompt: string,
+  intent: IntentResult,
+  context: AIAgentPipelineContext
+): Promise<any> {
+  try {
+    // Build transaction preview
+    const preview = await walletManager.buildTransactionPreview(intent, params, routes);
+    
+    // Check if any high-severity risks would block execution
+    const blockingRisks = risks.filter((risk: any) => risk.severity === 'high');
+    if (blockingRisks.length > 0) {
+      return {
+        status: 'blocked',
+        reason: 'High-severity risks detected',
+        risks: blockingRisks,
+        preview
+      };
+    }
+
+    // For demo purposes, auto-confirm if no blocking risks
+    // In production, this would require user confirmation
+    const userConfirmed = true; // TODO: Implement actual user confirmation UI
+
+    if (!userConfirmed) {
+      return {
+        status: 'pending_confirmation',
+        preview,
+        message: 'Transaction pending user confirmation'
+      };
+    }
+
+    // Build transaction data based on intent type
+    let txData: TransactionData;
+    
+    if (intent.type === 'transfer') {
+      const network = params.network || 'Ethereum';
+      const tokenInfo = getTokenInfo(params.token || params.fromToken, network);
+      
+      if (tokenInfo && tokenInfo.address) {
+        // ERC20 transfer
+        const erc20Abi = ["function transfer(address to, uint256 amount)"];
+        const iface = new ethers.Interface(erc20Abi);
+        const data = iface.encodeFunctionData('transfer', [
+          params.recipient || params.toAddress,
+          toSmallestUnit(params.amount, params.token || params.fromToken, network)
+        ]);
+        
+        txData = {
+          to: tokenInfo.address,
+          data: data,
+          gasLimit: '65000'
+        };
+      } else {
+        // Native token transfer (ETH)
+        txData = {
+          to: params.recipient || params.toAddress,
+          value: toSmallestUnit(params.amount, params.token || params.fromToken, network),
+          gasLimit: '21000'
+        };
+      }
+    } else if (intent.type === 'swap') {
+      // For swaps, we'd need to integrate with DEX router contracts
+      // This is a simplified example - in production, use actual DEX router
+      throw new Error('Swap execution not yet implemented');
+    } else {
+      throw new Error(`Unsupported transaction type: ${intent.type}`);
+    }
+
+    // Execute transaction
+    const receipt = await walletManager.executeTransaction(txData, preview);
+    
+    return {
+      status: 'success',
+      transactionHash: receipt.hash,
+      receipt,
+      preview
+    };
+
+  } catch (error: any) {
+    return {
+      status: 'error',
+      error: error.message,
+      preview: await walletManager.buildTransactionPreview(intent, params, routes)
+    };
+  }
+}
+
 function toSmallestUnit(amount: string, tokenSymbol: string, network: string): string {
   const tokenInfo = getTokenInfo(tokenSymbol, network);
   const decimals = tokenInfo?.decimals || 18;
   return (BigInt(Math.floor(Number(amount) * 10 ** decimals))).toString();
 }
 
-export { recognizeIntent, extractParameters, validateAndEnrich, optimizeRoutes, assessRisks, getTokenInfo, toSmallestUnit };
+export { recognizeIntent, extractParameters, validateAndEnrich, optimizeRoutes, assessRisks, executeTransaction, getTokenInfo, toSmallestUnit };
 
 export const AIAgentPipelinePlugin: IAIAgentPipelinePlugin = {
   id: 'ai-agent-pipeline',
