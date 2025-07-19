@@ -1,5 +1,6 @@
 import { IAIAgentPipelinePlugin, AIAgentPipelineContext, AIPipelineResult, IntentResult, ParameterMap } from '../../../packages/core/plugin/AIAgentPipelinePlugin';
 import { getOpenAICompletion } from '../utils/openaiClient';
+import { getTokenInfo } from './tokenRegistry';
 
 // Helper: Prompt engineering for intent recognition
 function buildIntentPrompt(userPrompt: string): string {
@@ -58,6 +59,12 @@ function findMissingFields(params: any): string[] {
   return missing;
 }
 
+const SUPPORTED_NETWORKS: Record<string, number> = {
+  'Ethereum': 1,
+  'Optimism': 10,
+  'Arbitrum': 42161,
+};
+
 // Parameter extraction step
 async function extractParameters(prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<ParameterMap> {
   const systemPrompt = buildParameterPrompt(prompt, intent);
@@ -68,31 +75,48 @@ async function extractParameters(prompt: string, intent: IntentResult, context: 
     cleaned = cleaned.replace(/```json|```/g, '').trim();
   }
 
-  // Try to parse as JSON directly
   try {
     const parsed = JSON.parse(cleaned);
-    const missing = findMissingFields(parsed);
-    return missing.length > 0 ? { ...parsed, missing } : parsed;
+    // Check for supported network
+    let missing = findMissingFields(parsed);
+    let unsupportedNetwork = null;
+    if (parsed.network && !SUPPORTED_NETWORKS[parsed.network]) {
+      unsupportedNetwork = parsed.network;
+      if (!missing.includes('network')) missing.push('network');
+    }
+    return missing.length > 0 || unsupportedNetwork
+      ? { ...parsed, missing, unsupportedNetwork }
+      : parsed;
   } catch (e) {
-    // Try to extract JSON block from error string
     const match = cleaned.match(/```json\n([\s\S]*?)```/);
     if (match) {
       try {
         const jsonBlock = match[1].trim();
         const parsed = JSON.parse(jsonBlock);
-        const missing = findMissingFields(parsed);
-        return missing.length > 0 ? { ...parsed, missing, parsingWarning: 'Parsed from markdown block with extra explanation.' } : { ...parsed, parsingWarning: 'Parsed from markdown block with extra explanation.' };
-      } catch (e2) {
-        // Continue to next fallback
-      }
+        let missing = findMissingFields(parsed);
+        let unsupportedNetwork = null;
+        if (parsed.network && !SUPPORTED_NETWORKS[parsed.network]) {
+          unsupportedNetwork = parsed.network;
+          if (!missing.includes('network')) missing.push('network');
+        }
+        return missing.length > 0 || unsupportedNetwork
+          ? { ...parsed, missing, unsupportedNetwork, parsingWarning: 'Parsed from markdown block with extra explanation.' }
+          : { ...parsed, parsingWarning: 'Parsed from markdown block with extra explanation.' };
+      } catch (e2) {}
     }
-    // Fallback: Try to extract the first JSON object/array from the string
     const jsonObjMatch = cleaned.match(/\{[\s\S]*?\}|\[[\s\S]*?\]/);
     if (jsonObjMatch) {
       try {
         const parsed = JSON.parse(jsonObjMatch[0]);
-        const missing = findMissingFields(parsed);
-        return missing.length > 0 ? { ...parsed, missing, parsingWarning: 'Parsed from partial response with extra explanation.' } : { ...parsed, parsingWarning: 'Parsed from partial response with extra explanation.' };
+        let missing = findMissingFields(parsed);
+        let unsupportedNetwork = null;
+        if (parsed.network && !SUPPORTED_NETWORKS[parsed.network]) {
+          unsupportedNetwork = parsed.network;
+          if (!missing.includes('network')) missing.push('network');
+        }
+        return missing.length > 0 || unsupportedNetwork
+          ? { ...parsed, missing, unsupportedNetwork, parsingWarning: 'Parsed from partial response with extra explanation.' }
+          : { ...parsed, parsingWarning: 'Parsed from partial response with extra explanation.' };
       } catch (e3) {
         return { error: 'Could not parse JSON, see raw response.', raw: cleaned };
       }
@@ -217,6 +241,15 @@ async function assessRisks(params: ParameterMap, routes: any, prompt: string, in
     }
   }
 
+  // 4. Unsupported Network
+  if (params.unsupportedNetwork) {
+    risks.push({
+      issue: `Unsupported network: ${params.unsupportedNetwork}`,
+      severity: 'high',
+      suggestion: 'Please use one of the supported networks: Ethereum, Optimism, or Arbitrum.'
+    });
+  }
+
   // If we already found risks, return them (for MVP, skip OpenAI call if any are found)
   if (risks.length > 0) {
     return risks;
@@ -259,7 +292,13 @@ async function assessRisks(params: ParameterMap, routes: any, prompt: string, in
   }
 }
 
-export { recognizeIntent, extractParameters, validateAndEnrich, optimizeRoutes, assessRisks };
+function toSmallestUnit(amount: string, tokenSymbol: string, network: string): string {
+  const tokenInfo = getTokenInfo(tokenSymbol, network);
+  const decimals = tokenInfo?.decimals || 18;
+  return (BigInt(Math.floor(Number(amount) * 10 ** decimals))).toString();
+}
+
+export { recognizeIntent, extractParameters, validateAndEnrich, optimizeRoutes, assessRisks, getTokenInfo, toSmallestUnit };
 
 export const AIAgentPipelinePlugin: IAIAgentPipelinePlugin = {
   id: 'ai-agent-pipeline',

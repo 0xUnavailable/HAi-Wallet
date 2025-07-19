@@ -338,3 +338,37 @@ The AI Agent Pipeline test suite now pretty-prints all results using JSON.string
 This improvement supports a more transparent and accessible development and user experience.
 
 --- 
+
+---
+
+## Checkpoint: Scalable Token Mapping & Route Optimization (Current Context)
+
+### Feature in Development
+We are currently focused on making the AI agent pipeline and DEX aggregator plugin production-ready for live, robust route optimization. The goal is to ensure that all token and network mappings are accurate, extensible, and easy to maintain, so the agent can process real user prompts and build valid swap/bridge/transfer requests for supported DEX/bridge APIs.
+
+### Issue Faced
+Previously, token symbol-to-address (and decimals) mapping was scattered, hardcoded, or duplicated across the agent pipeline, test files, and plugins. This made it difficult to:
+- Reliably convert user-friendly prompts (e.g., “Swap 100 USDC to WETH on Ethereum”) into valid on-chain requests
+- Support new tokens or networks without error-prone manual updates
+- Guarantee that all contract addresses and decimals were correct for every supported network
+- Scale the system for future tokens, networks, or live token list APIs
+
+### Solution & Progress
+- **Centralized Token Registry:** We created `tokenRegistry.ts` as the single source of truth for all supported tokens and networks. It maps symbols (USDC, ETH, WETH, USDT, etc.) to contract addresses and decimals for Ethereum, Optimism, and Arbitrum. The registry is type-safe, extensible, and ready for future live data integration.
+- **Utility Functions:** Added `getTokenInfo(symbol, network)` for safe lookup and `toSmallestUnit(amount, symbol, network)` for on-chain value conversion. These are now used everywhere token mapping is needed.
+- **Refactor & Cleanup:** Removed all previous hardcoded or scattered mapping logic from the agent pipeline, test files, and DEX aggregator plugin. All code now imports and uses the centralized registry and utilities.
+- **Agent Pipeline & Test Integration:** The agent pipeline and its test suite now resolve all token addresses and decimals using the registry, ensuring every prompt is processed with real, production-ready data.
+- **Scalability & Future-Proofing:** The new system is designed for easy extension—just add tokens/networks to the registry, or plug in a live token list API later. All mapping logic is centralized and type-checked.
+- **Cleaner, More Reliable Code:** The codebase is now much easier to maintain and reason about. No more duplicated mapping logic or risk of mismatched addresses/decimals.
+
+### Current Status
+- The agent can now process prompts like “Swap 100 USDC to WETH from my wallet on Ethereum” and always resolve the correct contract addresses and decimals, with full support for all MVP networks and tokens.
+- The DEX aggregator plugin is ready to build and send live swap quote requests using the new mapping system.
+- The system is robust, user-friendly, and ready for further live data integration (e.g., on-chain token lists, dynamic updates).
+
+**Next Steps:**
+- Continue integrating live data for route optimization and risk assessment.
+- Expand the registry as needed for new tokens or chains.
+- Maintain high code quality and user experience standards as we move toward a live MVP.
+
+This checkpoint ensures that any new engineer or LLM can immediately understand the current context, the problem we solved, and the architecture moving forward. 

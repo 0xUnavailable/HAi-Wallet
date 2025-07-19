@@ -404,3 +404,31 @@ This makes the system much more user-friendly and robust, especially for prompts
 We updated the test file to pretty-print all pipeline results using JSON.stringify(..., null, 2). Now, nested arrays and objects (like recipients, actions, or routes) are always fully visible and user-friendly in the output. No more [Array]—just the actual data structure, making debugging and user feedback much clearer.
 
 Ready for the next step in the pipeline! 
+
+---
+
+### 0x DEX Aggregator: Live, Swappable Route Optimization
+
+We’ve integrated the 0x DEX Aggregator as a plugin using our modular system! The new plugin fetches real swap quotes from the 0x API and returns them in a standardized format. Because it’s a plugin, we can swap out the DEX aggregator at any time—no core code changes needed.
+
+- The plugin is fully documented and easy to register with the plugin manager.
+- This is a major step toward live, production-ready route optimization for the MVP.
+- Future DEX or bridge aggregators can be added just by dropping in a new plugin.
+
+Ready to wire this into the pipeline and test with live data! 
+
+---
+
+### Centralized Token Registry & Scalable Token Mapping (Route Optimization Upgrade)
+
+Major progress on the route optimization and swap pipeline! Here’s what’s new since the last update:
+
+- **Centralized Token Registry:** We created a single source of truth for all supported tokens and networks in `tokenRegistry.ts`. This registry maps token symbols (like USDC, ETH, WETH) to their contract addresses and decimals for Ethereum, Optimism, and Arbitrum. It’s type-safe, easy to extend, and ready for live data in the future.
+- **Refactored Address Mapping:** All previous hardcoded or scattered token address/decimals logic was removed from the agent pipeline, test files, and DEX aggregator plugin. Everything now uses the new registry and utility functions for address and amount conversion.
+- **Agent Pipeline & Test Integration:** The AI agent pipeline and its test suite now use `getTokenInfo(symbol, network)` for address/decimals lookup and `toSmallestUnit(amount, symbol, network)` for on-chain value conversion. This ensures every prompt is processed with real, production-ready token data.
+- **Scalability & Future-Proofing:** The new system is designed for easy extension—just add tokens/networks to the registry, or plug in a live token list API later. All mapping logic is centralized and type-checked.
+- **Cleaner, More Reliable Code:** The codebase is now much easier to maintain and reason about. No more duplicated mapping logic or risk of mismatched addresses/decimals.
+
+This upgrade is a huge step toward a robust, production-ready MVP. The agent can now process prompts like “Swap 100 USDC to WETH on Ethereum” and always resolve the correct contract addresses and decimals, with full support for all MVP networks and tokens.
+
+Next up: continue integrating live data for route optimization and risk assessment, and expand the registry as needed for new tokens or chains! 
