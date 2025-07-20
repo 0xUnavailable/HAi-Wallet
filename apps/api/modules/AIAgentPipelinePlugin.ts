@@ -5,9 +5,7 @@ import { getERC20Balance } from '../utils/onchainBalance';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 import { walletManager, TransactionPreview, TransactionData } from '../utils/walletManager';
 import { ethers } from 'ethers';
-import { ZeroXGaslessDEXAggregatorPlugin } from './ZeroXGaslessDEXAggregatorPlugin';
-import { ZeroXGasDEXAggregatorPlugin } from './ZeroXGasDEXAggregatorPlugin';
-import { ZeroXSimulateDEXAggregatorPlugin } from './ZeroXSimulateDEXAggregatorPlugin';
+
 
 // Helper: Prompt engineering for intent recognition
 function buildIntentPrompt(userPrompt: string): string {
@@ -201,15 +199,14 @@ async function optimizeRoutes(params: ParameterMap, prompt: string, intent: Inte
       taker,
     };
     
-    // Import the new SWAP DEX API plugin
+    // Import the new SWAP DEX API and Gasless DEX API plugins
     const { SwapDEXAPIPlugin } = await import('./SwapDEXAPIPlugin');
+    const { GaslessDEXAPIPlugin } = await import('./GaslessDEXAPIPlugin');
     
-    // Get quotes from multiple DEX aggregators including the new SWAP DEX API
+    // Get quotes from the new SWAP DEX API and Gasless DEX API
     const quotes = await Promise.all([
       SwapDEXAPIPlugin.getSwapQuote(swapRequest),
-      ZeroXGaslessDEXAggregatorPlugin.getSwapQuote(swapRequest),
-      ZeroXGasDEXAggregatorPlugin.getSwapQuote(swapRequest),
-      ZeroXSimulateDEXAggregatorPlugin.getSwapQuote(swapRequest),
+      GaslessDEXAPIPlugin.getSwapQuote(swapRequest),
     ]);
     
     // Flatten and sort by output amount

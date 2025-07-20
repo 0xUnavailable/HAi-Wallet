@@ -1,6 +1,5 @@
 import { recognizeIntent, extractParameters, getTokenInfo, toSmallestUnit, assessRisks, optimizeRoutes } from './AIAgentPipelinePlugin';
 import { GaslessDEXAPIPlugin } from './GaslessDEXAPIPlugin';
-import { ZeroXGaslessDEXAggregatorPlugin } from './ZeroXGaslessDEXAggregatorPlugin';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 
 const SUPPORTED_NETWORKS: Record<string, number> = {

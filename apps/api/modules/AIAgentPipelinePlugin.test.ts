@@ -1,5 +1,4 @@
 import { recognizeIntent, extractParameters, getTokenInfo, toSmallestUnit, assessRisks, optimizeRoutes } from './AIAgentPipelinePlugin';
-import { ZeroXGaslessDEXAggregatorPlugin } from './ZeroXDEXAggregatorPlugin';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 
 const SUPPORTED_NETWORKS: Record<string, number> = {
@@ -84,8 +83,11 @@ async function testSwapQuotePipeline() {
       taker,
     };
     console.log('Swap Quote Query Parameters:', JSON.stringify(swapRequest, null, 2));
-    const quote = await ZeroXGaslessDEXAggregatorPlugin.getSwapQuote(swapRequest as any);
-    console.log('0x Gasless API Swap Quote:', JSON.stringify(quote, null, 2));
+    
+    // Import and use the new Gasless DEX API
+    const { GaslessDEXAPIPlugin } = await import('./GaslessDEXAPIPlugin');
+    const quote = await GaslessDEXAPIPlugin.getSwapQuote(swapRequest as any);
+    console.log('Gasless DEX API Swap Quote:', JSON.stringify(quote, null, 2));
     console.log('---');
   } catch (e) {
     if (typeof e === 'object' && e && 'message' in e) {
@@ -151,7 +153,10 @@ async function runAddressValidationTests() {
         swapRequest.taker = params.walletAddress;
       }
       console.log('DEX API Parameters:', JSON.stringify(swapRequest, null, 2));
-      const quote = await ZeroXGaslessDEXAggregatorPlugin.getSwapQuote(swapRequest);
+      
+      // Import and use the new Gasless DEX API
+      const { GaslessDEXAPIPlugin } = await import('./GaslessDEXAPIPlugin');
+      const quote = await GaslessDEXAPIPlugin.getSwapQuote(swapRequest);
       console.log('DEX API Result:', JSON.stringify(quote, null, 2));
     } else if (intent.type === 'swap') {
       console.log('DEX API Skipped: Missing required swap parameters:', {
