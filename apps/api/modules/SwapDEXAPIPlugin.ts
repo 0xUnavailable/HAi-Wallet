@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { 
   getContract, 
   createPublicClient, 
+  createWalletClient,
   http, 
   type Hex,
   concat, 
@@ -14,6 +15,7 @@ import {
   type WalletClient,
   type PublicClient
 } from 'viem';
+import { signTypedData } from 'viem/accounts';
 import { privateKeyToAccount } from 'viem/accounts';
 
 const ZEROX_PRICE_API_BASE = 'https://api.0x.org/swap/permit2/price';
@@ -125,6 +127,17 @@ async function setTokenAllowance(params: {
     transport: http(rpcUrl),
   });
   
+  const walletClient = createWalletClient({
+    account: privateKeyToAccount(privateKey as Hex),
+    chain: { 
+      id: parseInt(chainId),
+      name: chainId === '1' ? 'Ethereum' : chainId === '10' ? 'Optimism' : 'Arbitrum',
+      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+      rpcUrls: { default: { http: [rpcUrl] } }
+    },
+    transport: http(rpcUrl),
+  });
+  
   const account = privateKeyToAccount(privateKey as Hex);
   
   // Set up contracts
@@ -149,9 +162,16 @@ async function setTokenAllowance(params: {
       const { request } = await sellTokenContract.simulate.approve([PERMIT2_ADDRESS as Hex, maxUint256]);
       console.log('Approving Permit2 to spend token...', request);
       
-      // Note: In a real implementation, you would need a wallet client to sign and send the transaction
-      // For now, we'll return true to indicate the allowance check passed
-      console.log('Allowance would be set in production');
+      // Send the approval transaction
+      const hash = await walletClient.sendTransaction({
+        ...request,
+        to: sellToken as Hex,
+      });
+      console.log('Approval transaction hash:', hash);
+      
+      // Wait for transaction confirmation
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      console.log('Approved Permit2 to spend token.', receipt);
       return true;
     } catch (error) {
       console.log('Error approving Permit2:', error);
@@ -224,15 +244,31 @@ async function signAndExecuteTransaction(params: {
     transport: http(rpcUrl),
   });
   
+  const walletClient = createWalletClient({
+    account: privateKeyToAccount(privateKey as Hex),
+    chain: { 
+      id: parseInt(chainId),
+      name: chainId === '1' ? 'Ethereum' : chainId === '10' ? 'Optimism' : 'Arbitrum',
+      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+      rpcUrls: { default: { http: [rpcUrl] } }
+    },
+    transport: http(rpcUrl),
+  });
+  
   const account = privateKeyToAccount(privateKey as Hex);
   
   // Step 4: Sign the Permit2 EIP-712 message
   let signature: Hex;
   if (quote.permit2?.eip712) {
-    // Note: In a real implementation, you would use signTypedDataAsync
-    // For now, we'll simulate the signature
     console.log('Signing Permit2 EIP-712 message...');
-    signature = ('0x' + '0'.repeat(130)) as Hex; // Placeholder signature
+    signature = await signTypedData({
+      privateKey: privateKey as Hex,
+      domain: quote.permit2.eip712.domain,
+      types: quote.permit2.eip712.types,
+      primaryType: quote.permit2.eip712.primaryType,
+      message: quote.permit2.eip712.message,
+    });
+    console.log('Permit2 signature:', signature);
   } else {
     throw new Error('No Permit2 EIP-712 data in quote');
   }
@@ -248,20 +284,34 @@ async function signAndExecuteTransaction(params: {
   }
   
   // Execute transaction
-  // Note: In a real implementation, you would use a wallet client to send the transaction
-  console.log('Transaction would be executed in production');
+  const transactionRequest = {
+    account: account.address,
+    gas: quote.transaction.gas ? BigInt(quote.transaction.gas) : undefined,
+    to: quote.transaction.to as Hex,
+    data: transactionData,
+    chainId: parseInt(chainId),
+  };
+  
+  console.log('Executing swap transaction...');
+  const hash = await walletClient.sendTransaction(transactionRequest);
+  console.log('Swap transaction hash:', hash);
+  
+  // Wait for transaction confirmation
+  const receipt = await publicClient.waitForTransactionReceipt({ hash });
+  console.log('Swap transaction confirmed:', receipt);
   
   return {
-    transactionHash: '0x' + '0'.repeat(64), // Placeholder hash
+    transactionHash: hash,
     status: 'success',
+    receipt,
     data: transactionData
   };
 }
 
-export const ZeroXGasDEXAggregatorPlugin: IDEXAggregatorPlugin = {
-  id: 'dex-0x-gas',
-  name: '0x Gas DEX Aggregator',
-  version: '2.0.0',
+export const SwapDEXAPIPlugin: IDEXAggregatorPlugin = {
+  id: 'dex-swap-api',
+  name: 'SWAP DEX API Plugin',
+  version: '1.0.0',
   type: 'dex-aggregator',
   async init() {},
   async dispose() {},
@@ -269,11 +319,35 @@ export const ZeroXGasDEXAggregatorPlugin: IDEXAggregatorPlugin = {
   async getSwapQuote(request: SwapQuoteRequest): Promise<SwapQuote[]> {
     try {
       const { chainId, sellToken, buyToken, sellAmount, taker } = request;
-      console.log('ZeroXGasDEXAggregatorPlugin.getSwapQuote - Query Parameters:', {
+      console.log('SwapDEXAPIPlugin.getSwapQuote - Query Parameters:', {
         chainId, sellToken, buyToken, sellAmount, taker
       });
       
-      // On-chain balance check (block if insufficient)
+      // Step 1: Get Indicative Price (always get price quote first)
+      console.log('Step 1: Getting indicative price...');
+      const priceData = await getIndicativePrice({
+        chainId: chainId.toString(),
+        sellToken,
+        buyToken,
+        sellAmount,
+        taker
+      });
+      console.log('Indicative price received:', priceData);
+      
+      // Step 3: Fetch Firm Quote (always get quote for price display)
+      console.log('Step 3: Fetching firm quote...');
+      const quoteData = await getFirmQuote({
+        chainId: chainId.toString(),
+        sellToken,
+        buyToken,
+        sellAmount,
+        taker
+      });
+      console.log('Firm quote received:', quoteData);
+      
+      // Check balance after getting quotes (for execution decision only)
+      let hasSufficientBalance = true;
+      let balanceError = null;
       if (taker && sellToken && sellAmount) {
         try {
           const infuraKey = process.env.INFURA_API_KEY || '';
@@ -287,46 +361,22 @@ export const ZeroXGasDEXAggregatorPlugin: IDEXAggregatorPlugin = {
             infuraKey
           });
           if (BigInt(onChainBalance) < BigInt(sellAmount)) {
-            return [{
-              provider: '0x-gas',
-              output: '0',
-              gas: '',
-              time: '',
-              priceImpact: '',
-              recommended: false,
-              reason: `Insufficient balance: taker address ${taker} has ${onChainBalance}, needs ${sellAmount}.`,
-              rawQuote: null,
-            }];
+            hasSufficientBalance = false;
+            balanceError = `Insufficient balance: taker address ${taker} has ${onChainBalance}, needs ${sellAmount}.`;
           }
         } catch (err) {
-          return [{
-            provider: '0x-gas',
-            output: '0',
-            gas: '',
-            time: '',
-            priceImpact: '',
-            recommended: false,
-            reason: `Error checking on-chain balance for taker address ${taker}.`,
-            rawQuote: null,
-          }];
+          hasSufficientBalance = false;
+          balanceError = `Error checking on-chain balance for taker address ${taker}.`;
         }
       }
       
-      // Step 1: Get Indicative Price
-      console.log('Step 1: Getting indicative price...');
-      const priceData = await getIndicativePrice({
-        chainId: chainId.toString(),
-        sellToken,
-        buyToken,
-        sellAmount,
-        taker
-      });
-      console.log('Indicative price received:', priceData);
+
       
-      // Step 2: Set Token Allowance (if we have private key)
-      if (process.env.DEMO_PRIVATE_KEY) {
+      // Step 2: Set Token Allowance (only if we have sufficient balance and private key)
+      let allowanceSet = hasSufficientBalance; // Only true if sufficient balance
+      if (hasSufficientBalance && process.env.DEMO_PRIVATE_KEY) {
         console.log('Step 2: Setting token allowance...');
-        const allowanceSet = await setTokenAllowance({
+        allowanceSet = await setTokenAllowance({
           sellToken,
           sellAmount,
           taker,
@@ -335,33 +385,28 @@ export const ZeroXGasDEXAggregatorPlugin: IDEXAggregatorPlugin = {
         });
         if (!allowanceSet) {
           return [{
-            provider: '0x-gas',
-            output: '0',
-            gas: '',
-            time: '',
-            priceImpact: '',
+            provider: 'swap-dex-api',
+            output: quoteData.buyAmount,
+            gas: (quoteData.estimatedGas || quoteData.gas || '').toString(),
+            time: (quoteData.expectedDuration || '').toString(),
+            priceImpact: quoteData.estimatedPriceImpact ? `${(quoteData.estimatedPriceImpact * 100).toFixed(2)}%` : '',
             recommended: false,
             reason: 'Failed to set token allowance for Permit2',
-            rawQuote: null,
+            rawQuote: {
+              priceData,
+              quoteData,
+              permit2: quoteData.permit2,
+              allowanceSet: false
+            },
           }];
         }
       }
       
-      // Step 3: Fetch Firm Quote
-      console.log('Step 3: Fetching firm quote...');
-      const quoteData = await getFirmQuote({
-        chainId: chainId.toString(),
-        sellToken,
-        buyToken,
-        sellAmount,
-        taker
-      });
-      console.log('Firm quote received:', quoteData);
-      
-      // Step 4 & 5: Sign and Execute (if we have private key)
-      if (process.env.DEMO_PRIVATE_KEY && quoteData.permit2?.eip712) {
+      // Step 4 & 5: Sign and Execute (only if we have sufficient balance and private key)
+      let executionResult = null;
+      if (hasSufficientBalance && process.env.DEMO_PRIVATE_KEY && quoteData.permit2?.eip712) {
         console.log('Step 4 & 5: Signing and executing transaction...');
-        const executionResult = await signAndExecuteTransaction({
+        executionResult = await signAndExecuteTransaction({
           quote: quoteData,
           privateKey: process.env.DEMO_PRIVATE_KEY,
           chainId: chainId.toString()
@@ -370,24 +415,28 @@ export const ZeroXGasDEXAggregatorPlugin: IDEXAggregatorPlugin = {
       }
       
       const quote: SwapQuote = {
-        provider: '0x-gas',
+        provider: 'swap-dex-api',
         output: quoteData.buyAmount,
         gas: (quoteData.estimatedGas || quoteData.gas || '').toString(),
         time: (quoteData.expectedDuration || '').toString(),
         priceImpact: quoteData.estimatedPriceImpact ? `${(quoteData.estimatedPriceImpact * 100).toFixed(2)}%` : '',
-        recommended: true,
-        reason: quoteData.reason || 'Live quote from 0x Gas API with Permit2',
+        recommended: hasSufficientBalance,
+        reason: hasSufficientBalance 
+          ? (quoteData.reason || 'Live quote from SWAP DEX API with Permit2')
+          : (balanceError || 'Insufficient balance for swap execution'),
         rawQuote: {
           priceData,
           quoteData,
-          permit2: quoteData.permit2
+          permit2: quoteData.permit2,
+          executionResult,
+          allowanceSet
         },
       };
       
       return [quote];
     } catch (e: any) {
       return [{
-        provider: '0x-gas',
+        provider: 'swap-dex-api',
         output: '0',
         gas: '',
         time: '',

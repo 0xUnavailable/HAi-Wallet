@@ -1,4 +1,5 @@
 import { recognizeIntent, extractParameters, getTokenInfo, toSmallestUnit, assessRisks, optimizeRoutes } from './AIAgentPipelinePlugin';
+import { GaslessDEXAPIPlugin } from './GaslessDEXAPIPlugin';
 import { ZeroXGaslessDEXAggregatorPlugin } from './ZeroXGaslessDEXAggregatorPlugin';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 
@@ -73,23 +74,27 @@ async function runAddressValidationTests() {
         sellToken,
         buyToken,
         sellAmount,
+        taker: params.walletAddress || testContext.wallets[0].address
       };
-      if (params.walletAddress) {
-        swapRequest.taker = params.walletAddress;
-      }
-      console.log('DEX API Parameters:', JSON.stringify(swapRequest, null, 2));
-      const quote = await ZeroXGaslessDEXAggregatorPlugin.getSwapQuote(swapRequest);
-      console.log('DEX API Result:', JSON.stringify(quote, null, 2));
+      console.log('Gasless DEX API Parameters:', JSON.stringify(swapRequest, null, 2));
+      const quote = await GaslessDEXAPIPlugin.getSwapQuote(swapRequest);
+      console.log('Gasless DEX API Result:', JSON.stringify(quote, null, 2));
       
-      // If quote indicates insufficient balance, skip route recommendations
-      if (quote.length > 0 && !quote[0].recommended) {
-        console.log('Route Recommendations Skipped: User has insufficient balance for this swap.');
-      } else {
-        const routes = await optimizeRoutes(params, prompt, intent, testContext);
-        console.log('Route Recommendations:', JSON.stringify(routes, null, 2));
+      // Show Gasless DEX API specific details if available
+      if (quote.length > 0 && quote[0].rawQuote) {
+        const rawQuote = quote[0].rawQuote;
+        console.log('Gasless DEX API Details:');
+        console.log(`- Price Data Available: ${!!rawQuote.priceData}`);
+        console.log(`- Quote Data Available: ${!!rawQuote.quoteData}`);
+        console.log(`- Submit Result: ${rawQuote.submitResult ? 'Success' : 'Not submitted'}`);
+        console.log(`- Status Result: ${rawQuote.statusResult ? 'Available' : 'Not checked'}`);
+        console.log(`- Has Sufficient Balance: ${rawQuote.hasSufficientBalance}`);
       }
+      
+      // Note: Route recommendations removed since 0x API already aggregates routes
+      console.log('Note: Route recommendations skipped - 0x Gasless API already aggregates routes for optimal pricing');
     } else if (intent.type === 'swap') {
-      console.log('DEX API Skipped: Missing required swap parameters:', {
+      console.log('Gasless DEX API Skipped: Missing required swap parameters:', {
         fromToken: params.fromToken,
         toToken: params.toToken,
         amount: params.amount,

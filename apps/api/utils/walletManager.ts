@@ -202,6 +202,9 @@ export class WalletManager {
     // Update daily spent amount
     this.dailySpent += value;
 
+    if (!receipt) {
+      throw new Error('Transaction receipt is null');
+    }
     return receipt;
   }
 

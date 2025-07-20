@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "test": "jest",
+    "demo": "ts-node demo/interactive-demo.ts",
+    "demo:live": "ts-node modules/AIAgentPipelinePlugin.live.test.ts"
+  }
+} 

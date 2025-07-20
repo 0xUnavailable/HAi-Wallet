@@ -5,6 +5,9 @@ import { getERC20Balance } from '../utils/onchainBalance';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 import { walletManager, TransactionPreview, TransactionData } from '../utils/walletManager';
 import { ethers } from 'ethers';
+import { ZeroXGaslessDEXAggregatorPlugin } from './ZeroXGaslessDEXAggregatorPlugin';
+import { ZeroXGasDEXAggregatorPlugin } from './ZeroXGasDEXAggregatorPlugin';
+import { ZeroXSimulateDEXAggregatorPlugin } from './ZeroXSimulateDEXAggregatorPlugin';
 
 // Helper: Prompt engineering for intent recognition
 function buildIntentPrompt(userPrompt: string): string {
@@ -68,6 +71,16 @@ const SUPPORTED_NETWORKS: Record<string, number> = {
   'Optimism': 10,
   'Arbitrum': 42161,
 };
+
+function resolveWalletAddress(raw: string | undefined, context: any): string {
+  if (!raw) return context.wallets?.[0]?.address || '';
+  const match = raw.match(/0x[a-fA-F0-9]{40}/);
+  if (match) return match[0];
+  if (raw.toLowerCase().includes('my wallet') || raw.toLowerCase().includes('my main wallet')) {
+    return context.wallets?.[0]?.address || '';
+  }
+  return raw; // fallback to whatever was extracted
+}
 
 // Parameter extraction step
 async function extractParameters(prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<ParameterMap> {
@@ -168,41 +181,43 @@ async function validateAndEnrich(params: ParameterMap, prompt: string, intent: I
 
 // Route Optimization step
 async function optimizeRoutes(params: ParameterMap, prompt: string, intent: IntentResult, context: AIAgentPipelineContext): Promise<any> {
-  // Remove on-chain balance check; rely on DEX API for insufficient balance errors
-  // Build a prompt for OpenAI to suggest the best route(s)
-  const systemPrompt = `Given the following crypto transaction parameters, suggest a maximum of two route recommendations for swaps, bridges, and transfers. Focus on the best options only. Compare available options (output, gas, time, price impact) and recommend the optimal route. Respond in JSON as an array of up to two route options, each with fields: provider, output, gas, time, priceImpact, recommended (boolean), and a 'reason' field explaining the recommendation.\nPrompt: "${prompt}"\nIntent: ${intent.type}\nParameters: ${JSON.stringify(params)}`;
-
-  const response = await getOpenAICompletion(systemPrompt);
-
-  let cleaned = response.trim();
-  if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/```json|```/g, '').trim();
-  }
-
   try {
-    const parsed = JSON.parse(cleaned);
-    return parsed;
-  } catch (e) {
-    const match = cleaned.match(/```json\n([\s\S]*?)```/);
-    if (match) {
-      try {
-        const jsonBlock = match[1].trim();
-        const parsed = JSON.parse(jsonBlock);
-        return parsed;
-      } catch (e2) {
-        return { error: cleaned };
-      }
-    }
-    const jsonObjMatch = cleaned.match(/\[.*\]|\{[\s\S]*?\}/);
-    if (jsonObjMatch) {
-      try {
-        const parsed = JSON.parse(jsonObjMatch[0]);
-        return parsed;
-      } catch (e3) {
-        return { error: cleaned };
-      }
-    }
-    return { error: cleaned };
+    if (intent.type !== 'swap') return [];
+    
+    const network = params.network || 'Ethereum';
+    const chainId = SUPPORTED_NETWORKS[network];
+    const fromTokenInfo = getTokenInfo(params.fromToken, network);
+    const toTokenInfo = getTokenInfo(params.toToken, network);
+    const sellToken = fromTokenInfo?.address || params.fromToken;
+    const buyToken = toTokenInfo?.address || params.toToken;
+    const sellAmount = toSmallestUnit(params.amount, params.fromToken, network);
+    const taker = resolveWalletAddress(params.walletAddress, context);
+    
+    const swapRequest = {
+      chainId,
+      sellToken,
+      buyToken,
+      sellAmount,
+      taker,
+    };
+    
+    // Import the new SWAP DEX API plugin
+    const { SwapDEXAPIPlugin } = await import('./SwapDEXAPIPlugin');
+    
+    // Get quotes from multiple DEX aggregators including the new SWAP DEX API
+    const quotes = await Promise.all([
+      SwapDEXAPIPlugin.getSwapQuote(swapRequest),
+      ZeroXGaslessDEXAggregatorPlugin.getSwapQuote(swapRequest),
+      ZeroXGasDEXAggregatorPlugin.getSwapQuote(swapRequest),
+      ZeroXSimulateDEXAggregatorPlugin.getSwapQuote(swapRequest),
+    ]);
+    
+    // Flatten and sort by output amount
+    const allQuotes = quotes.flat().filter((q: any) => q.recommended);
+    return allQuotes.sort((a: any, b: any) => parseFloat(b.output) - parseFloat(a.output));
+  } catch (error: any) {
+    console.error('Error optimizing routes:', error);
+    return [];
   }
 }
 
@@ -438,9 +453,34 @@ async function executeTransaction(
         };
       }
     } else if (intent.type === 'swap') {
-      // For swaps, we'd need to integrate with DEX router contracts
-      // This is a simplified example - in production, use actual DEX router
-      throw new Error('Swap execution not yet implemented');
+      // Use the new SWAP DEX API for swap execution
+      if (routes && routes.length > 0 && routes[0].rawQuote) {
+        const route = routes[0];
+        const rawQuote = route.rawQuote;
+        
+        // If we have a complete quote with transaction data, execute it
+        if (rawQuote.quoteData?.transaction && rawQuote.executionResult) {
+          console.log('Executing swap transaction from SWAP DEX API...');
+          
+          // The transaction has already been executed by the SWAP DEX API plugin
+          return {
+            status: 'success',
+            transactionHash: rawQuote.executionResult.transactionHash,
+            receipt: rawQuote.executionResult.receipt,
+            preview: await walletManager.buildTransactionPreview(intent, params, routes)
+          };
+        } else {
+          // Quote-only mode - no execution
+          return {
+            status: 'quote_only',
+            message: 'Swap quote obtained but not executed',
+            quote: route,
+            preview: await walletManager.buildTransactionPreview(intent, params, routes)
+          };
+        }
+      } else {
+        throw new Error('No valid swap routes found');
+      }
     } else {
       throw new Error(`Unsupported transaction type: ${intent.type}`);
     }

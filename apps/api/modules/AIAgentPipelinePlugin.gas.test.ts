@@ -1,4 +1,5 @@
 import { recognizeIntent, extractParameters, getTokenInfo, toSmallestUnit, assessRisks, optimizeRoutes } from './AIAgentPipelinePlugin';
+import { SwapDEXAPIPlugin } from './SwapDEXAPIPlugin';
 import { ZeroXGasDEXAggregatorPlugin } from './ZeroXGasDEXAggregatorPlugin';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 
@@ -72,23 +73,27 @@ async function runAddressValidationTests() {
         sellToken,
         buyToken,
         sellAmount,
+        taker: params.walletAddress || testContext.wallets[0].address
       };
-      if (params.walletAddress) {
-        swapRequest.taker = params.walletAddress;
-      }
-      console.log('DEX API Parameters:', JSON.stringify(swapRequest, null, 2));
-      const quote = await ZeroXGasDEXAggregatorPlugin.getSwapQuote(swapRequest);
-      console.log('DEX API Result:', JSON.stringify(quote, null, 2));
+      console.log('SWAP DEX API Parameters:', JSON.stringify(swapRequest, null, 2));
+      const quote = await SwapDEXAPIPlugin.getSwapQuote(swapRequest);
+      console.log('SWAP DEX API Result:', JSON.stringify(quote, null, 2));
       
-      // If quote indicates insufficient balance, skip route recommendations
-      if (quote.length > 0 && !quote[0].recommended) {
-        console.log('Route Recommendations Skipped: User has insufficient balance for this swap.');
-      } else {
-        const routes = await optimizeRoutes(params, prompt, intent, testContext);
-        console.log('Route Recommendations:', JSON.stringify(routes, null, 2));
+      // Show SWAP DEX API specific details if available
+      if (quote.length > 0 && quote[0].rawQuote) {
+        const rawQuote = quote[0].rawQuote;
+        console.log('SWAP DEX API Details:');
+        console.log(`- Price Data Available: ${!!rawQuote.priceData}`);
+        console.log(`- Quote Data Available: ${!!rawQuote.quoteData}`);
+        console.log(`- Permit2 Data Available: ${!!rawQuote.permit2}`);
+        console.log(`- Allowance Set: ${rawQuote.allowanceSet}`);
+        console.log(`- Execution Result: ${rawQuote.executionResult ? 'Success' : 'Not executed'}`);
       }
+      
+      // Note: Route recommendations removed since 0x API already aggregates routes
+      console.log('Note: Route recommendations skipped - 0x API already aggregates routes for optimal pricing');
     } else if (intent.type === 'swap') {
-      console.log('DEX API Skipped: Missing required swap parameters:', {
+      console.log('SWAP DEX API Skipped: Missing required swap parameters:', {
         fromToken: params.fromToken,
         toToken: params.toToken,
         amount: params.amount,
