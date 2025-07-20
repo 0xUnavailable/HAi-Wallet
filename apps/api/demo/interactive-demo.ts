@@ -2,6 +2,9 @@
 
 import * as readline from 'readline';
 import { recognizeIntent, extractParameters, assessRisks, optimizeRoutes, executeTransaction } from '../modules/AIAgentPipelinePlugin';
+import { SwapDEXAPIPlugin } from '../modules/SwapDEXAPIPlugin';
+import { GaslessDEXAPIPlugin } from '../modules/GaslessDEXAPIPlugin';
+import { TransferAPIPlugin } from '../modules/TransferAPIPlugin';
 import { walletManager } from '../utils/walletManager';
 import { getTokenInfo } from '../modules/tokenRegistry';
 import { ethers } from 'ethers';
@@ -13,35 +16,77 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// Our plugins are stateless objects
+const swapDEXAPI = SwapDEXAPIPlugin;
+const gaslessDEXAPI = GaslessDEXAPIPlugin;
+const transferAPI = TransferAPIPlugin;
+
 // Demo context with real wallet data
 const demoContext = {
-  userId: 'interactive-demo-user',
+  userId: 'live-demo-user',
   wallets: [
     {
       address: walletManager.getWalletAddress(),
-      label: 'Demo Wallet',
-      network: 'Sepolia',
-      tokens: ['ETH', 'USDC', 'WETH', 'DAI', 'LINK']
+      label: 'Live Demo Wallet',
+      network: 'Ethereum',
+      tokens: ['ETH', 'USDC', 'WETH', 'USDT', 'DAI', 'LINK', 'UNI']
     }
   ],
   contacts: [
-    { name: 'Bob', address: '0x70997970C51812dc3A010C7d01b50e0d17dc79C8', network: 'Sepolia' },
-    { name: 'Alice', address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC', network: 'Sepolia' },
-    { name: 'Charlie', address: '0x90F79bf6EB2c4f870365E785982E1f101E93b906', network: 'Optimism Sepolia' },
-    { name: 'Diana', address: '0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65', network: 'Arbitrum Sepolia' }
+    { name: 'Bob', address: '0x70997970C51812dc3A010C7d01b50e0d17dc79C8', network: 'Ethereum' },
+    { name: 'Alice', address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC', network: 'Ethereum' },
+    { name: 'Charlie', address: '0x90F79bf6EB2c4f870365E785982E1f101E93b906', network: 'Optimism' },
+    { name: 'Diana', address: '0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65', network: 'Arbitrum' }
   ]
 };
 
-// Available demo commands
+// Available demo commands with enhanced features
 const demoCommands = [
   'transfer <amount> <token> to <recipient> on <network>',
   'swap <amount> <fromToken> to <toToken> on <network>',
+  'gasless swap <amount> <fromToken> to <toToken> on <network>',
   'get balance on <network>',
   'get quote for <amount> <fromToken> to <toToken> on <network>',
   'simulate swap <amount> <fromToken> to <toToken> on <network>',
-  'gasless swap <amount> <fromToken> to <toToken> on <network>',
+  'show wallet info',
+  'show contacts',
+  'demo scenarios',
   'help',
   'exit'
+];
+
+// Demo scenarios for showcasing capabilities
+const demoScenarios = [
+  {
+    name: 'Basic Transfer',
+    command: 'transfer 0.001 ETH to Bob on Ethereum',
+    description: 'Simple token transfer to a contact'
+  },
+  {
+    name: 'Token Swap (Gas)',
+    command: 'swap 1 USDC to ETH on Ethereum',
+    description: 'Traditional swap with gas fees'
+  },
+  {
+    name: 'Gasless Swap',
+    command: 'gasless swap 2 USDC to ETH on Ethereum',
+    description: 'Meta-transaction swap (no gas fees)'
+  },
+  {
+    name: 'Cross-Network Transfer',
+    command: 'transfer 0.002 ETH to Charlie on Optimism',
+    description: 'Cross-chain transaction'
+  },
+  {
+    name: 'Large Amount Swap',
+    command: 'swap 10 USDC to WETH on Ethereum',
+    description: 'High-value swap with route optimization'
+  },
+  {
+    name: 'Quote Only',
+    command: 'get quote for 5 USDC to ETH on Ethereum',
+    description: 'Price quote without execution'
+  }
 ];
 
 // Color-coded logging functions
@@ -52,7 +97,9 @@ const log = {
   error: (msg: string) => console.log(chalk.red('❌ ' + msg)),
   prompt: (msg: string) => console.log(chalk.cyan('🎯 ' + msg)),
   step: (msg: string) => console.log(chalk.magenta('🔧 ' + msg)),
-  result: (msg: string) => console.log(chalk.white('📊 ' + msg))
+  result: (msg: string) => console.log(chalk.white('📊 ' + msg)),
+  highlight: (msg: string) => console.log(chalk.bold.cyan('🌟 ' + msg)),
+  api: (msg: string) => console.log(chalk.bold.green('🔌 ' + msg))
 };
 
 // Helper function to normalize parameters
@@ -65,9 +112,16 @@ function normalizeParams(params: any): any {
   };
 }
 
-// Display wallet information
+// Helper function to convert amount to smallest unit
+function toSmallestUnit(amount: string, tokenSymbol: string, network: string): string {
+  const tokenInfo = getTokenInfo(tokenSymbol, network);
+  const decimals = tokenInfo?.decimals || 18;
+  return ethers.parseUnits(amount, decimals).toString();
+}
+
+// Display comprehensive wallet information
 async function displayWalletInfo() {
-  log.info('=== HAi Wallet Interactive Demo ===');
+  log.highlight('=== HAi Wallet Live Demo ===');
   log.info(`Wallet Address: ${walletManager.getWalletAddress()}`);
   log.info(`Supported Networks: ${walletManager.getSupportedNetworks().join(', ')}`);
   
@@ -97,12 +151,31 @@ async function displayWalletInfo() {
     log.result(`${contact.name}: ${contact.address} (${contact.network})`);
   });
   
+  log.info('\n🔌 Available APIs:');
+  log.api('SWAP DEX API (5-step process with Permit2)');
+  log.api('Gasless DEX API (4-step meta-transaction process)');
+  log.api('Transfer API (Native ETH and ERC20 tokens)');
+  
   log.info('\n💡 Available Commands:');
   demoCommands.forEach(cmd => log.result(cmd));
   log.info('');
 }
 
-// Process user input through the complete pipeline
+// Show demo scenarios
+function showDemoScenarios() {
+  log.highlight('🎬 Demo Scenarios');
+  log.info('Try these commands to see different features:');
+  log.info('');
+  
+  demoScenarios.forEach((scenario, index) => {
+    log.result(`${index + 1}. ${scenario.name}`);
+    log.info(`   Command: ${scenario.command}`);
+    log.info(`   Description: ${scenario.description}`);
+    log.info('');
+  });
+}
+
+// Process user input through the complete pipeline with new APIs
 async function processUserInput(input: string) {
   try {
     log.prompt(`Processing: "${input}"`);
@@ -141,42 +214,79 @@ async function processUserInput(input: string) {
       log.success('No risks detected');
     }
     
-    // Step 4: Route Optimization (for swaps)
+    // Step 4: Route Optimization and Execution based on intent type
     if (intent.type === 'swap') {
-      log.step('Step 4: Route Optimization');
-      const routes = await optimizeRoutes(params, input, intent, demoContext);
-      
-      if (routes && routes.length > 0) {
-        log.success('Route recommendations:');
-        routes.forEach((route: any, index: number) => {
-          log.result(`Route ${index + 1}: ${route.protocol} - ${route.estimatedOutput} ${params.toToken}`);
-          log.result(`  Gas: ${route.estimatedGas} | Cost: ${route.estimatedCost} ETH`);
-        });
+      // Check if it's a gasless swap
+      if (input.toLowerCase().includes('gasless')) {
+        log.step('Step 4: Gasless DEX API (4-Step Process)');
+        log.api('Using 0x Gasless DEX API');
+        
+        // For gasless swaps, we'll use the gasless API
+        log.warning('Gasless swap functionality requires additional implementation');
+        log.info('Please use regular swap command for now');
       } else {
-        log.warning('No routes found');
-        return;
+        log.step('Step 4: SWAP DEX API (5-Step Process)');
+        log.api('Using 0x SWAP DEX API with Permit2');
+        
+        // Convert input to swap quote request
+        const network = params.network || 'Ethereum';
+        const chainId = network === 'Ethereum' ? 1 : network === 'Optimism' ? 10 : 42161;
+        const fromTokenInfo = getTokenInfo(params.fromToken, network);
+        const toTokenInfo = getTokenInfo(params.toToken, network);
+        const sellToken = fromTokenInfo?.address || params.fromToken;
+        const buyToken = toTokenInfo?.address || params.toToken;
+        const sellAmount = toSmallestUnit(params.amount, params.fromToken, network);
+        const taker = demoContext.wallets[0].address;
+        
+        const swapRequest = {
+          chainId,
+          sellToken,
+          buyToken,
+          sellAmount,
+          taker,
+        };
+        
+        const quotes = await swapDEXAPI.getSwapQuote(swapRequest);
+        const quote = quotes[0];
+        
+        if (quote && quote.recommended) {
+          log.success('SWAP quote retrieved successfully!');
+          log.result(`Output: ${quote.output} ${params.toToken}`);
+          log.result(`Gas: ${quote.gas}`);
+          log.result(`Price Impact: ${quote.priceImpact}`);
+          log.result('Transaction Details:');
+          log.result(JSON.stringify(quote.rawQuote, null, 2));
+        } else if (quote && !quote.recommended) {
+          log.warning('SWAP quote available but not recommended');
+          log.result(`Reason: ${quote.reason}`);
+          log.result('Quote Details:');
+          log.result(JSON.stringify(quote.rawQuote, null, 2));
+        } else {
+          log.error('Failed to get SWAP quote');
+        }
       }
-    }
-    
-    // Step 5: Transaction Execution (for transfers and swaps)
-    if (intent.type === 'transfer' || intent.type === 'swap') {
-      log.step('Step 5: Transaction Execution');
+    } else if (intent.type === 'transfer') {
+      log.step('Step 4: Transfer API Execution');
+      log.api('Using Transfer API for token transfer');
       
       // Ask for confirmation
-      const answer = await askQuestion(chalk.yellow('⚠️  Execute this transaction? (y/N): '));
+      const answer = await askQuestion(chalk.yellow('⚠️  Execute this transfer? (y/N): '));
       if (answer.toLowerCase() !== 'y' && answer.toLowerCase() !== 'yes') {
-        log.info('Transaction cancelled by user');
+        log.info('Transfer cancelled by user');
         return;
       }
       
-      const routes = intent.type === 'swap' ? await optimizeRoutes(params, input, intent, demoContext) : [];
-      const result = await executeTransaction(params, routes, risks, input, intent, demoContext);
+      const result = await transferAPI.execute(params, demoContext);
       
       if (result.status === 'success') {
-        log.success('Transaction executed successfully!');
+        log.success('Transfer executed successfully!');
         log.result(`Transaction Hash: ${result.transactionHash}`);
         log.result(`Network: ${result.preview.network}`);
+        log.result(`From: ${result.preview.from}`);
+        log.result(`To: ${result.preview.to}`);
+        log.result(`Amount: ${result.preview.amount} ${result.preview.token}`);
         
+        // Get block explorer URL
         const networkConfig = walletManager.getNetworkConfig(result.preview.network);
         if (networkConfig) {
           log.result(`Block Explorer: ${networkConfig.blockExplorer}/tx/${result.transactionHash}`);
@@ -184,10 +294,57 @@ async function processUserInput(input: string) {
         
         log.result('Transaction Details:');
         log.result(JSON.stringify(result.preview, null, 2));
-      } else if (result.status === 'blocked') {
-        log.error(`Transaction blocked: ${result.reason}`);
+      } else if (result.status === 'insufficient_balance') {
+        log.warning('Insufficient balance for transfer');
+        log.result(`Required: ${result.requiredAmount}`);
+        log.result(`Available: ${result.currentBalance}`);
       } else if (result.status === 'error') {
-        log.error(`Transaction failed: ${result.error}`);
+        log.error(`Transfer failed: ${result.error}`);
+      }
+    } else if (intent.type === 'query') {
+      // Handle balance and quote queries
+      if (input.toLowerCase().includes('balance')) {
+        log.step('Step 4: Balance Query');
+        const network = params.network || 'Ethereum';
+        await walletManager.switchNetwork(network);
+        const balance = await walletManager.getBalance();
+        const ethBalance = ethers.formatEther(balance);
+        log.success(`Balance on ${network}: ${ethBalance} ETH`);
+      } else if (input.toLowerCase().includes('quote')) {
+        log.step('Step 4: Quote Query');
+        log.api('Getting price quote from 0x API');
+        
+        // Use SWAP API for quote
+        const network = params.network || 'Ethereum';
+        const chainId = network === 'Ethereum' ? 1 : network === 'Optimism' ? 10 : 42161;
+        const fromTokenInfo = getTokenInfo(params.fromToken, network);
+        const toTokenInfo = getTokenInfo(params.toToken, network);
+        const sellToken = fromTokenInfo?.address || params.fromToken;
+        const buyToken = toTokenInfo?.address || params.toToken;
+        const sellAmount = toSmallestUnit(params.amount, params.fromToken, network);
+        const taker = demoContext.wallets[0].address;
+        
+        const swapRequest = {
+          chainId,
+          sellToken,
+          buyToken,
+          sellAmount,
+          taker,
+        };
+        
+        const quotes = await swapDEXAPI.getSwapQuote(swapRequest);
+        const quote = quotes[0];
+        
+        if (quote) {
+          log.success('Quote retrieved successfully');
+          log.result(`Output: ${quote.output} ${params.toToken}`);
+          log.result(`Gas: ${quote.gas}`);
+          log.result(`Price Impact: ${quote.priceImpact}`);
+          log.result('Quote Details:');
+          log.result(JSON.stringify(quote.rawQuote, null, 2));
+        } else {
+          log.error('Failed to get quote');
+        }
       }
     }
     
@@ -199,7 +356,7 @@ async function processUserInput(input: string) {
   }
 }
 
-// Helper function to ask questions
+// Helper function to ask user questions
 function askQuestion(question: string): Promise<string> {
   return new Promise((resolve) => {
     rl.question(question, (answer) => {
@@ -208,76 +365,63 @@ function askQuestion(question: string): Promise<string> {
   });
 }
 
-// Main interactive loop
+// Main demo loop
 async function runInteractiveDemo() {
-  // Check if wallet is properly configured
-  if (!process.env.DEMO_PRIVATE_KEY) {
-    log.error('DEMO_PRIVATE_KEY environment variable is required');
-    log.info('Set it with: export DEMO_PRIVATE_KEY="your_testnet_wallet_private_key"');
-    process.exit(1);
-  }
-  
-  if (!process.env.INFURA_API_KEY) {
-    log.error('INFURA_API_KEY environment variable is required');
-    log.info('Set it with: export INFURA_API_KEY="your_infura_key"');
-    process.exit(1);
-  }
-  
-  // Display initial information
-  await displayWalletInfo();
-  
-  log.warning('⚠️  This demo will execute real transactions on testnets!');
-  log.warning('⚠️  Make sure you have testnet ETH in your wallet!');
-  log.info('Type "help" for available commands or "exit" to quit\n');
-  
-  // Main interaction loop
-  while (true) {
-    try {
+  try {
+    // Display welcome information
+    await displayWalletInfo();
+    
+    log.highlight('🎮 Live Demo Ready!');
+    log.info('Type commands to test the AI-powered wallet features');
+    log.info('Type "demo scenarios" to see example commands');
+    log.info('Type "help" for available commands or "exit" to quit');
+    log.info('');
+    
+    // Main command loop
+    while (true) {
       const input = await askQuestion(chalk.cyan('HAi Wallet > '));
       
       if (input.toLowerCase() === 'exit' || input.toLowerCase() === 'quit') {
         log.info('Goodbye! 👋');
         break;
-      }
-      
-      if (input.toLowerCase() === 'help') {
+      } else if (input.toLowerCase() === 'help') {
         log.info('Available Commands:');
         demoCommands.forEach(cmd => log.result(cmd));
-        log.info('\nExamples:');
-        log.result('transfer 0.001 ETH to Bob on Sepolia');
-        log.result('swap 1 USDC to ETH on Sepolia');
-        log.result('get balance on Optimism Sepolia');
-        log.result('get quote for 10 USDC to ETH on Sepolia');
         log.info('');
+      } else if (input.toLowerCase() === 'demo scenarios') {
+        showDemoScenarios();
+      } else if (input.toLowerCase() === 'show wallet info') {
+        await displayWalletInfo();
+      } else if (input.toLowerCase() === 'show contacts') {
+        log.info('Available Contacts:');
+        demoContext.contacts.forEach(contact => {
+          log.result(`${contact.name}: ${contact.address} (${contact.network})`);
+        });
+        log.info('');
+      } else if (input.trim() === '') {
         continue;
+      } else {
+        await processUserInput(input);
       }
-      
-      if (input.trim() === '') {
-        continue;
-      }
-      
-      await processUserInput(input);
-      console.log(''); // Add spacing
-      
-    } catch (error: any) {
-      log.error(`Error: ${error.message}`);
     }
+    
+  } catch (error: any) {
+    log.error(`Demo error: ${error.message}`);
+    if (error.stack) {
+      console.log(chalk.gray(error.stack));
+    }
+  } finally {
+    // Cleanup
+    rl.close();
   }
-  
-  rl.close();
 }
 
-// Handle graceful shutdown
+// Handle process termination
 process.on('SIGINT', () => {
-  log.info('\nShutting down gracefully...');
+  log.info('\nDemo interrupted. Cleaning up...');
   rl.close();
   process.exit(0);
 });
 
-// Start the interactive demo
-if (require.main === module) {
-  runInteractiveDemo().catch((error) => {
-    log.error(`Fatal error: ${error.message}`);
-    process.exit(1);
-  });
-} 
+// Start the demo
+runInteractiveDemo().catch(console.error); 

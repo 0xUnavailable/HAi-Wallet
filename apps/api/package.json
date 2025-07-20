@@ -6,5 +6,8 @@
     "test": "jest",
     "demo": "ts-node demo/interactive-demo.ts",
     "demo:live": "ts-node modules/AIAgentPipelinePlugin.live.test.ts"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1"
   }
-} 
+}

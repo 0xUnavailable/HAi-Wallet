@@ -1,7 +1,6 @@
 import { IAIAgentPipelinePlugin, AIAgentPipelineContext, AIPipelineResult, IntentResult, ParameterMap } from '../../../packages/core/plugin/AIAgentPipelinePlugin';
 import { getOpenAICompletion } from '../utils/openaiClient';
 import { getTokenInfo } from './tokenRegistry';
-import { getERC20Balance } from '../utils/onchainBalance';
 import { isValidAddress, resolveENS, getAddressType } from '../utils/addressValidation';
 import { walletManager, TransactionPreview, TransactionData } from '../utils/walletManager';
 import { ethers } from 'ethers';
@@ -424,29 +423,30 @@ async function executeTransaction(
     let txData: TransactionData;
     
     if (intent.type === 'transfer') {
-      const network = params.network || 'Ethereum';
-      const tokenInfo = getTokenInfo(params.token || params.fromToken, network);
+      // Use TransferAPIPlugin for transfer execution
+      const { TransferAPIPlugin } = await import('./TransferAPIPlugin');
+      const transferResult = await TransferAPIPlugin.execute(params, context);
       
-      if (tokenInfo && tokenInfo.address) {
-        // ERC20 transfer
-        const erc20Abi = ["function transfer(address to, uint256 amount)"];
-        const iface = new ethers.Interface(erc20Abi);
-        const data = iface.encodeFunctionData('transfer', [
-          params.recipient || params.toAddress,
-          toSmallestUnit(params.amount, params.token || params.fromToken, network)
-        ]);
-        
-        txData = {
-          to: tokenInfo.address,
-          data: data,
-          gasLimit: '65000'
+      if (transferResult.status === 'success') {
+        return {
+          status: 'success',
+          transactionHash: transferResult.transactionHash,
+          receipt: transferResult.receipt,
+          preview: await walletManager.buildTransactionPreview(intent, params, routes)
+        };
+      } else if (transferResult.status === 'insufficient_balance') {
+        return {
+          status: 'insufficient_balance',
+          error: transferResult.error,
+          currentBalance: transferResult.currentBalance,
+          requiredAmount: transferResult.requiredAmount,
+          preview: await walletManager.buildTransactionPreview(intent, params, routes)
         };
       } else {
-        // Native token transfer (ETH)
-        txData = {
-          to: params.recipient || params.toAddress,
-          value: toSmallestUnit(params.amount, params.token || params.fromToken, network),
-          gasLimit: '21000'
+        return {
+          status: 'error',
+          error: transferResult.error,
+          preview: await walletManager.buildTransactionPreview(intent, params, routes)
         };
       }
     } else if (intent.type === 'swap') {

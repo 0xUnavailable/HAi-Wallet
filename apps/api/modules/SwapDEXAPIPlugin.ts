@@ -1,6 +1,8 @@
 import { IDEXAggregatorPlugin, SwapQuoteRequest, SwapQuote } from '../../../packages/core/plugin/IDEXAggregatorPlugin';
 import fetch from 'node-fetch';
 import { getTokenInfo } from './tokenRegistry';
+import { getEvmERC20Balance } from '../utils/getEvmERC20Balance';
+import { getNetworkChainConfig } from './tokenRegistry';
 import { ethers } from 'ethers';
 import { 
   getContract, 
@@ -323,12 +325,18 @@ export const SwapDEXAPIPlugin: IDEXAggregatorPlugin = {
         chainId, sellToken, buyToken, sellAmount, taker
       });
       
+      // Always resolve sellToken and buyToken to addresses using getTokenInfo
+      const fromTokenInfo = getTokenInfo(sellToken, chainId.toString());
+      const toTokenInfo = getTokenInfo(buyToken, chainId.toString());
+      const sellTokenAddress = fromTokenInfo?.address || sellToken;
+      const buyTokenAddress = toTokenInfo?.address || buyToken;
+
       // Step 1: Get Indicative Price (always get price quote first)
       console.log('Step 1: Getting indicative price...');
       const priceData = await getIndicativePrice({
         chainId: chainId.toString(),
-        sellToken,
-        buyToken,
+        sellToken: sellTokenAddress,
+        buyToken: buyTokenAddress,
         sellAmount,
         taker
       });
@@ -338,8 +346,8 @@ export const SwapDEXAPIPlugin: IDEXAggregatorPlugin = {
       console.log('Step 3: Fetching firm quote...');
       const quoteData = await getFirmQuote({
         chainId: chainId.toString(),
-        sellToken,
-        buyToken,
+        sellToken: sellTokenAddress,
+        buyToken: buyTokenAddress,
         sellAmount,
         taker
       });
@@ -348,18 +356,15 @@ export const SwapDEXAPIPlugin: IDEXAggregatorPlugin = {
       // Check balance after getting quotes (for execution decision only)
       let hasSufficientBalance = true;
       let balanceError = null;
-      if (taker && sellToken && sellAmount) {
+      if (taker && sellTokenAddress && sellAmount) {
         try {
           const infuraKey = process.env.INFURA_API_KEY || '';
           let network = 'Ethereum';
           if (chainId === 10) network = 'Optimism';
           if (chainId === 42161) network = 'Arbitrum';
-          const onChainBalance = await getERC20Balance({
-            walletAddress: taker,
-            tokenAddress: sellToken,
-            network,
-            infuraKey
-          });
+          const networkConfig = getNetworkChainConfig(network);
+          if (!networkConfig) throw new Error(`Unsupported network: ${network}`);
+          const onChainBalance = await getEvmERC20Balance(taker, sellTokenAddress, networkConfig);
           if (BigInt(onChainBalance) < BigInt(sellAmount)) {
             hasSufficientBalance = false;
             balanceError = `Insufficient balance: taker address ${taker} has ${onChainBalance}, needs ${sellAmount}.`;
@@ -377,7 +382,7 @@ export const SwapDEXAPIPlugin: IDEXAggregatorPlugin = {
       if (hasSufficientBalance && process.env.DEMO_PRIVATE_KEY) {
         console.log('Step 2: Setting token allowance...');
         allowanceSet = await setTokenAllowance({
-          sellToken,
+          sellToken: sellTokenAddress,
           sellAmount,
           taker,
           chainId: chainId.toString(),

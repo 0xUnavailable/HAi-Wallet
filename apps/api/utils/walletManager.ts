@@ -42,28 +42,56 @@ export class WalletManager {
   private dailySpent: bigint = BigInt(0);
   private lastResetDate: string;
 
-  // Testnet configurations
+  // Mainnet configurations
   private readonly networks: Record<string, NetworkConfig> = {
+    'Ethereum': {
+      name: 'Ethereum',
+      chainId: 1,
+      rpcUrl: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      blockExplorer: 'https://etherscan.io',
+      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }
+    },
+    'Optimism': {
+      name: 'Optimism',
+      chainId: 10,
+      rpcUrl: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      blockExplorer: 'https://optimistic.etherscan.io',
+      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }
+    },
+    'Arbitrum': {
+      name: 'Arbitrum',
+      chainId: 42161,
+      rpcUrl: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      blockExplorer: 'https://arbiscan.io',
+      nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }
+    },
     'Sepolia': {
       name: 'Sepolia',
       chainId: 11155111,
-      rpcUrl: `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      rpcUrl: process.env.SEPOLIA_RPC_URL || 'https://ethereum-sepolia-rpc.publicnode.com',
       blockExplorer: 'https://sepolia.etherscan.io',
-      nativeCurrency: { name: 'Sepolia Ether', symbol: 'ETH', decimals: 18 }
-    },
-    'Optimism Sepolia': {
-      name: 'Optimism Sepolia',
-      chainId: 11155420,
-      rpcUrl: `https://sepolia.optimism.io`,
-      blockExplorer: 'https://sepolia-optimism.etherscan.io',
       nativeCurrency: { name: 'Sepolia Ether', symbol: 'ETH', decimals: 18 }
     },
     'Arbitrum Sepolia': {
       name: 'Arbitrum Sepolia',
       chainId: 421614,
-      rpcUrl: `https://sepolia-rollup.arbitrum.io/rpc`,
+      rpcUrl: process.env.ARBITRUM_SEPOLIA_RPC_URL || 'https://arbitrum-sepolia.publicnode.com',
       blockExplorer: 'https://sepolia.arbiscan.io',
-      nativeCurrency: { name: 'Sepolia Ether', symbol: 'ETH', decimals: 18 }
+      nativeCurrency: { name: 'Arbitrum Sepolia Ether', symbol: 'ETH', decimals: 18 }
+    },
+    'Base Sepolia': {
+      name: 'Base Sepolia',
+      chainId: 84532,
+      rpcUrl: process.env.BASE_SEPOLIA_RPC_URL || 'https://base-sepolia.public.blastapi.io',
+      blockExplorer: 'https://base-sepolia.blockscout.com',
+      nativeCurrency: { name: 'Base Sepolia Ether', symbol: 'ETH', decimals: 18 }
+    },
+    'Base': {
+      name: 'Base',
+      chainId: 8453,
+      rpcUrl: process.env.BASE_MAINNET_RPC_URL || 'https://mainnet.base.org',
+      blockExplorer: 'https://basescan.org',
+      nativeCurrency: { name: 'Base Ether', symbol: 'ETH', decimals: 18 }
     }
   };
 
@@ -80,12 +108,12 @@ export class WalletManager {
       this.providers.set(networkName, new ethers.JsonRpcProvider(config.rpcUrl));
     }
 
-    // Create wallet with default network (Sepolia)
-    this.currentNetwork = 'Sepolia';
+    // Create wallet with default network (Ethereum)
+    this.currentNetwork = 'Ethereum';
     this.wallet = new ethers.Wallet(privateKey, this.providers.get(this.currentNetwork)!);
     
-    // Testnet-specific daily limit (higher for testing)
-    this.dailySpendingLimit = BigInt(process.env.DAILY_SPENDING_LIMIT || '10000000000000000000'); // 10 ETH default for testnets
+    // Mainnet daily limit (lower for safety)
+    this.dailySpendingLimit = BigInt(process.env.DAILY_SPENDING_LIMIT || '1000000000000000000'); // 1 ETH default for mainnet
     this.lastResetDate = new Date().toDateString();
   }
 
