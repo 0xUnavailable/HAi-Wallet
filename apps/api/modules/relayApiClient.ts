@@ -1,6 +1,6 @@
 // relayApiClient.ts
 // Centralized client for relay.link API
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import { ENDPOINT_PATHS } from './endpoints';
 import * as Types from './types';
 
@@ -10,6 +10,14 @@ const BASE_URLS = {
   mainnet: 'https://api.relay.link',
   testnet: 'https://api.testnets.relay.link',
 };
+
+class RelayApiError extends Error {
+  response: Response;
+  constructor(message: string, response: Response) {
+    super(message);
+    this.response = response;
+  }
+}
 
 export class RelayApiClient {
   baseUrl: string;
@@ -21,7 +29,7 @@ export class RelayApiClient {
   // Get supported chains
   async getChains(): Promise<Types.GetChainsResponse> {
     const res = await fetch(this.baseUrl + ENDPOINT_PATHS.CHAINS);
-    if (!res.ok) throw new Error(`Failed to fetch chains: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to fetch chains: ${res.statusText}`, res);
     return res.json() as Promise<Types.GetChainsResponse>;
   }
 
@@ -29,7 +37,7 @@ export class RelayApiClient {
   async getExecutionStatus(requestId: string): Promise<Types.ExecutionStatusResponse> {
     const url = `${this.baseUrl + ENDPOINT_PATHS.EXECUTION_STATUS}?requestId=${encodeURIComponent(requestId)}`;
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`Failed to fetch execution status: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to fetch execution status: ${res.statusText}`, res);
     return res.json() as Promise<Types.ExecutionStatusResponse>;
   }
 
@@ -38,7 +46,7 @@ export class RelayApiClient {
     const query = new URLSearchParams(params as any).toString();
     const url = `${this.baseUrl + ENDPOINT_PATHS.REQUESTS}${query ? '?' + query : ''}`;
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`Failed to fetch requests: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to fetch requests: ${res.statusText}`, res);
     return res.json() as Promise<Types.GetRequestsResponse>;
   }
 
@@ -46,7 +54,7 @@ export class RelayApiClient {
   async getTokenPrice(address: string, chainId: number): Promise<Types.GetTokenPriceResponse> {
     const url = `${this.baseUrl + ENDPOINT_PATHS.TOKEN_PRICE}?address=${encodeURIComponent(address)}&chainId=${encodeURIComponent(chainId)}`;
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`Failed to fetch token price: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to fetch token price: ${res.statusText}`, res);
     return res.json() as Promise<Types.GetTokenPriceResponse>;
   }
 
@@ -57,7 +65,7 @@ export class RelayApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Failed to fetch currencies: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to fetch currencies: ${res.statusText}`, res);
     return res.json() as Promise<Types.GetCurrenciesResponse>;
   }
 
@@ -68,7 +76,7 @@ export class RelayApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Failed to fetch quote: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to fetch quote: ${res.statusText}`, res);
     return res.json() as Promise<Types.GetQuoteResponse>;
   }
 
@@ -79,7 +87,7 @@ export class RelayApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Failed to fetch multi-input quote: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to fetch multi-input quote: ${res.statusText}`, res);
     return res.json() as Promise<Types.GetMultiInputQuoteResponse>;
   }
 
@@ -90,7 +98,7 @@ export class RelayApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Failed to index transaction: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to index transaction: ${res.statusText}`, res);
     return res.json() as Promise<Types.IndexTransactionResponse>;
   }
 
@@ -101,7 +109,7 @@ export class RelayApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    if (!res.ok) throw new Error(`Failed to index single transaction: ${res.statusText}`);
+    if (!res.ok) throw new RelayApiError(`Failed to index single transaction: ${res.statusText}`, res);
     return res.json() as Promise<Types.IndexSingleTransactionResponse>;
   }
 } 
