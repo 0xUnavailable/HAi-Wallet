@@ -5,7 +5,10 @@ import express from 'express';
 import { RelayApiClient } from './modules/relayApiClient';
 import { executeQuoteSteps } from './services/quoteExecutionService';
 import { createWalletClientUtil } from './utils/wallet';
-import { baseSepolia } from 'viem/chains';
+import { baseSepolia, sepolia, optimismSepolia } from 'viem/chains';
+import axios from 'axios';
+import { buildQuoteParams } from './utils/quoteParamsBuilder';
+import { privateKeyToAccount } from 'viem/accounts';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -164,6 +167,102 @@ app.post('/api/relay/execute-quote', async (req, res) => {
   } catch (error: any) {
     console.error('Execute Quote Error:', error.message);
     res.status(500).json({ error: error.message || error.toString() });
+  }
+});
+
+// POST /api/relay/quote-and-execute
+app.post('/api/relay/quote-and-execute', async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
+
+    // Step 1: Call NLP service
+    const nlpResp = await fetch('http://localhost:8000/process_prompt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    if (!nlpResp.ok) {
+      const err = await nlpResp.text();
+      return res.status(500).json({ error: `NLP service error: ${err}` });
+    }
+    const nlpData = await nlpResp.json();
+    if (!nlpData || nlpData.status !== 'success' || !nlpData.result) {
+      return res.status(400).json({ error: 'Invalid NLP response' });
+    }
+    const { intent, parameters } = nlpData.result;
+    if (!intent || !parameters) {
+      return res.status(400).json({ error: 'Missing intent or parameters from NLP' });
+    }
+    // Debug: Log the parameters received from NLP
+    console.log('NLP parameters:', JSON.stringify(parameters, null, 2));
+    // Step 2: Build quoteParams
+    const quoteParams = buildQuoteParams(intent, parameters);
+
+    // Always set the 'user' parameter to the live wallet address
+    const privateKey = process.env.PRIVATE_KEY;
+    if (!privateKey) {
+      return res.status(400).json({ error: 'Missing PRIVATE_KEY env variable' });
+    }
+    const account = privateKeyToAccount(privateKey as `0x${string}`);
+    quoteParams.user = account.address;
+
+    // Step 3: Get the quote
+    const quoteRes = await axios.post('http://localhost:3001/api/relay/quote', quoteParams);
+    const quote = quoteRes.data;
+    console.log('Quote response:', quote);
+
+    // Step 4: Execute the quote using a live wallet
+    // Map supported testnet chain IDs to viem chain objects
+    const chainMap: Record<number, any> = {
+      11155111: sepolia,         // Ethereum Sepolia
+      84532: baseSepolia,       // Base Sepolia
+      11155420: optimismSepolia // Optimism Sepolia
+    };
+    const chain = chainMap[quoteParams.originChainId];
+    if (!chain) {
+      return res.status(400).json({ error: 'Unsupported chainId: ' + quoteParams.originChainId });
+    }
+    const walletClient = createWalletClientUtil(privateKey, chain);
+    const requestId = await executeQuoteSteps(quote, walletClient, {
+      pollStatus: true,
+      pollIntervalMs: 5000,
+      pollMaxAttempts: 30,
+    });
+    res.json({ status: 'success', quote, requestId });
+  } catch (error) {
+    const err = error as any;
+    if (err.response) {
+      console.error('Execution error:', err.response.status, err.response.data);
+      res.status(err.response.status).json({ error: err.response.data });
+    } else {
+      console.error('Execution error:', err.message);
+      res.status(500).json({ error: err.message });
+    }
+  }
+});
+
+// NLP-integrated prompt endpoint (test NLP connection only)
+app.post('/api/prompt', async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
+
+    // Call NLP service
+    const nlpResp = await fetch('http://localhost:8000/process_prompt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    if (!nlpResp.ok) {
+      const err = await nlpResp.text();
+      return res.status(500).json({ error: `NLP service error: ${err}` });
+    }
+    const nlpData = await nlpResp.json();
+    // Return only the NLP response for now
+    return res.json({ status: 'success', nlp: nlpData });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message || error.toString() });
   }
 });
 // Start server if run directly

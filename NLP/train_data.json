@@ -21,74 +21,6 @@
     "intent": "Transfer"
   },
   {
-    "prompt": "Transfer USDT to Alice",
-    "entities": [
-      {
-        "start": 0,
-        "end": 8,
-        "label": "INTENT"
-      },
-      {
-        "start": 9,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 22,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Send USDC to 0x742d35Cc6610C7532C8632209bf30F6a1Bfa6B16",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 13,
-        "end": 55,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Transfer ETH to Charlie on Base",
-    "entities": [
-      {
-        "start": 0,
-        "end": 8,
-        "label": "INTENT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 23,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 27,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
     "prompt": "Send 100 ETH to Bob on Ethereum",
     "entities": [
       {
@@ -120,7 +52,121 @@
     "intent": "Transfer"
   },
   {
-    "prompt": "Transfer 50.5 USDT to 0x8ba1f109551bD432803012645Hac136c0f000000 on Arbitrum",
+    "prompt": "Transfer 50 USDC to Alice",
+    "entities": [
+      {
+        "start": 0,
+        "end": 8,
+        "label": "INTENT"
+      },
+      {
+        "start": 9,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 25,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 250 USDT to 0x742d35CC6634C0532925a3b8D6ac6c945f84EcD4",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "label": "INTENT"
+      },
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 59,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Transfer 0.5 ETH to Charlie on Base",
+    "entities": [
+      {
+        "start": 0,
+        "end": 8,
+        "label": "INTENT"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 27,
+        "label": "RECIPIENT"
+      },
+      {
+        "start": 31,
+        "end": 35,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 1000 USDC to 0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b on Optimism",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "label": "INTENT"
+      },
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 60,
+        "label": "RECIPIENT"
+      },
+      {
+        "start": 64,
+        "end": 72,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Transfer 25.5 USDT to David",
     "entities": [
       {
         "start": 0,
@@ -139,19 +185,66 @@
       },
       {
         "start": 22,
-        "end": 64,
+        "end": 27,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 2.1 ETH to Emma on Ethereum",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "label": "INTENT"
+      },
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "label": "TOKEN"
+      },
+      {
+        "start": 16,
+        "end": 20,
         "label": "RECIPIENT"
       },
       {
-        "start": 68,
-        "end": 75,
+        "start": 24,
+        "end": 32,
         "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Send 25 USDC to Alice on Base mainnet",
+    "prompt": "Transfer USDC to 0xabcd1234567890abcdef1234567890abcdef1234",
+    "entities": [
+      {
+        "start": 0,
+        "end": 8,
+        "label": "INTENT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 59,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 15 USDT to Frank on Base",
     "entities": [
       {
         "start": 0,
@@ -175,45 +268,14 @@
       },
       {
         "start": 25,
-        "end": 37,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Transfer 1000 USDT to Charlie on Ethereum testnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 8,
-        "label": "INTENT"
-      },
-      {
-        "start": 9,
-        "end": 13,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 18,
-        "label": "TOKEN"
-      },
-      {
-        "start": 22,
         "end": 29,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 33,
-        "end": 49,
         "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Send 100 ETH, 25 USDC to Bob on Base",
+    "prompt": "Send all my ETH to Sarah",
     "entities": [
       {
         "start": 0,
@@ -226,35 +288,20 @@
         "label": "AMOUNT"
       },
       {
-        "start": 9,
-        "end": 12,
+        "start": 12,
+        "end": 15,
         "label": "TOKEN"
       },
       {
-        "start": 14,
-        "end": 16,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 28,
+        "start": 19,
+        "end": 24,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 32,
-        "end": 36,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Transfer 50 USDT, 10 ETH to 0x742d35Cc6610C7532C8632209bf30F6a1Bfa6B16 on Arbitrum",
+    "prompt": "Transfer half of my USDC to 0x9876543210abcdef9876543210abcdef98765432",
     "entities": [
       {
         "start": 0,
@@ -263,21 +310,11 @@
       },
       {
         "start": 9,
-        "end": 11,
+        "end": 13,
         "label": "AMOUNT"
       },
       {
-        "start": 12,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 20,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 21,
+        "start": 20,
         "end": 24,
         "label": "TOKEN"
       },
@@ -285,17 +322,12 @@
         "start": 28,
         "end": 70,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 74,
-        "end": 81,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Send 200 USDC, 75 USDT to Alice on Ethereum mainnet",
+    "prompt": "Send 0.001 ETH to John on Base",
     "entities": [
       {
         "start": 0,
@@ -304,104 +336,26 @@
       },
       {
         "start": 5,
-        "end": 8,
+        "end": 10,
         "label": "AMOUNT"
       },
       {
-        "start": 9,
-        "end": 13,
+        "start": 11,
+        "end": 14,
         "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 17,
-        "label": "AMOUNT"
       },
       {
         "start": 18,
         "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 31,
         "label": "RECIPIENT"
       },
       {
-        "start": 35,
-        "end": 51,
+        "start": 26,
+        "end": 30,
         "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap ETH for USDC",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 8,
-        "label": "TOKEN"
-      },
-      {
-        "start": 13,
-        "end": 17,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Swap USDT for ETH on Base",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 21,
-        "end": 25,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Swap USDC for USDT",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 18,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Swap"
   },
   {
     "prompt": "Swap 100 ETH for USDC on Ethereum",
@@ -432,10 +386,12 @@
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Swap"
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Swap 50 USDT for ETH on Arbitrum mainnet",
+    "prompt": "Swap 50 USDC for ETH",
     "entities": [
       {
         "start": 0,
@@ -456,17 +412,47 @@
         "start": 17,
         "end": 20,
         "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Exchange 200 USDT for USDC on Base",
+    "entities": [
+      {
+        "start": 0,
+        "end": 8,
+        "label": "INTENT"
       },
       {
-        "start": 24,
-        "end": 40,
+        "start": 9,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 17,
+        "label": "TOKEN"
+      },
+      {
+        "start": 22,
+        "end": 26,
+        "label": "TOKEN2"
+      },
+      {
+        "start": 30,
+        "end": 34,
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Swap"
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Swap 25.5 USDC for USDT on Base testnet",
+    "prompt": "Swap 1.5 ETH to USDT on Optimism",
     "entities": [
       {
         "start": 0,
@@ -475,47 +461,267 @@
       },
       {
         "start": 5,
-        "end": 9,
+        "end": 8,
         "label": "AMOUNT"
       },
       {
-        "start": 10,
+        "start": 9,
+        "end": 12,
+        "label": "TOKEN"
+      },
+      {
+        "start": 16,
+        "end": 20,
+        "label": "TOKEN2"
+      },
+      {
+        "start": 24,
+        "end": 32,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Exchange 0.8 ETH for USDC",
+    "entities": [
+      {
+        "start": 0,
+        "end": 8,
+        "label": "INTENT"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      },
+      {
+        "start": 21,
+        "end": 25,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Swap 500 USDC to USDT on Ethereum",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "label": "INTENT"
+      },
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 21,
+        "label": "TOKEN2"
+      },
+      {
+        "start": 25,
+        "end": 33,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Trade 75 USDT for ETH on Base",
+    "entities": [
+      {
+        "start": 0,
+        "end": 5,
+        "label": "INTENT"
+      },
+      {
+        "start": 6,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 21,
+        "label": "TOKEN2"
+      },
+      {
+        "start": 25,
+        "end": 29,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Convert 10 ETH to USDC on Optimism",
+    "entities": [
+      {
+        "start": 0,
+        "end": 7,
+        "label": "INTENT"
+      },
+      {
+        "start": 8,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
         "end": 14,
         "label": "TOKEN"
       },
       {
-        "start": 19,
-        "end": 23,
+        "start": 18,
+        "end": 22,
         "label": "TOKEN2"
       },
       {
-        "start": 27,
+        "start": 26,
+        "end": 34,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Swap ETH for USDT",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "label": "INTENT"
+      },
+      {
+        "start": 5,
+        "end": 8,
+        "label": "TOKEN"
+      },
+      {
+        "start": 13,
+        "end": 17,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Exchange USDC for ETH on Ethereum",
+    "entities": [
+      {
+        "start": 0,
+        "end": 8,
+        "label": "INTENT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 21,
+        "label": "TOKEN2"
+      },
+      {
+        "start": 25,
+        "end": 33,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Convert all my USDT to ETH",
+    "entities": [
+      {
+        "start": 0,
+        "end": 7,
+        "label": "INTENT"
+      },
+      {
+        "start": 8,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
+        "end": 26,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Trade half my USDC for USDT on Optimism",
+    "entities": [
+      {
+        "start": 0,
+        "end": 5,
+        "label": "INTENT"
+      },
+      {
+        "start": 6,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 14,
+        "end": 18,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
+        "end": 27,
+        "label": "TOKEN2"
+      },
+      {
+        "start": 31,
         "end": 39,
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Bridge ETH to Arbitrum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 6,
-        "label": "INTENT"
-      },
-      {
-        "start": 7,
-        "end": 10,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 22,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
+    "intent": "Swap",
+    "from": "User",
+    "to": "User"
   },
   {
     "prompt": "Bridge USDC from Ethereum to Base",
@@ -541,31 +747,12 @@
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Bridge"
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Bridge USDT to Ethereum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 6,
-        "label": "INTENT"
-      },
-      {
-        "start": 7,
-        "end": 11,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 23,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Bridge 100 ETH from Base to Arbitrum mainnet",
+    "prompt": "Bridge 100 ETH from Base to Optimism",
     "entities": [
       {
         "start": 0,
@@ -589,242 +776,16 @@
       },
       {
         "start": 28,
-        "end": 44,
+        "end": 36,
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Bridge"
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Bridge 50 USDC from Ethereum to Base testnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 6,
-        "label": "INTENT"
-      },
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 44,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Bridge 25.5 USDT from Arbitrum to Ethereum mainnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 6,
-        "label": "INTENT"
-      },
-      {
-        "start": 7,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 12,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 22,
-        "end": 30,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 34,
-        "end": 50,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Query USDT balance",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 6,
-        "end": 10,
-        "label": "TOKEN"
-      },
-      {
-        "start": 11,
-        "end": 18,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Check ETH balance for Bob",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 22,
-        "end": 25,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Get USDC balance on Base",
-    "entities": [
-      {
-        "start": 0,
-        "end": 3,
-        "label": "INTENT"
-      },
-      {
-        "start": 4,
-        "end": 8,
-        "label": "TOKEN"
-      },
-      {
-        "start": 9,
-        "end": 16,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Query balance of USDC for Alice on Ethereum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 31,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 35,
-        "end": 43,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Check balance of USDT for 0x742d35Cc6610C7532C8632209bf30F6a1Bfa6B16 on Arbitrum mainnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 68,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 72,
-        "end": 88,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Get balance of ETH for Charlie on Base testnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 3,
-        "label": "INTENT"
-      },
-      {
-        "start": 4,
-        "end": 11,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 15,
-        "end": 18,
-        "label": "TOKEN"
-      },
-      {
-        "start": 23,
-        "end": 30,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 34,
-        "end": 46,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 100 ETH to Bob on Ethereum, swap USDC for ETH on Base",
+    "prompt": "Move 50 USDT from Optimism to Ethereum",
     "entities": [
       {
         "start": 0,
@@ -833,49 +794,31 @@
       },
       {
         "start": 5,
-        "end": 8,
+        "end": 7,
         "label": "AMOUNT"
       },
       {
-        "start": 9,
+        "start": 8,
         "end": 12,
         "label": "TOKEN"
       },
       {
-        "start": 16,
-        "end": 19,
-        "label": "RECIPIENT"
+        "start": 18,
+        "end": 26,
+        "label": "SOURCE_NETWORK"
       },
       {
-        "start": 23,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 33,
-        "end": 37,
-        "label": "INTENT"
-      },
-      {
-        "start": 38,
-        "end": 42,
-        "label": "TOKEN"
-      },
-      {
-        "start": 47,
-        "end": 50,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 54,
-        "end": 58,
+        "start": 30,
+        "end": 38,
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Multi"
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Transfer USDT to Alice on Arbitrum, bridge ETH to Base",
+    "prompt": "Transfer 25 USDC from Base to Ethereum",
     "entities": [
       {
         "start": 0,
@@ -884,935 +827,31 @@
       },
       {
         "start": 9,
-        "end": 13,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
         "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 22,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 26,
-        "end": 33,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 35,
-        "end": 41,
-        "label": "INTENT"
-      },
-      {
-        "start": 42,
-        "end": 45,
-        "label": "TOKEN"
-      },
-      {
-        "start": 49,
-        "end": 53,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Query USDC balance on Base, send ETH to Charlie on Ethereum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 6,
-        "end": 10,
-        "label": "TOKEN"
-      },
-      {
-        "start": 11,
-        "end": 18,
-        "label": "QUERY_TYPE"
       },
       {
         "start": 22,
         "end": 26,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 28,
-        "end": 32,
-        "label": "INTENT"
-      },
-      {
-        "start": 33,
-        "end": 36,
-        "label": "TOKEN"
-      },
-      {
-        "start": 40,
-        "end": 47,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 51,
-        "end": 59,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 100 ETH, 25 USDC to Ben on Base, swap 100 ETH to USDC on Ethereum, and bridge 25 ETH from Arbitrum to Ethereum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 16,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 28,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 32,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 38,
-        "end": 42,
-        "label": "INTENT"
-      },
-      {
-        "start": 43,
-        "end": 46,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 47,
-        "end": 50,
-        "label": "TOKEN"
-      },
-      {
-        "start": 54,
-        "end": 58,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 62,
-        "end": 70,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 76,
-        "end": 82,
-        "label": "INTENT"
-      },
-      {
-        "start": 83,
-        "end": 85,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 86,
-        "end": 89,
-        "label": "TOKEN"
-      },
-      {
-        "start": 95,
-        "end": 103,
         "label": "SOURCE_NETWORK"
       },
       {
-        "start": 107,
-        "end": 115,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 50 USDT to 0x742d35Cc6610C7532C8632209bf30F6a1Bfa6B16 on Arbitrum, query balance of ETH for Alice on Base, bridge 25 USDC from Ethereum to Arbitrum mainnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 8,
-        "label": "INTENT"
-      },
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 12,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 62,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 66,
-        "end": 73,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 75,
-        "end": 80,
-        "label": "INTENT"
-      },
-      {
-        "start": 81,
-        "end": 88,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 92,
-        "end": 95,
-        "label": "TOKEN"
-      },
-      {
-        "start": 100,
-        "end": 105,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 109,
-        "end": 113,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 115,
-        "end": 121,
-        "label": "INTENT"
-      },
-      {
-        "start": 122,
-        "end": 124,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 125,
-        "end": 129,
-        "label": "TOKEN"
-      },
-      {
-        "start": 135,
-        "end": 143,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 147,
-        "end": 163,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 100 USDC for ETH on Base, send 50 ETH to Bob on Ethereum mainnet, query balance of USDT for Charlie on Arbitrum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 31,
-        "end": 35,
-        "label": "INTENT"
-      },
-      {
-        "start": 36,
-        "end": 38,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 39,
-        "end": 42,
-        "label": "TOKEN"
-      },
-      {
-        "start": 46,
-        "end": 49,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 53,
-        "end": 69,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 71,
-        "end": 76,
-        "label": "INTENT"
-      },
-      {
-        "start": 77,
-        "end": 84,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 88,
-        "end": 92,
-        "label": "TOKEN"
-      },
-      {
-        "start": 97,
-        "end": 104,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 108,
-        "end": 116,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send ETH to Bob on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 8,
-        "label": "TOKEN"
-      },
-      {
-        "start": 12,
-        "end": 15,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 19,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Query balance on Base",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Bridge USDC from Arbitrum testnet to Ethereum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 6,
-        "label": "INTENT"
-      },
-      {
-        "start": 7,
-        "end": 11,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 33,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 45,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Swap ETH for USDT, send USDC to Alice",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 8,
-        "label": "TOKEN"
-      },
-      {
-        "start": 13,
-        "end": 17,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 19,
-        "end": 23,
-        "label": "INTENT"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "TOKEN"
-      },
-      {
-        "start": 32,
-        "end": 37,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Please send 25.5 ETH to David on Ethereum network",
-    "entities": [
-      {
-        "start": 7,
-        "end": 11,
-        "label": "INTENT"
-      },
-      {
-        "start": 12,
-        "end": 16,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN"
-      },
-      {
-        "start": 24,
-        "end": 29,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 33,
-        "end": 49,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "I want to swap 750 USDC for ETH on Base",
-    "entities": [
-      {
-        "start": 10,
-        "end": 14,
-        "label": "INTENT"
-      },
-      {
-        "start": 15,
-        "end": 18,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 23,
-        "label": "TOKEN"
-      },
-      {
-        "start": 28,
-        "end": 31,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 35,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Could you check the USDT balance for 0x8ba1f109551bD432803012645Hac136c0f000000",
-    "entities": [
-      {
-        "start": 10,
-        "end": 15,
-        "label": "INTENT"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 44,
-        "end": 86,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Transfer 0.1 ETH to 0x742d35Cc6610C7532C8632209bf30F6a1Bfa6B16",
-    "entities": [
-      {
-        "start": 0,
-        "end": 8,
-        "label": "INTENT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 62,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Bridge my 500 USDC from Base to Ethereum mainnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 6,
-        "label": "INTENT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 18,
-        "label": "TOKEN"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 48,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "I need to send 1500 USDT to Emma and also bridge 75 ETH from Ethereum to Base",
-    "entities": [
-      {
-        "start": 10,
-        "end": 14,
-        "label": "INTENT"
-      },
-      {
-        "start": 15,
-        "end": 19,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "TOKEN"
-      },
-      {
-        "start": 28,
-        "end": 32,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 42,
-        "end": 48,
-        "label": "INTENT"
-      },
-      {
-        "start": 49,
-        "end": 51,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 52,
-        "end": 55,
-        "label": "TOKEN"
-      },
-      {
-        "start": 61,
-        "end": 69,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 73,
-        "end": 77,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Show me my ETH balance on Arbitrum and USDC balance on Ethereum testnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 22,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 26,
-        "end": 34,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 39,
-        "end": 43,
-        "label": "TOKEN"
-      },
-      {
-        "start": 44,
-        "end": 51,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 55,
-        "end": 71,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 25 ETH to USDT, then send 500 USDC to Frank on Base testnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 8,
-        "end": 11,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 26,
-        "end": 30,
-        "label": "INTENT"
-      },
-      {
-        "start": 31,
-        "end": 34,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 35,
-        "end": 39,
-        "label": "TOKEN"
-      },
-      {
-        "start": 43,
-        "end": 48,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 52,
-        "end": 64,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Execute a bridge of 1000 USDC from Arbitrum testnet to Ethereum mainnet",
-    "entities": [
-      {
-        "start": 10,
-        "end": 16,
-        "label": "INTENT"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "TOKEN"
-      },
-      {
-        "start": 35,
-        "end": 51,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 55,
-        "end": 71,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Can you transfer 3.75 ETH to Grace",
-    "entities": [
-      {
-        "start": 8,
-        "end": 16,
-        "label": "INTENT"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 22,
-        "end": 25,
-        "label": "TOKEN"
-      },
-      {
-        "start": 29,
-        "end": 34,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Get my current balance of USDT on Base mainnet please",
-    "entities": [
-      {
-        "start": 0,
-        "end": 3,
-        "label": "INTENT"
-      },
-      {
-        "start": 7,
-        "end": 14,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 18,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
+        "start": 30,
         "end": 38,
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Query"
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Send 10 ETH, 50 USDC, 25 USDT to Henry on Ethereum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 8,
-        "end": 11,
-        "label": "TOKEN"
-      },
-      {
-        "start": 13,
-        "end": 15,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 16,
-        "end": 20,
-        "label": "TOKEN"
-      },
-      {
-        "start": 22,
-        "end": 24,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "TOKEN"
-      },
-      {
-        "start": 33,
-        "end": 38,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 42,
-        "end": 50,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Perform swap of 800 USDT to ETH on Arbitrum, bridge 200 USDC to Base, and check ETH balance",
-    "entities": [
-      {
-        "start": 8,
-        "end": 12,
-        "label": "INTENT"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "TOKEN"
-      },
-      {
-        "start": 28,
-        "end": 31,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 35,
-        "end": 43,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 45,
-        "end": 51,
-        "label": "INTENT"
-      },
-      {
-        "start": 52,
-        "end": 55,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 56,
-        "end": 60,
-        "label": "TOKEN"
-      },
-      {
-        "start": 64,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 74,
-        "end": 79,
-        "label": "INTENT"
-      },
-      {
-        "start": 80,
-        "end": 83,
-        "label": "TOKEN"
-      },
-      {
-        "start": 84,
-        "end": 91,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Bridge 0.8 ETH on Ethereum testnet to Arbitrum mainnet",
+    "prompt": "Bridge 2.5 ETH from Ethereum to Optimism",
     "entities": [
       {
         "start": 0,
@@ -1830,20 +869,111 @@
         "label": "TOKEN"
       },
       {
-        "start": 18,
+        "start": 20,
+        "end": 28,
+        "label": "SOURCE_NETWORK"
+      },
+      {
+        "start": 32,
+        "end": 40,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Move USDT from Base to Optimism",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "label": "INTENT"
+      },
+      {
+        "start": 5,
+        "end": 9,
+        "label": "TOKEN"
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "label": "SOURCE_NETWORK"
+      },
+      {
+        "start": 23,
+        "end": 31,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Cross-chain 150 USDC from Optimism to Base",
+    "entities": [
+      {
+        "start": 0,
+        "end": 11,
+        "label": "INTENT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 16,
+        "end": 20,
+        "label": "TOKEN"
+      },
+      {
+        "start": 26,
         "end": 34,
         "label": "SOURCE_NETWORK"
       },
       {
         "start": 38,
-        "end": 54,
+        "end": 42,
         "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Bridge"
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Transfer 2000 USDC to 0x8ba1f109551bD432803012645Hac136c0f000000 on Base and swap 100 USDT to ETH",
+    "prompt": "Bridge ETH from Base to Ethereum",
+    "entities": [
+      {
+        "start": 0,
+        "end": 6,
+        "label": "INTENT"
+      },
+      {
+        "start": 7,
+        "end": 10,
+        "label": "TOKEN"
+      },
+      {
+        "start": 16,
+        "end": 20,
+        "label": "SOURCE_NETWORK"
+      },
+      {
+        "start": 24,
+        "end": 32,
+        "label": "DEST_NETWORK"
+      }
+    ],
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
+  },
+  {
+    "prompt": "Transfer 0.1 ETH from Optimism to Base",
     "entities": [
       {
         "start": 0,
@@ -1852,147 +982,31 @@
       },
       {
         "start": 9,
-        "end": 13,
+        "end": 12,
         "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 18,
-        "label": "TOKEN"
-      },
-      {
-        "start": 22,
-        "end": 64,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 68,
-        "end": 72,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 77,
-        "end": 81,
-        "label": "INTENT"
-      },
-      {
-        "start": 82,
-        "end": 85,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 86,
-        "end": 90,
-        "label": "TOKEN"
-      },
-      {
-        "start": 94,
-        "end": 97,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check balance of ETH for 0x742d35Cc6610C7532C8632209bf30F6a1Bfa6B16 on Arbitrum testnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 67,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 71,
-        "end": 87,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "I want to bridge my entire 150 USDT balance from Base testnet to Ethereum and then swap it to USDC",
-    "entities": [
-      {
-        "start": 10,
-        "end": 16,
-        "label": "INTENT"
-      },
-      {
-        "start": 27,
-        "end": 30,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 31,
-        "end": 35,
-        "label": "TOKEN"
-      },
-      {
-        "start": 44,
-        "end": 56,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 60,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 78,
-        "end": 82,
-        "label": "INTENT"
-      },
-      {
-        "start": 89,
-        "end": 93,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send a quick 5 ETH to Ivy",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
       },
       {
         "start": 13,
-        "end": 14,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 15,
-        "end": 18,
+        "end": 16,
         "label": "TOKEN"
       },
       {
         "start": 22,
-        "end": 25,
-        "label": "RECIPIENT"
+        "end": 30,
+        "label": "SOURCE_NETWORK"
+      },
+      {
+        "start": 34,
+        "end": 38,
+        "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Transfer"
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "Move 400 USDC from Arbitrum to Base mainnet via bridge",
+    "prompt": "Move 300 USDT from Ethereum to Base",
     "entities": [
       {
         "start": 0,
@@ -2016,184 +1030,80 @@
       },
       {
         "start": 31,
-        "end": 43,
+        "end": 35,
         "label": "DEST_NETWORK"
-      },
-      {
-        "start": 48,
-        "end": 54,
-        "label": "BRIDGE_KEYWORD"
       }
     ],
-    "intent": "Bridge"
+    "intent": "Bridge",
+    "from": "User",
+    "to": "User"
   },
   {
-    "prompt": "What's my USDC balance?",
+    "prompt": "Transfer 0.0025 ETH to 0x90889C14149Bf930B6824789431B8479aaB8e5ee on Base",
     "entities": [
       {
-        "start": 0,
-        "end": 6,
-        "label": "INTENT"
+        "start": 9,
+        "end": 15,
+        "label": "AMOUNT"
       },
       {
-        "start": 10,
-        "end": 14,
+        "start": 16,
+        "end": 19,
         "label": "TOKEN"
       },
       {
-        "start": 15,
-        "end": 22,
-        "label": "QUERY_TYPE"
+        "start": 23,
+        "end": 65,
+        "label": "ADDRESS"
       }
     ],
-    "intent": "Query"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Execute multiple transactions: send 100 ETH to Jack on Ethereum, bridge 500 USDT to Arbitrum, swap 200 USDC to ETH on Base",
+    "prompt": "Send 0.001 USDC to Alice on Ethereum mainnet",
     "entities": [
       {
-        "start": 22,
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 24,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "transfer 0.0075 ETH to Bob",
+    "entities": [
+      {
+        "start": 9,
+        "end": 15,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 16,
+        "end": 19,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
         "end": 26,
-        "label": "INTENT"
-      },
-      {
-        "start": 27,
-        "end": 30,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 31,
-        "end": 34,
-        "label": "TOKEN"
-      },
-      {
-        "start": 38,
-        "end": 42,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 46,
-        "end": 54,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 56,
-        "end": 62,
-        "label": "INTENT"
-      },
-      {
-        "start": 63,
-        "end": 66,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 67,
-        "end": 71,
-        "label": "TOKEN"
-      },
-      {
-        "start": 75,
-        "end": 83,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 85,
-        "end": 89,
-        "label": "INTENT"
-      },
-      {
-        "start": 90,
-        "end": 93,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 94,
-        "end": 98,
-        "label": "TOKEN"
-      },
-      {
-        "start": 102,
-        "end": 105,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 109,
-        "end": 113,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 12.34 USDT to my wallet address 0x8ba1f109551bD432803012645Hac136c0f000000 on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 0,
-        "end": 8,
-        "label": "INTENT"
-      },
-      {
-        "start": 9,
-        "end": 14,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 15,
-        "end": 19,
-        "label": "TOKEN"
-      },
-      {
-        "start": 36,
-        "end": 78,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 82,
-        "end": 98,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Please bridge 99.99 ETH from Base mainnet to Ethereum testnet for me",
+    "prompt": "Move 0.05 USDC to 0x742d35Cc6648C2532C4B3A09c7eAd0c6 on Optimism",
     "entities": [
-      {
-        "start": 7,
-        "end": 13,
-        "label": "INTENT"
-      },
-      {
-        "start": 14,
-        "end": 19,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 20,
-        "end": 23,
-        "label": "TOKEN"
-      },
-      {
-        "start": 29,
-        "end": 41,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 45,
-        "end": 61,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Swap 1234 USDC for USDT on Arbitrum mainnet and send 567 ETH to Kate",
-    "entities": [
-      {
-        "start": 0,
-        "end": 4,
-        "label": "INTENT"
-      },
       {
         "start": 5,
         "end": 9,
@@ -2202,2387 +1112,64 @@
       {
         "start": 10,
         "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 19,
-        "end": 23,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 27,
-        "end": 43,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 48,
-        "end": 52,
-        "label": "INTENT"
-      },
-      {
-        "start": 53,
-        "end": 56,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 57,
-        "end": 60,
-        "label": "TOKEN"
-      },
-      {
-        "start": 64,
-        "end": 68,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check the USDT balance of address 0x742d35Cc6610C7532C8632209bf30F6a1Bfa6B16 on Base testnet, then bridge 333 USDC to Arbitrum",
-    "entities": [
-      {
-        "start": 0,
-        "end": 5,
-        "label": "INTENT"
-      },
-      {
-        "start": 10,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 22,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 34,
-        "end": 76,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 80,
-        "end": 92,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 98,
-        "end": 104,
-        "label": "INTENT"
-      },
-      {
-        "start": 105,
-        "end": 108,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 109,
-        "end": 113,
-        "label": "TOKEN"
-      },
-      {
-        "start": 117,
-        "end": 125,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 100 ETH to Ben on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 50 USDC to ETH on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 23,
-        "end": 30,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 31,
-        "end": 37,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Bridge 25 ETH from Arbitrum to Ethereum",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Check 0x18cBCfA9eB0265C9C916327B10e78f7Ac070220A ETH balance on Base",
-    "entities": [
-      {
-        "start": 6,
-        "end": 46,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 48,
-        "end": 51,
-        "label": "TOKEN"
-      },
-      {
-        "start": 52,
-        "end": 59,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 63,
-        "end": 67,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 100 ETH, 25 USDC to Alice on Ethereum, and swap 50 USDT to ETH",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 17,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 31,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 35,
-        "end": 42,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 50,
-        "end": 52,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 54,
-        "end": 57,
-        "label": "TOKEN"
-      },
-      {
-        "start": 61,
-        "end": 64,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 10 USDT to 0x5a3eB6b4F8eC7bF28A8bF8eC1bC4fA3c9bF7a1B2 on Arbitrum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 71,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Get my USDC balance on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 7,
-        "end": 10,
-        "label": "TOKEN"
-      },
-      {
-        "start": 11,
-        "end": 18,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 22,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 30,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Move 75 ETH to Charlie, bridge 30 USDC from Base to Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 22,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 30,
-        "end": 32,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 34,
-        "end": 37,
-        "label": "TOKEN"
-      },
-      {
-        "start": 43,
-        "end": 47,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 51,
-        "end": 58,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 200 USDT for ETH on Base testnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
         "label": "TOKEN"
       },
       {
         "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 30,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Send 15 ETH to 0x7b8eC9F1A8bC7f28A9bF8eC2bC4fA3c8bF7a2B3 on Ethereum, check balance",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 56,
+        "end": 60,
         "label": "ADDRESS"
-      },
-      {
-        "start": 60,
-        "end": 67,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 69,
-        "end": 76,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Yo, send 50 USDC to Dave on Arbitrum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 28,
-        "end": 35,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Bridge 100 ETH from Ethereum to Base, then swap 20 USDT to USDC",
+    "prompt": "Send 0.125 ETH to Charlie on Base testnet",
     "entities": [
       {
-        "start": 7,
+        "start": 5,
         "end": 10,
         "label": "AMOUNT"
       },
       {
-        "start": 12,
-        "end": 15,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 43,
-        "end": 45,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 47,
-        "end": 50,
-        "label": "TOKEN"
-      },
-      {
-        "start": 54,
-        "end": 57,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check ETH balance for 0x9c8eD0F2B8cC7f28A9bF8eC3bC4fA3c9bF7a3B4 on Base",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 22,
-        "end": 62,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 66,
-        "end": 70,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Transfer 30 USDC to Emma on Base, and bridge 10 ETH to Arbitrum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 28,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 39,
-        "end": 41,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 43,
-        "end": 46,
-        "label": "TOKEN"
-      },
-      {
-        "start": 50,
-        "end": 57,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 75 ETH for USDT on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 24,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Send 20 USDT, 10 ETH to 0x1a2bC3d4E5f6A7b8C9d0E1f2A3b4C5d6E7f8A9b0 on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 16,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 65,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 69,
-        "end": 73,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Query USDC balance on Arbitrum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 100 ETH to Frank, swap 50 USDC to ETH, and check balance on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 22,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 29,
-        "end": 31,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 33,
-        "end": 36,
-        "label": "TOKEN"
-      },
-      {
-        "start": 40,
-        "end": 43,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 50,
-        "end": 57,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 61,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Bridge 15 USDC from Base to Ethereum mainnet",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
         "start": 11,
         "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 28,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 36,
-        "end": 42,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Transfer 25 ETH to 0x2b3cD4e5F6a7B8c9D0e1F2a3B4c5D6e7F8a9B0c1",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Check balance for ETH on Base, send 10 USDT to Grace",
-    "entities": [
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 36,
-        "end": 38,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 40,
-        "end": 43,
-        "label": "TOKEN"
-      },
-      {
-        "start": 47,
-        "end": 52,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 100 USDC for ETH on Arbitrum testnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 33,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Send 50 ETH, 20 USDT to Harry on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 16,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 30,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 34,
-        "end": 41,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 42,
-        "end": 48,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Bridge 30 ETH from Arbitrum to Base, check USDC balance",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 27,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 31,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 40,
-        "label": "TOKEN"
-      },
-      {
-        "start": 41,
-        "end": 48,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Query ETH balance for 0x3c4dE5f6A7b8C9d0E1f2A3b4C5d6E7f8A9b0C1d2 on Ethereum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 22,
-        "end": 62,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 66,
-        "end": 73,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 10 USDC to Iris on Base, swap 25 ETH to USDT, bridge 15 USDT to Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 20,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 34,
-        "end": 36,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 38,
-        "end": 41,
-        "label": "TOKEN"
-      },
-      {
-        "start": 45,
-        "end": 48,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 55,
-        "end": 57,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 59,
-        "end": 62,
-        "label": "TOKEN"
-      },
-      {
-        "start": 66,
-        "end": 73,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 100 ETH to 0x4d5eF6a7B8c9D0e1F2a3B4c5D6e7F8a9B0c1D2e3 on Base",
-    "entities": [
-      {
-        "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 61,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 65,
-        "end": 69,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 50 USDT to ETH, send 20 ETH to Jack on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 26,
-        "end": 28,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 30,
-        "end": 33,
-        "label": "TOKEN"
-      },
-      {
-        "start": 37,
-        "end": 41,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 45,
-        "end": 52,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check balance for USDC on Arbitrum testnet",
-    "entities": [
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 33,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 30 ETH to Kate on Base, bridge 10 USDC from Ethereum to Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 20,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 35,
-        "end": 37,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 39,
-        "end": 42,
-        "label": "TOKEN"
-      },
-      {
-        "start": 48,
-        "end": 55,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 59,
-        "end": 66,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 100 USDC for ETH on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 33,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 15 ETH to 0x5e6fA7b8C9d0E1f2A3b4C5d6E7f8A9b0C1d2E3f4 on Arbitrum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 71,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Bridge 20 USDT from Base to Ethereum, check ETH balance",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 24,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 28,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 40,
-        "label": "TOKEN"
-      },
-      {
-        "start": 41,
-        "end": 48,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 50 USDC to Liam on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 20,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 25 ETH to USDC, send 10 USDT to Mia on Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 26,
-        "end": 28,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 30,
-        "end": 33,
-        "label": "TOKEN"
-      },
-      {
-        "start": 37,
-        "end": 40,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 44,
-        "end": 51,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check USDT balance on Ethereum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 100 ETH, 25 USDC to Noah on Base, bridge 15 ETH to Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 17,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 30,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 34,
-        "end": 38,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 45,
-        "end": 47,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 49,
-        "end": 52,
-        "label": "TOKEN"
-      },
-      {
-        "start": 56,
-        "end": 63,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 50 USDT to ETH on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 23,
-        "end": 27,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 10 ETH to 0x6f7aB8c9D0e1F2a3B4c5D6e7F8a9B0c1D2e3F4a5 on Ethereum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 71,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Bridge 25 USDC from Arbitrum to Base, check balance on Base",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 27,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 31,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 44,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 48,
-        "end": 52,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 15 ETH to Oliver on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 22,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 26,
-        "end": 33,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 100 USDC to ETH, send 20 ETH to Piper on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 27,
-        "end": 29,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 31,
-        "end": 34,
-        "label": "TOKEN"
-      },
-      {
-        "start": 38,
-        "end": 43,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 47,
-        "end": 51,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check ETH balance on Arbitrum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 50 ETH, 10 USDC to Quinn on Base, swap 25 USDT to ETH on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 16,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 30,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 34,
-        "end": 38,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 44,
-        "end": 46,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 48,
-        "end": 51,
-        "label": "TOKEN"
-      },
-      {
-        "start": 55,
-        "end": 58,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 62,
-        "end": 69,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Bridge 15 ETH from Ethereum to Arbitrum",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 27,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 31,
-        "end": 38,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Transfer 20 USDT to 0x7a8bC9d0E1f2A3b4C5d6E7f8A9b0C1d2E3f4A5b6 on Base",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 50 ETH to USDC on Base, check USDT balance",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 23,
-        "end": 27,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 32,
-        "label": "TOKEN"
-      },
-      {
-        "start": 33,
-        "end": 40,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 25 ETH to Riley on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 21,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Check balance for 0x8b9cD0e1F2a3B4c5D6e7F8a9B0c1D2e3F4a5B6c7 on Arbitrum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 18,
-        "end": 58,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 62,
-        "end": 69,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 10 USDC, 5 ETH to Sam on Base, bridge 20 USDT to Ethereum, swap 15 ETH to USDC",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 15,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN"
-      },
-      {
-        "start": 24,
-        "end": 27,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 31,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 42,
-        "end": 44,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 46,
-        "end": 49,
-        "label": "TOKEN"
-      },
-      {
-        "start": 53,
-        "end": 60,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 67,
-        "end": 69,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 71,
-        "end": 74,
-        "label": "TOKEN"
-      },
-      {
-        "start": 78,
-        "end": 81,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 100 USDT to ETH on Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 24,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 30 ETH to 0x9c0dE1f2A3b4C5d6E7f8A9b0C1d2E3f4A5b6C7d8 on Base",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Send 200 ETH to Sophie on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 23,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 27,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 0.75 USDC to ETH on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 33,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Bridge 1.5 ETH from Arbitrum to Base",
-    "entities": [
-      {
-        "start": 7,
-        "end": 10,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 12,
-        "end": 15,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Check 0x1234567890abcdef1234567890abcdef12345678 USDT balance on Arbitrum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 46,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 48,
-        "end": 51,
-        "label": "TOKEN"
-      },
-      {
-        "start": 52,
-        "end": 59,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 63,
-        "end": 70,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 0.2 ETH, 50 USDC to Tom on Base, swap 100 USDT to ETH on Ethereum, check balance",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 17,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 29,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 33,
-        "end": 37,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 44,
-        "end": 47,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 49,
-        "end": 52,
-        "label": "TOKEN"
-      },
-      {
-        "start": 56,
-        "end": 59,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 63,
-        "end": 70,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 72,
-        "end": 79,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Plz tranfer 100 ETH to 0x234567890abcdef1234567890abcdef123456789 on Arbitrum",
-    "entities": [
-      {
-        "start": 12,
-        "end": 15,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN"
-      },
-      {
-        "start": 24,
-        "end": 64,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 68,
-        "end": 75,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Gimme my ETH balance on Base testnet",
-    "entities": [
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 13,
-        "end": 20,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 0.1 ETH to Luna, bridge 25 USDC from Base to Ethereum, swap 50 USDT to ETH",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 29,
-        "end": 31,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 33,
-        "end": 36,
-        "label": "TOKEN"
-      },
-      {
-        "start": 42,
-        "end": 46,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 50,
-        "end": 57,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 64,
-        "end": 66,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 68,
-        "end": 71,
-        "label": "TOKEN"
-      },
-      {
-        "start": 75,
-        "end": 78,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 1000 USDT for ETH on Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 26,
-        "end": 33,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 0.5 ETH to 0x34567890abcdef1234567890abcdef1234567890, check USDC balance on Base",
-    "entities": [
-      {
-        "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 61,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 63,
-        "end": 66,
-        "label": "TOKEN"
-      },
-      {
-        "start": 67,
-        "end": 74,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 78,
-        "end": 82,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Yo, check 50 USDC balance on Ethereum",
-    "entities": [
-      {
-        "start": 10,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
         "label": "TOKEN"
       },
       {
         "start": 18,
         "end": 25,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 29,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Bridge 0.25 ETH from Ethereum to Base, send 100 USDT to Mia, swap 0.1 ETH to USDC",
-    "entities": [
-      {
-        "start": 7,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 22,
-        "end": 29,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 33,
-        "end": 37,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 44,
-        "end": 47,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 49,
-        "end": 52,
-        "label": "TOKEN"
-      },
-      {
-        "start": 56,
-        "end": 59,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 66,
-        "end": 69,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 71,
-        "end": 74,
-        "label": "TOKEN"
-      },
-      {
-        "start": 78,
-        "end": 81,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check balance for 0x4567890abcdef1234567890abcdef1234567890 on Base",
-    "entities": [
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 18,
-        "end": 58,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 62,
-        "end": 66,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 25 ETH to Noah on Arbitrum, bridge 0.5 USDC from Base to Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 20,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 39,
-        "end": 42,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 44,
-        "end": 47,
-        "label": "TOKEN"
-      },
-      {
-        "start": 53,
-        "end": 57,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 61,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 0.1 USDT for ETH on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Send 15 USDC, 0.2 ETH to 0x567890abcdef1234567890abcdef1234567890ab on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 66,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 70,
-        "end": 74,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Query ETH balance on Arbitrum testnet",
+    "prompt": "Transfer 1.5 USDC to David",
     "entities": [
       {
-        "start": 6,
-        "end": 9,
+        "start": 9,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 17,
         "label": "TOKEN"
       },
       {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
         "start": 21,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 35,
-        "label": "DEST_NETWORK"
+        "end": 26,
+        "label": "RECIPIENT"
       }
     ],
-    "intent": "Query"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Send 0.5 ETH to Riley on Base, swap 50 USDC to ETH, bridge 25 USDT to Arbitrum, check balance",
+    "prompt": "send 2.75 ETH to Eve on Ethereum",
     "entities": [
       {
         "start": 5,
-        "end": 8,
+        "end": 9,
         "label": "AMOUNT"
       },
       {
@@ -4592,89 +1179,81 @@
       },
       {
         "start": 17,
-        "end": 22,
+        "end": 20,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 26,
-        "end": 30,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 39,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 41,
-        "end": 44,
-        "label": "TOKEN"
-      },
-      {
-        "start": 48,
-        "end": 51,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 58,
-        "end": 60,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 62,
-        "end": 65,
-        "label": "TOKEN"
-      },
-      {
-        "start": 69,
-        "end": 76,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 78,
-        "end": 85,
-        "label": "QUERY_TYPE"
       }
     ],
-    "intent": "Multi"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Bridge 100 USDC from Base to Ethereum mainnet",
+    "prompt": "Move 5.25 USDC to 0x1234567890123456789012345678901234567890",
     "entities": [
       {
-        "start": 7,
-        "end": 10,
+        "start": 5,
+        "end": 9,
         "label": "AMOUNT"
       },
       {
-        "start": 12,
-        "end": 15,
+        "start": 10,
+        "end": 14,
         "label": "TOKEN"
       },
       {
-        "start": 21,
-        "end": 25,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 43,
-        "label": "DEST_NETWORK"
+        "start": 18,
+        "end": 60,
+        "label": "ADDRESS"
       }
     ],
-    "intent": "Bridge"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Transfer 0.25 ETH to 0x67890abcdef1234567890abcdef1234567890abc",
+    "prompt": "Transfer 10.5 ETH to Frank on Optimism mainnet",
     "entities": [
       {
         "start": 9,
         "end": 13,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 14,
+        "end": 17,
+        "label": "TOKEN"
+      },
+      {
+        "start": 21,
+        "end": 26,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 25.75 USDC to Grace",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 24,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "transfer 50.25 ETH to Henry on Base",
+    "entities": [
+      {
+        "start": 9,
+        "end": 14,
         "label": "AMOUNT"
       },
       {
@@ -4684,852 +1263,123 @@
       },
       {
         "start": 22,
-        "end": 62,
-        "label": "ADDRESS"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Check USDT balance for Quinn on Ethereum, send 0.1 ETH to 0x7890abcdef1234567890abcdef1234567890abcd",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 22,
         "end": 27,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 31,
-        "end": 38,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 45,
-        "end": 48,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 50,
-        "end": 53,
-        "label": "TOKEN"
-      },
-      {
-        "start": 57,
-        "end": 97,
-        "label": "ADDRESS"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 0.5 USDC to ETH on Base testnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Send 100 ETH, 0.1 USDC to Piper on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 18,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 20,
-        "end": 23,
-        "label": "TOKEN"
-      },
-      {
-        "start": 27,
-        "end": 32,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 36,
-        "end": 43,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 44,
-        "end": 50,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Bridge 0.2 USDT from Arbitrum to Base, check ETH balance on Base",
+    "prompt": "Move 99.99 USDC to 0xAbCdEf1234567890AbCdEf1234567890AbCdEf12 on Ethereum",
     "entities": [
       {
-        "start": 7,
+        "start": 5,
         "end": 10,
         "label": "AMOUNT"
       },
       {
-        "start": 12,
+        "start": 11,
         "end": 15,
         "label": "TOKEN"
       },
       {
-        "start": 21,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 38,
-        "end": 41,
-        "label": "TOKEN"
-      },
-      {
-        "start": 42,
-        "end": 49,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 53,
-        "end": 57,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Query balance for 0x890abcdef1234567890abcdef1234567890abcde on Ethereum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 18,
-        "end": 58,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 62,
-        "end": 69,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 0.3 ETH to Sam on Base, swap 25 USDC to ETH, bridge 15 USDT to Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 35,
-        "end": 37,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 39,
-        "end": 42,
-        "label": "TOKEN"
-      },
-      {
-        "start": 46,
-        "end": 49,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 56,
-        "end": 58,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 60,
-        "end": 63,
-        "label": "TOKEN"
-      },
-      {
-        "start": 67,
-        "end": 74,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 1.5 ETH to 0x9abcdef1234567890abcdef1234567890abcdef1 on Arbitrum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
+        "start": 19,
         "end": 61,
         "label": "ADDRESS"
-      },
-      {
-        "start": 65,
-        "end": 72,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Swap 50 ETH to USDT, send 0.1 USDC to Jack on Base",
+    "prompt": "Send 125.25 ETH to Isabella",
     "entities": [
       {
         "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 26,
-        "end": 29,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 31,
-        "end": 34,
-        "label": "TOKEN"
-      },
-      {
-        "start": 38,
-        "end": 42,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 46,
-        "end": 50,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check USDC balance on Arbitrum testnet",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 0.2 ETH to Kate on Base, bridge 10 USDC from Ethereum to Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 21,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 36,
-        "end": 38,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 40,
-        "end": 43,
-        "label": "TOKEN"
-      },
-      {
-        "start": 49,
-        "end": 56,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 60,
-        "end": 67,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 0.1 USDC for ETH on Ethereum mainnet",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 33,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 25 ETH to 0x1234567890abcdef1234567890abcdef12345678 on Base",
-    "entities": [
-      {
-        "start": 9,
         "end": 11,
         "label": "AMOUNT"
       },
       {
-        "start": 13,
-        "end": 16,
+        "start": 12,
+        "end": 15,
         "label": "TOKEN"
       },
       {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 68,
-        "label": "DEST_NETWORK"
+        "start": 19,
+        "end": 27,
+        "label": "RECIPIENT"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Bridge 0.5 USDT from Base to Ethereum, check ETH balance",
+    "prompt": "Transfer 250.5 USDC to Jack on Optimism testnet",
     "entities": [
       {
-        "start": 7,
-        "end": 10,
+        "start": 9,
+        "end": 14,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
+        "end": 27,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "send 500.75 ETH to 0x9876543210987654321098765432109876543210",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
         "label": "AMOUNT"
       },
       {
         "start": 12,
         "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 61,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Move 1000.25 USDC to Kate on Base mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 17,
         "label": "TOKEN"
       },
       {
         "start": 21,
         "end": 25,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 38,
-        "end": 41,
-        "label": "TOKEN"
-      },
-      {
-        "start": 42,
-        "end": 49,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 100 USDC to Liam on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 21,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Swap 0.25 ETH to USDC, send 10 USDT to Mia on Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 18,
-        "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 28,
-        "end": 30,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 32,
-        "end": 35,
-        "label": "TOKEN"
-      },
-      {
-        "start": 39,
-        "end": 42,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 46,
-        "end": 53,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check USDC balance on Ethereum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 0.1 ETH, 25 USDC to Noah on Base, bridge 15 ETH to Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 17,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 30,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 34,
-        "end": 38,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 45,
-        "end": 47,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 49,
-        "end": 52,
-        "label": "TOKEN"
-      },
-      {
-        "start": 56,
-        "end": 63,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 75 USDT to ETH on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 23,
-        "end": 27,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 0.2 ETH to 0x234567890abcdef1234567890abcdef123456789 on Ethereum",
+    "prompt": "Transfer 15 ETH to Liam",
     "entities": [
       {
         "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 61,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 65,
-        "end": 72,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Bridge 25 USDC from Arbitrum to Base, check balance on Base",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 27,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 31,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 44,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 48,
-        "end": 52,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 15 ETH to Oliver on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 22,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 26,
-        "end": 33,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 100 USDC to ETH, send 20 ETH to Piper on Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 27,
-        "end": 29,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 31,
-        "end": 34,
-        "label": "TOKEN"
-      },
-      {
-        "start": 38,
-        "end": 43,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 47,
-        "end": 51,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check ETH balance on Arbitrum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 50 ETH, 0.5 USDC to Quinn on Base, swap 25 USDT to ETH on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 31,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 35,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 46,
-        "end": 48,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 50,
-        "end": 53,
-        "label": "TOKEN"
-      },
-      {
-        "start": 57,
-        "end": 60,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 64,
-        "end": 71,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Bridge 0.1 ETH from Ethereum to Arbitrum",
-    "entities": [
-      {
-        "start": 7,
-        "end": 10,
+        "end": 11,
         "label": "AMOUNT"
       },
       {
@@ -5538,498 +1388,82 @@
         "label": "TOKEN"
       },
       {
-        "start": 21,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 39,
-        "label": "DEST_NETWORK"
+        "start": 19,
+        "end": 23,
+        "label": "RECIPIENT"
       }
     ],
-    "intent": "Bridge"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Transfer 20 USDT to 0x34567890abcdef1234567890abcdef1234567890 on Base",
+    "prompt": "Send 75 USDC to Mia on Ethereum",
+    "entities": [
+      {
+        "start": 5,
+        "end": 7,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 8,
+        "end": 12,
+        "label": "TOKEN"
+      },
+      {
+        "start": 16,
+        "end": 19,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "transfer 150 ETH to Noah on Optimism",
     "entities": [
       {
         "start": 9,
-        "end": 11,
+        "end": 12,
         "label": "AMOUNT"
       },
       {
         "start": 13,
         "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Swap 50 ETH to USDC on Base, check USDT balance",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 23,
-        "end": 27,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 32,
-        "label": "TOKEN"
-      },
-      {
-        "start": 33,
-        "end": 40,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Send 25 ETH to Riley on Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 21,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 25,
-        "end": 32,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Check balance for 0x4567890abcdef1234567890abcdef1234567890 on Arbitrum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 18,
-        "end": 58,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 62,
-        "end": 69,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 10 USDC, 0.5 ETH to Sam on Base, bridge 20 USDT to Ethereum, swap 15 ETH to USDC",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 19,
-        "end": 22,
-        "label": "TOKEN"
-      },
-      {
-        "start": 26,
-        "end": 29,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 33,
-        "end": 37,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 44,
-        "end": 46,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 48,
-        "end": 51,
-        "label": "TOKEN"
-      },
-      {
-        "start": 55,
-        "end": 62,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 69,
-        "end": 71,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 73,
-        "end": 76,
-        "label": "TOKEN"
-      },
-      {
-        "start": 80,
-        "end": 83,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 100 USDT to ETH on Arbitrum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 24,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 0.3 ETH to 0x567890abcdef1234567890abcdef1234567890ab on Base",
-    "entities": [
-      {
-        "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 61,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 65,
-        "end": 69,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Send 50 ETH to Bob on Ethereum, swap 0.1 USDC to ETH, bridge 25 USDT to Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 23,
-        "end": 30,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 40,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 42,
-        "end": 45,
-        "label": "TOKEN"
-      },
-      {
-        "start": 49,
-        "end": 52,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 59,
-        "end": 61,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 63,
-        "end": 66,
-        "label": "TOKEN"
-      },
-      {
-        "start": 70,
-        "end": 74,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check 0.5 ETH balance on Base",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
-        "label": "TOKEN"
-      },
-      {
-        "start": 15,
-        "end": 22,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 26,
-        "end": 30,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 100 USDC to Alice, bridge 0.2 ETH from Arbitrum to Ethereum",
-    "entities": [
-      {
-        "start": 5,
-        "end": 8,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 10,
-        "end": 13,
-        "label": "TOKEN"
-      },
-      {
-        "start": 17,
-        "end": 22,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 30,
-        "end": 33,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 35,
-        "end": 38,
-        "label": "TOKEN"
-      },
-      {
-        "start": 44,
-        "end": 51,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 55,
-        "end": 62,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 25 USDT to ETH on Ethereum, check balance",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 23,
-        "end": 30,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 39,
-        "label": "QUERY_TYPE"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 0.1 ETH to 0x67890abcdef1234567890abcdef1234567890abc on Arbitrum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 61,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 65,
-        "end": 72,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Transfer"
-  },
-  {
-    "prompt": "Bridge 15 USDC from Base to Ethereum, send 10 ETH to Bob",
-    "entities": [
-      {
-        "start": 7,
-        "end": 9,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 11,
-        "end": 14,
         "label": "TOKEN"
       },
       {
         "start": 20,
         "end": 24,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 28,
-        "end": 35,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 42,
-        "end": 44,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 46,
-        "end": 49,
-        "label": "TOKEN"
-      },
-      {
-        "start": 53,
-        "end": 56,
         "label": "RECIPIENT"
       }
     ],
-    "intent": "Multi"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Check USDT balance for 0x7890abcdef1234567890abcdef1234567890abcd on Base",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 22,
-        "end": 62,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 66,
-        "end": 70,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 0.5 ETH to Charlie on Ethereum, swap 50 USDC to ETH, bridge 25 USDT to Base",
+    "prompt": "Move 500 USDC to 0xFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFf",
     "entities": [
       {
         "start": 5,
         "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 59,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 2500 ETH to Olivia on Base",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
         "label": "AMOUNT"
       },
       {
@@ -6041,51 +1475,637 @@
         "start": 17,
         "end": 23,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 27,
-        "end": 34,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 41,
-        "end": 43,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 45,
-        "end": 48,
-        "label": "TOKEN"
-      },
-      {
-        "start": 52,
-        "end": 55,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 62,
-        "end": 64,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 66,
-        "end": 69,
-        "label": "TOKEN"
-      },
-      {
-        "start": 73,
-        "end": 77,
-        "label": "DEST_NETWORK"
       }
     ],
-    "intent": "Multi"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Swap 0.75 USDC to ETH on Base",
+    "prompt": "Swap 0.0025 ETH for USDC on Base",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 24,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 0.005 USDC for ETH",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 0.01 ETH for USDC on Ethereum mainnet",
     "entities": [
       {
         "start": 5,
         "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 0.075 USDC for ETH on Optimism",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 0.5 ETH for USDC",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 21,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 1.25 USDC for ETH on Base testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 5.5 ETH for USDC on Ethereum",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 21,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 25.25 USDC for ETH",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 99.99 ETH for USDC on Optimism mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 250.5 USDC for ETH on Base",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 1000 ETH for USDC",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 2500 USDC for ETH on Ethereum testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Bridge 0.0025 ETH on Ethereum to Base",
+    "entities": [
+      {
+        "start": 7,
+        "end": 13,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 14,
+        "end": 17,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 0.005 USDC from Base to Optimism",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 17,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 0.01 ETH on Ethereum mainnet to Base testnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 0.075 USDC from Optimism to Ethereum",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 17,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 1.5 ETH on Base to Optimism mainnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 5.25 USDC from Ethereum testnet to Base",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 25.75 ETH on Optimism to Ethereum",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 100 USDC from Base mainnet to Optimism testnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 500 ETH on Ethereum to Base",
+    "entities": [
+      {
+        "start": 7,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 1000 USDC from Optimism mainnet to Ethereum mainnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 2500 ETH on Base testnet to Optimism",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 5000 USDC from Ethereum to Base testnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Check balance",
+    "entities": [
+      {
+        "start": 6,
+        "end": 13,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "get balance of ETH",
+    "entities": [
+      {
+        "start": 4,
+        "end": 11,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Query amount on Base",
+    "entities": [
+      {
+        "start": 6,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "show balance of USDC on Ethereum",
+    "entities": [
+      {
+        "start": 5,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Check amount for Alice",
+    "entities": [
+      {
+        "start": 6,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "get balance of ETH for Bob",
+    "entities": [
+      {
+        "start": 4,
+        "end": 11,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Query balance for Charlie on Optimism",
+    "entities": [
+      {
+        "start": 6,
+        "end": 13,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "show amount of USDC for David on Base mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "check balance of ETH for Eve on Ethereum testnet",
+    "entities": [
+      {
+        "start": 6,
+        "end": 13,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Get amount for Frank on Optimism mainnet",
+    "entities": [
+      {
+        "start": 4,
+        "end": 10,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Transfer 0.0035 ETH to Alice and swap 0.025 USDC for ETH",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Send 1.5 USDC to Bob and bridge 0.5 ETH from Base to Ethereum",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Bridge 5.25 ETH on Optimism to Base and swap 10.5 USDC for ETH",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Check balance and transfer 25 ETH to Charlie",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Swap 50.25 USDC for ETH and bridge 0.075 ETH from Ethereum to Optimism",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Transfer 0.0001 ETH to 0x742d35Cc6648C2532C4B3A09c7eAd0c6 on Ethereum",
+    "entities": [
+      {
+        "start": 9,
+        "end": 15,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 16,
+        "end": 19,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
+        "end": 65,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "send 0.0005 USDC to David",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 25,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Move 0.015 ETH to Eve on Base",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
         "label": "AMOUNT"
       },
       {
@@ -6096,295 +2116,80 @@
       {
         "start": 18,
         "end": 21,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Swap"
-  },
-  {
-    "prompt": "Transfer 10 ETH to 0x890abcdef1234567890abcdef1234567890abcde on Ethereum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 60,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 64,
-        "end": 71,
-        "label": "DEST_NETWORK"
+        "label": "RECIPIENT"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Send 25 USDC to Dave on Base, check ETH balance, swap 0.1 ETH to USDT",
+    "prompt": "Transfer 0.035 USDC to 0x90889C14149Bf930B6824789431B8479aaB8e5ee on Optimism testnet",
+    "entities": [
+      {
+        "start": 9,
+        "end": 14,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
+        "end": 65,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 0.125 ETH to Frank",
     "entities": [
       {
         "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 20,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 28,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 30,
-        "end": 33,
-        "label": "TOKEN"
-      },
-      {
-        "start": 34,
-        "end": 41,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 48,
-        "end": 51,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 53,
-        "end": 56,
-        "label": "TOKEN"
-      },
-      {
-        "start": 60,
-        "end": 63,
-        "label": "TOKEN2"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Bridge 0.2 USDT from Arbitrum to Ethereum",
-    "entities": [
-      {
-        "start": 7,
         "end": 10,
         "label": "AMOUNT"
       },
       {
-        "start": 12,
-        "end": 15,
+        "start": 11,
+        "end": 14,
         "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 32,
-        "end": 39,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Bridge"
-  },
-  {
-    "prompt": "Check balance for ETH on Base",
-    "entities": [
-      {
-        "start": 6,
-        "end": 13,
-        "label": "QUERY_TYPE"
       },
       {
         "start": 18,
-        "end": 21,
-        "label": "TOKEN"
-      },
-      {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 50 ETH to Emma on Arbitrum, swap 25 USDC to ETH, bridge 0.5 USDT to Base",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 20,
+        "end": 23,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 24,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 38,
-        "end": 40,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 42,
-        "end": 45,
-        "label": "TOKEN"
-      },
-      {
-        "start": 49,
-        "end": 52,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 59,
-        "end": 62,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 64,
-        "end": 67,
-        "label": "TOKEN"
-      },
-      {
-        "start": 71,
-        "end": 75,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 0.1 ETH to 0x9abcdef1234567890abcdef1234567890abcdef1 on Base",
-    "entities": [
-      {
-        "start": 9,
-        "end": 12,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 14,
-        "end": 17,
-        "label": "TOKEN"
-      },
-      {
-        "start": 21,
-        "end": 61,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 65,
-        "end": 69,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Swap 100 USDC to ETH on Ethereum, send 20 USDT to Frank",
+    "prompt": "transfer 0.375 USDC to Grace on Ethereum mainnet",
     "entities": [
       {
-        "start": 5,
-        "end": 8,
+        "start": 9,
+        "end": 14,
         "label": "AMOUNT"
       },
       {
-        "start": 10,
-        "end": 13,
+        "start": 15,
+        "end": 19,
         "label": "TOKEN"
       },
       {
-        "start": 17,
-        "end": 20,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 24,
-        "end": 31,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 38,
-        "end": 40,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 42,
-        "end": 45,
-        "label": "TOKEN"
-      },
-      {
-        "start": 49,
-        "end": 54,
+        "start": 23,
+        "end": 28,
         "label": "RECIPIENT"
       }
     ],
-    "intent": "Multi"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Check 0.25 USDC balance on Arbitrum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 10,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 12,
-        "end": 15,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 23,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 27,
-        "end": 34,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Query"
-  },
-  {
-    "prompt": "Send 0.5 ETH to Grace on Base, bridge 10 USDT from Ethereum to Arbitrum",
+    "prompt": "Move 3.33 ETH to Henry on Base testnet",
     "entities": [
       {
         "start": 5,
-        "end": 8,
+        "end": 9,
         "label": "AMOUNT"
       },
       {
@@ -6396,170 +2201,79 @@
         "start": 17,
         "end": 22,
         "label": "RECIPIENT"
-      },
-      {
-        "start": 26,
-        "end": 30,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 37,
-        "end": 39,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 41,
-        "end": 44,
-        "label": "TOKEN"
-      },
-      {
-        "start": 50,
-        "end": 57,
-        "label": "SOURCE_NETWORK"
-      },
-      {
-        "start": 61,
-        "end": 68,
-        "label": "DEST_NETWORK"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Swap 50 USDT to ETH on Base, check balance for 0x1234567890abcdef1234567890abcdef12345678",
-    "entities": [
-      {
-        "start": 5,
-        "end": 7,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 9,
-        "end": 12,
-        "label": "TOKEN"
-      },
-      {
-        "start": 16,
-        "end": 19,
-        "label": "TOKEN2"
-      },
-      {
-        "start": 23,
-        "end": 27,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 29,
-        "end": 36,
-        "label": "QUERY_TYPE"
-      },
-      {
-        "start": 41,
-        "end": 81,
-        "label": "ADDRESS"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Transfer 25 ETH to Harry on Ethereum",
-    "entities": [
-      {
-        "start": 9,
-        "end": 11,
-        "label": "AMOUNT"
-      },
-      {
-        "start": 13,
-        "end": 16,
-        "label": "TOKEN"
-      },
-      {
-        "start": 20,
-        "end": 25,
-        "label": "RECIPIENT"
-      },
-      {
-        "start": 29,
-        "end": 36,
-        "label": "DEST_NETWORK"
       }
     ],
     "intent": "Transfer"
   },
   {
-    "prompt": "Bridge 0.1 USDC from Arbitrum to Base, send 10 ETH to Iris",
+    "prompt": "Send 12.45 USDC to 0x1234567890123456789012345678901234567890",
     "entities": [
       {
-        "start": 7,
+        "start": 5,
         "end": 10,
         "label": "AMOUNT"
       },
       {
-        "start": 12,
+        "start": 11,
         "end": 15,
         "label": "TOKEN"
       },
       {
-        "start": 21,
-        "end": 28,
-        "label": "SOURCE_NETWORK"
-      },
+        "start": 19,
+        "end": 61,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Transfer 66.66 ETH to Isabella on Optimism",
+    "entities": [
       {
-        "start": 32,
-        "end": 36,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 43,
-        "end": 45,
+        "start": 9,
+        "end": 14,
         "label": "AMOUNT"
       },
       {
-        "start": 47,
-        "end": 50,
+        "start": 15,
+        "end": 18,
         "label": "TOKEN"
-      },
-      {
-        "start": 54,
-        "end": 58,
-        "label": "RECIPIENT"
-      }
-    ],
-    "intent": "Multi"
-  },
-  {
-    "prompt": "Check ETH balance for 0x234567890abcdef1234567890abcdef123456789 on Ethereum",
-    "entities": [
-      {
-        "start": 6,
-        "end": 9,
-        "label": "TOKEN"
-      },
-      {
-        "start": 10,
-        "end": 17,
-        "label": "QUERY_TYPE"
       },
       {
         "start": 22,
-        "end": 62,
-        "label": "ADDRESS"
-      },
-      {
-        "start": 66,
-        "end": 73,
-        "label": "DEST_NETWORK"
+        "end": 30,
+        "label": "RECIPIENT"
       }
     ],
-    "intent": "Query"
+    "intent": "Transfer"
   },
   {
-    "prompt": "Send 100 ETH to Jack on Base, swap 0.5 USDC to ETH, bridge 25 USDT to Arbitrum, check balance",
+    "prompt": "send 225 USDC to Jack",
     "entities": [
       {
         "start": 5,
         "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 21,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Move 1250 ETH to Kate on Ethereum",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
         "label": "AMOUNT"
       },
       {
@@ -6571,48 +2285,1096 @@
         "start": 17,
         "end": 21,
         "label": "RECIPIENT"
-      },
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Transfer 3500 USDC to 0xAbCdEf1234567890AbCdEf1234567890AbCdEf12 on Base mainnet",
+    "entities": [
       {
-        "start": 25,
-        "end": 29,
-        "label": "DEST_NETWORK"
-      },
-      {
-        "start": 36,
-        "end": 39,
+        "start": 9,
+        "end": 13,
         "label": "AMOUNT"
       },
       {
-        "start": 41,
-        "end": 44,
+        "start": 14,
+        "end": 18,
         "label": "TOKEN"
       },
       {
-        "start": 48,
-        "end": 51,
+        "start": 22,
+        "end": 64,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Swap 0.0001 ETH for USDC",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 24,
         "label": "TOKEN2"
-      },
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 0.0075 USDC for ETH on Base mainnet",
+    "entities": [
       {
-        "start": 58,
-        "end": 60,
+        "start": 5,
+        "end": 11,
         "label": "AMOUNT"
       },
       {
-        "start": 62,
-        "end": 65,
+        "start": 12,
+        "end": 16,
         "label": "TOKEN"
       },
       {
-        "start": 69,
-        "end": 76,
-        "label": "DEST_NETWORK"
+        "start": 21,
+        "end": 24,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 0.035 ETH for USDC on Ethereum testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
       },
       {
-        "start": 78,
-        "end": 85,
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 0.125 USDC for ETH on Optimism",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 3.33 ETH for USDC",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 12.45 USDC for ETH on Base",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 66.66 ETH for USDC on Ethereum mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 175 USDC for ETH on Optimism testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 21,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 750 ETH for USDC",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "label": "TOKEN"
+      },
+      {
+        "start": 17,
+        "end": 21,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 3500 USDC for ETH on Base testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Bridge 0.0001 ETH from Base to Optimism",
+    "entities": [
+      {
+        "start": 7,
+        "end": 13,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 14,
+        "end": 17,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 0.0035 USDC on Ethereum mainnet to Base testnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 13,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 14,
+        "end": 18,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 0.015 ETH from Optimism to Ethereum",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 0.065 USDC on Base testnet to Optimism mainnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 17,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 0.375 ETH from Ethereum to Base",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 7.25 USDC on Optimism mainnet to Ethereum testnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 15.75 ETH from Base to Optimism",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 33.33 USDC on Ethereum to Base mainnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 17,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 88.88 ETH from Optimism testnet to Ethereum",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 350 USDC on Base to Optimism testnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 1250 ETH from Ethereum mainnet to Base",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "bridge 7500 USDC on Optimism to Ethereum mainnet",
+    "entities": [
+      {
+        "start": 7,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "Bridge 25000 ETH from Base testnet to Optimism",
+    "entities": [
+      {
+        "start": 7,
+        "end": 12,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 13,
+        "end": 16,
+        "label": "TOKEN"
+      }
+    ],
+    "intent": "Bridge"
+  },
+  {
+    "prompt": "check amount of ETH",
+    "entities": [
+      {
+        "start": 6,
+        "end": 12,
         "label": "QUERY_TYPE"
       }
     ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Get balance on Optimism",
+    "entities": [
+      {
+        "start": 4,
+        "end": 11,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "query amount of USDC on Base mainnet",
+    "entities": [
+      {
+        "start": 6,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Show balance for Liam on Ethereum testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "check amount of ETH for Mia",
+    "entities": [
+      {
+        "start": 6,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Get balance of USDC for Noah on Optimism",
+    "entities": [
+      {
+        "start": 4,
+        "end": 11,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "query balance for Olivia on Base testnet",
+    "entities": [
+      {
+        "start": 6,
+        "end": 13,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Show amount of ETH for Peter on Ethereum mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "check balance of USDC for Alice on Optimism testnet",
+    "entities": [
+      {
+        "start": 6,
+        "end": 13,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Get amount for Bob",
+    "entities": [
+      {
+        "start": 4,
+        "end": 10,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "query balance on Base",
+    "entities": [
+      {
+        "start": 6,
+        "end": 13,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Show balance of ETH on Ethereum",
+    "entities": [
+      {
+        "start": 5,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "check amount for Charlie",
+    "entities": [
+      {
+        "start": 6,
+        "end": 12,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Get balance of USDC",
+    "entities": [
+      {
+        "start": 4,
+        "end": 11,
+        "label": "QUERY_TYPE"
+      }
+    ],
+    "intent": "Query"
+  },
+  {
+    "prompt": "Transfer 0.0045 ETH to David and swap 0.095 USDC for ETH",
+    "entities": [],
     "intent": "Multi"
+  },
+  {
+    "prompt": "Send 2.75 USDC to Eve and bridge 0.25 ETH from Ethereum to Base",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Bridge 10.5 ETH on Base to Optimism and swap 25.25 USDC for ETH",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Check balance of ETH and transfer 50 ETH to Frank",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Swap 99.99 USDC for ETH and bridge 0.375 ETH from Optimism to Ethereum",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Transfer 0.0085 ETH to Grace and check balance",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Bridge 250.5 USDC from Base mainnet to Optimism testnet and swap 15.75 ETH for USDC",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Get balance for Henry and bridge 500 ETH on Ethereum to Base",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Swap 1250 USDC for ETH and transfer 0.055 ETH to Isabella",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Transfer 0.0095 ETH to Jack and bridge 7.25 USDC from Optimism mainnet to Ethereum testnet",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Check amount of USDC and swap 3.33 ETH for USDC",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Bridge 88.88 ETH on Base testnet to Optimism and check balance for Kate",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Transfer 0.065 USDC to 0x9876543210987654321098765432109876543210 and swap 12.45 ETH for USDC",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Swap 66.66 USDC for ETH and check balance on Ethereum mainnet",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "Bridge 175 ETH from Ethereum to Base and transfer 0.125 USDC to Liam",
+    "entities": [],
+    "intent": "Multi"
+  },
+  {
+    "prompt": "send 0.0015 ETH to Mia on Base mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 22,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Move 0.0055 USDC to Noah",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 24,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Transfer 0.0085 ETH to 0xFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFfFf on Optimism",
+    "entities": [
+      {
+        "start": 9,
+        "end": 15,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 16,
+        "end": 19,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
+        "end": 65,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 0.045 USDC to Olivia on Ethereum testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 25,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "transfer 0.095 ETH to Peter",
+    "entities": [
+      {
+        "start": 9,
+        "end": 14,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 15,
+        "end": 18,
+        "label": "TOKEN"
+      },
+      {
+        "start": 22,
+        "end": 27,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Move 7.77 USDC to Alice on Base testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 23,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Send 33.33 ETH to 0x0000000000000000000000000000000000000000",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 60,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Transfer 88.88 USDC to Bob on Optimism mainnet",
+    "entities": [
+      {
+        "start": 9,
+        "end": 14,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 15,
+        "end": 19,
+        "label": "TOKEN"
+      },
+      {
+        "start": 23,
+        "end": 26,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "send 350 ETH to Charlie on Ethereum",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "label": "TOKEN"
+      },
+      {
+        "start": 16,
+        "end": 23,
+        "label": "RECIPIENT"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Move 7500 USDC to 0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef on Base",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 58,
+        "label": "ADDRESS"
+      }
+    ],
+    "intent": "Transfer"
+  },
+  {
+    "prompt": "Swap 0.0015 ETH for USDC on Optimism testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 24,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 0.0095 USDC for ETH",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 12,
+        "end": 16,
+        "label": "TOKEN"
+      },
+      {
+        "start": 21,
+        "end": 24,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 0.055 ETH for USDC on Base",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 0.085 USDC for ETH on Ethereum mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 7.77 ETH for USDC on Optimism",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 33.33 USDC for ETH on Base mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 15,
+        "label": "TOKEN"
+      },
+      {
+        "start": 20,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 88.88 ETH for USDC",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 11,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 23,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 350 USDC for ETH on Ethereum testnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 9,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 21,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "Swap 1250 ETH for USDC on Optimism mainnet",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 13,
+        "label": "TOKEN"
+      },
+      {
+        "start": 18,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
+  },
+  {
+    "prompt": "swap 7500 USDC for ETH",
+    "entities": [
+      {
+        "start": 5,
+        "end": 9,
+        "label": "AMOUNT"
+      },
+      {
+        "start": 10,
+        "end": 14,
+        "label": "TOKEN"
+      },
+      {
+        "start": 19,
+        "end": 22,
+        "label": "TOKEN2"
+      }
+    ],
+    "intent": "Swap"
   }
 ]
