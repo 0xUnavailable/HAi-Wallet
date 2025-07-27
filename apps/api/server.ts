@@ -410,7 +410,7 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
       let quote: any;
       try {
         const quoteRes = await axios.post(`${config.relay.getUrl()}/api/relay/quote`, quoteParams, {
-          timeout: 10000 // 10 second timeout
+          timeout: 60000 // 60 second timeout
         });
         quote = quoteRes.data;
         

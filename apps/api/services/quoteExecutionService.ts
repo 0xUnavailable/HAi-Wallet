@@ -28,7 +28,7 @@ interface ExecuteOptions {
   relayApiBase?: string;
 }
 
-async function waitForTransactionReceipt(walletClient: WalletClient, txHash: string, maxAttempts = 200, intervalMs = 2000) {
+async function waitForTransactionReceipt(walletClient: WalletClient, txHash: string, maxAttempts = 300, intervalMs = 3000) {
   // Create a public client for reading data
   const publicClient = createPublicClient({
     chain: walletClient.chain,
@@ -66,8 +66,8 @@ export async function executeQuoteSteps(
 ): Promise<{ requestId: string | undefined; transactionHash?: string }> {
   const {
     pollStatus = true,
-    pollIntervalMs = 3000,
-    pollMaxAttempts = 20,
+    pollIntervalMs = 5000,
+    pollMaxAttempts = 30,
     relayApiBase = 'https://api.testnets.relay.link',
   } = options;
 
@@ -158,8 +158,8 @@ export async function executeQuoteSteps(
 export async function pollExecutionStatus(
   endpoint: string,
   relayApiBase = 'https://api.testnets.relay.link',
-  intervalMs = 3000,
-  maxAttempts = 20
+  intervalMs = 5000,
+  maxAttempts = 30
 ): Promise<any> {
   let attempts = 0;
   const url = endpoint.startsWith('http') ? endpoint : `${relayApiBase}${endpoint}`;
