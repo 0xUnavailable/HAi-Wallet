@@ -7,6 +7,7 @@ from pydantic import BaseModel
 import json
 import re
 import logging
+from datetime import datetime
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -373,5 +374,61 @@ async def add_annotated_prompt(request: AnnotatedPrompt):
         return {"status": "annotated prompt added"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Health check endpoint
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    try:
+        # Check if model can be loaded
+        model_path = os.path.join(os.path.dirname(__file__), "model", "model-best")
+        
+        if os.path.exists(model_path):
+            nlp = spacy.load(model_path)
+            model_status = "custom_model"
+        else:
+            nlp = spacy.load("en_core_web_sm")
+            model_status = "fallback_model"
+        
+        return {
+            "status": "healthy",
+            "timestamp": datetime.now().isoformat(),
+            "model_status": model_status,
+            "model_path": model_path if os.path.exists(model_path) else "fallback"
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "timestamp": datetime.now().isoformat(),
+            "error": str(e)
+        }
+
+# Background task to call main API health endpoint every minute
+@app.on_event("startup")
+async def start_health_check():
+    """Start background health check task"""
+    import asyncio
+    import aiohttp
+    from datetime import datetime
+    
+    async def health_check_loop():
+        while True:
+            try:
+                # Call the main API health endpoint
+                main_api_url = "https://hai-wallet-server.onrender.com/api/health"
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(main_api_url) as response:
+                        if response.status == 200:
+                            print(f"[{datetime.now().isoformat()}] Health check: Main API is healthy")
+                        else:
+                            print(f"[{datetime.now().isoformat()}] Health check: Main API returned {response.status}")
+            except Exception as e:
+                print(f"[{datetime.now().isoformat()}] Health check: Main API error - {str(e)}")
+            
+            # Wait for 1 minute
+            await asyncio.sleep(60)
+    
+    # Start the background task
+    asyncio.create_task(health_check_loop())
 
 # Run with: uvicorn nlp_service:app --host 0.0.0.0 --port 8000

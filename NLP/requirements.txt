@@ -11,6 +11,9 @@ pydantic>=1.10.0
 # ASGI server for running FastAPI
 uvicorn[standard]>=0.20.0
 
+# HTTP client for health checks
+aiohttp>=3.8.0
+
 # Optional: For better JSON handling and validation
 python-multipart>=0.0.6
 

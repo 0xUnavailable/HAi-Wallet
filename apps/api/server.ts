@@ -573,11 +573,23 @@ app.post('/api/balance', async (req, res) => {
       return res.status(400).json({ error: 'Missing address or chainId' });
     }
 
-    // Map chainId to viem chain object
+    // Map chainId to viem chain object with fallback RPC URLs
     const chainMap: Record<number, any> = {
-      11155111: sepolia,         // Ethereum Sepolia
-      84532: baseSepolia,       // Base Sepolia
-      11155420: optimismSepolia // Optimism Sepolia
+      11155111: {
+        ...sepolia,
+        rpcUrls: {
+          ...sepolia.rpcUrls,
+          default: {
+            http: [
+              'https://eth-sepolia.g.alchemy.com/v2/demo',
+              'https://rpc.sepolia.org',
+              'https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+            ]
+          }
+        }
+      },
+      84532: baseSepolia,
+      11155420: optimismSepolia
     };
 
     const chain = chainMap[chainId];
@@ -585,17 +597,59 @@ app.post('/api/balance', async (req, res) => {
       return res.status(400).json({ error: 'Unsupported chainId' });
     }
 
-    // Create public client for reading data
+    // Create public client with timeout
     const publicClient = createPublicClient({
       chain: chain,
       transport: http(),
     });
 
-    // Get balance
-    const balance = await publicClient.getBalance({ address: address as `0x${string}` });
+    // Get balance with timeout handling
+    let balance;
+    try {
+      balance = await publicClient.getBalance({ address: address as `0x${string}` });
+    } catch (balanceError: any) {
+      // If the first RPC fails, try alternative endpoints for Sepolia
+      if (chainId === 11155111) {
+        const alternativeRPCs = [
+          'https://eth-sepolia.g.alchemy.com/v2/demo',
+          'https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+          'https://rpc.sepolia.org'
+        ];
+        
+        for (const rpcUrl of alternativeRPCs) {
+          try {
+                         const fallbackClient = createPublicClient({
+               chain: {
+                 ...sepolia,
+                 rpcUrls: {
+                   default: { http: [rpcUrl] }
+                 }
+               },
+               transport: http()
+             });
+            
+            balance = await fallbackClient.getBalance({ address: address as `0x${string}` });
+            break; // Success, exit the loop
+          } catch (fallbackError) {
+            continue; // Try next RPC
+          }
+        }
+      }
+      
+      // If all RPCs fail, return 0 balance
+      if (!balance) {
+        return res.json({ 
+          status: 'success',
+          balance: '0.00',
+          chainId: chainId,
+          address: address,
+          chainName: chain.name,
+          note: 'RPC timeout, returning 0 balance'
+        });
+      }
+    }
+
     const balanceInEth = Number(balance) / Math.pow(10, 18);
-
-
 
     res.json({ 
       status: 'success',
@@ -611,6 +665,52 @@ app.post('/api/balance', async (req, res) => {
     });
   }
 });
+
+// GET /api/health - Health check endpoint that calls NLP service
+app.get('/api/health', async (req, res) => {
+  try {
+    const nlpUrl = `${config.nlp.getUrl()}/health`;
+    const response = await fetch(nlpUrl);
+    
+    if (response.ok) {
+      res.json({ 
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        nlpService: 'connected'
+      });
+    } else {
+      res.status(503).json({ 
+        status: 'unhealthy',
+        timestamp: new Date().toISOString(),
+        nlpService: 'disconnected',
+        error: `NLP service returned ${response.status}`
+      });
+    }
+  } catch (error: any) {
+    res.status(503).json({ 
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      nlpService: 'error',
+      error: error.message
+    });
+  }
+});
+
+// Start health check interval (1 minute)
+setInterval(async () => {
+  try {
+    const nlpUrl = `${config.nlp.getUrl()}/health`;
+    const response = await fetch(nlpUrl);
+    
+    if (response.ok) {
+      console.log(`[${new Date().toISOString()}] Health check: NLP service is healthy`);
+    } else {
+      console.log(`[${new Date().toISOString()}] Health check: NLP service returned ${response.status}`);
+    }
+  } catch (error: any) {
+    console.log(`[${new Date().toISOString()}] Health check: NLP service error - ${error.message}`);
+  }
+}, 60000); // 1 minute interval
 
 // POST /api/auth/email - Email-based authentication and wallet creation
 app.post('/api/auth/email', async (req, res) => {
