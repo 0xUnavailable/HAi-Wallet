@@ -4,7 +4,7 @@ let userWallet = null;
 let userContacts = {};
 
 // API base URL
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'https://hai-wallet-server.onrender.com/api';
 
 // Utility functions
 function showStatus(message, type = 'info') {

@@ -1,5 +1,5 @@
 // Test script to verify HAi Wallet setup
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'https://hai-wallet-server.onrender.com/api';
 
 async function testSetup() {
     console.log('🧪 Testing HAi Wallet Setup...\n');

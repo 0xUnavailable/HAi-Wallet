@@ -16,7 +16,7 @@ A modern, AI-powered crypto wallet with Google authentication, contact managemen
 
 ### Prerequisites
 
-1. **Backend API**: Ensure the API server is running on `http://localhost:3001`
+1. **Backend API**: The API server is deployed at `https://hai-wallet-server.onrender.com`
 2. **NLP Service**: Ensure the NLP service is running on `http://localhost:8000`
 3. **Firebase**: Set up Firebase project and add credentials to environment variables
 
@@ -145,12 +145,12 @@ GOOGLE_CLIENT_ID=your-google-client-id
 
 ```bash
 # Add contact
-curl -X POST http://localhost:3001/api/contacts \
+curl -X POST https://hai-wallet-server.onrender.com/api/contacts \
   -H "Content-Type: application/json" \
   -d '{"uid":"demo_user","name":"Bob","address":"0x1234567890abcdef1234567890abcdef12345678"}'
 
 # Execute transaction
-curl -X POST http://localhost:3001/api/relay/quote-and-execute \
+curl -X POST https://hai-wallet-server.onrender.com/api/relay/quote-and-execute \
   -H "Content-Type: application/json" \
   -d '{"prompt":"Send 100 ETH to Bob","uid":"demo_user"}'
 ```

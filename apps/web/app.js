@@ -11,7 +11,7 @@ function ensureContactsArray() {
 }
 
 // API Configuration
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'https://hai-wallet-server.onrender.com/api';
 
 // Network configurations
 const NETWORKS = {
