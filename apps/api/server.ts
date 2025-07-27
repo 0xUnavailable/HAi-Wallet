@@ -466,14 +466,12 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
           rpcUrls: {
             default: {
               http: [
-                'https://eth-sepolia.g.alchemy.com/public',
-                'https://eth-sepolia.g.alchemy.com/v2/demo'
+                'https://rpc.sepolia.ethpandaops.io'
               ]
             },
             public: {
               http: [
-                'https://eth-sepolia.g.alchemy.com/public',
-                'https://eth-sepolia.g.alchemy.com/v2/demo'
+                'https://rpc.sepolia.ethpandaops.io'
               ]
             }
           }
@@ -616,14 +614,12 @@ app.post('/api/balance', async (req, res) => {
         rpcUrls: {
           default: {
             http: [
-              'https://eth-sepolia.g.alchemy.com/public',
-              'https://eth-sepolia.g.alchemy.com/v2/demo'
+              'https://rpc.sepolia.ethpandaops.io'
             ]
           },
           public: {
             http: [
-              'https://eth-sepolia.g.alchemy.com/public',
-              'https://eth-sepolia.g.alchemy.com/v2/demo'
+              'https://rpc.sepolia.ethpandaops.io'
             ]
           }
         }
@@ -651,8 +647,7 @@ app.post('/api/balance', async (req, res) => {
              // If the first RPC fails, try alternative endpoints for Sepolia
        if (chainId === 11155111) {
          const alternativeRPCs = [
-           'https://eth-sepolia.g.alchemy.com/public',
-           'https://eth-sepolia.g.alchemy.com/v2/demo'
+           'https://rpc.sepolia.ethpandaops.io'
          ];
         
         for (const rpcUrl of alternativeRPCs) {
