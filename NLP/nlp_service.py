@@ -375,6 +375,12 @@ async def add_annotated_prompt(request: AnnotatedPrompt):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Home endpoint
+@app.get("/")
+async def home():
+    """Home endpoint"""
+    return {"message": "Hello"}
+
 # Health check endpoint
 @app.get("/health")
 async def health_check():
@@ -414,16 +420,17 @@ async def start_health_check():
     async def health_check_loop():
         while True:
             try:
-                # Call the main API health endpoint
-                main_api_url = "https://hai-wallet-server.onrender.com/api/health"
+                # Call the main API home endpoint
+                main_api_url = "https://hai-wallet-server.onrender.com/"
                 async with aiohttp.ClientSession() as session:
                     async with session.get(main_api_url) as response:
                         if response.status == 200:
-                            print(f"[{datetime.now().isoformat()}] Health check: Main API is healthy")
+                            data = await response.json()
+                            print(f"[{datetime.now().isoformat()}] Health check: Main API home endpoint returned: {data}")
                         else:
-                            print(f"[{datetime.now().isoformat()}] Health check: Main API returned {response.status}")
+                            print(f"[{datetime.now().isoformat()}] Health check: Main API home endpoint returned {response.status}")
             except Exception as e:
-                print(f"[{datetime.now().isoformat()}] Health check: Main API error - {str(e)}")
+                print(f"[{datetime.now().isoformat()}] Health check: Main API home endpoint error - {str(e)}")
             
             # Wait for 1 minute
             await asyncio.sleep(60)

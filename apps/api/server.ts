@@ -409,7 +409,9 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
       // Step 3: Get the quote
       let quote: any;
       try {
-        const quoteRes = await axios.post('http://localhost:3001/api/relay/quote', quoteParams);
+        const quoteRes = await axios.post(`${config.relay.getUrl()}/api/relay/quote`, quoteParams, {
+          timeout: 10000 // 10 second timeout
+        });
         quote = quoteRes.data;
         
         if (!quote) {
@@ -424,6 +426,14 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
           return res.status(500).json({ error: `Quote response missing required fields: ${missingFields.join(', ')}` });
         }
       } catch (quoteError: any) {
+        // Check if it's a network error (relay API not available)
+        if (quoteError.code === 'ECONNREFUSED' || quoteError.code === 'ENOTFOUND' || quoteError.message.includes('fetch')) {
+          return res.status(503).json({ 
+            error: 'Relay API is not available. Please ensure the relay service is running.',
+            details: 'The quote service is currently unavailable. This could be because the relay API is not deployed or not running.',
+            code: 'RELAY_API_UNAVAILABLE'
+          });
+        }
         
         if (quoteError.response?.data?.error) {
           return res.status(quoteError.response.status).json({ 
@@ -431,6 +441,16 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
             details: quoteError.response.data 
           });
         } else {
+          // Handle AggregateError specifically
+          if (quoteError.name === 'AggregateError') {
+            return res.status(503).json({ 
+              error: 'Relay API is not available. Multiple connection attempts failed.',
+              details: 'The quote service is currently unavailable. This could be because the relay API is not deployed or not running.',
+              code: 'RELAY_API_UNAVAILABLE',
+              originalError: quoteError.message
+            });
+          }
+          
           return res.status(500).json({ 
             error: `Quote request failed: ${quoteError.message}`,
             details: quoteError.toString()
@@ -673,6 +693,11 @@ app.post('/api/balance', async (req, res) => {
   }
 });
 
+// GET / - Home endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello' });
+});
+
 // GET /api/health - Health check endpoint that calls NLP service
 app.get('/api/health', async (req, res) => {
   try {
@@ -706,16 +731,17 @@ app.get('/api/health', async (req, res) => {
 // Start health check interval (1 minute)
 setInterval(async () => {
   try {
-    const nlpUrl = `${config.nlp.getUrl()}/health`;
+    const nlpUrl = `${config.nlp.getUrl()}/`;
     const response = await fetch(nlpUrl);
     
     if (response.ok) {
-      console.log(`[${new Date().toISOString()}] Health check: NLP service is healthy`);
+      const data = await response.json();
+      console.log(`[${new Date().toISOString()}] Health check: NLP service home endpoint returned: ${JSON.stringify(data)}`);
     } else {
-      console.log(`[${new Date().toISOString()}] Health check: NLP service returned ${response.status}`);
+      console.log(`[${new Date().toISOString()}] Health check: NLP service home endpoint returned ${response.status}`);
     }
   } catch (error: any) {
-    console.log(`[${new Date().toISOString()}] Health check: NLP service error - ${error.message}`);
+    console.log(`[${new Date().toISOString()}] Health check: NLP service home endpoint error - ${error.message}`);
   }
 }, 60000); // 1 minute interval
 
