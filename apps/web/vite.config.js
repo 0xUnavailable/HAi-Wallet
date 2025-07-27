@@ -58,7 +58,13 @@ export default defineConfig({
   server: {
     port: 8080,
     host: true,
-    cors: true
+    cors: true,
+    allowedHosts: [
+      'localhost',
+      '127.0.0.1',
+      'hai-wallet-ui.onrender.com',
+      '.onrender.com'
+    ]
   },
   build: {
     outDir: 'dist',
