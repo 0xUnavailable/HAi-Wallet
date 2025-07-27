@@ -17,7 +17,7 @@ const NETWORKS = {
     ethereum: {
         name: 'Ethereum Sepolia',
         chainId: 11155111,
-        rpcUrl: 'https://rpc.sepolia.org',
+        rpcUrl: 'https://eth-sepolia.g.alchemy.com/public',
         balanceId: 'ethBalance',
         addressId: 'ethAddress',
         className: 'ethereum'

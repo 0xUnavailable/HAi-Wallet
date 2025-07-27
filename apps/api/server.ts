@@ -593,7 +593,7 @@ app.post('/api/balance', async (req, res) => {
       return res.status(400).json({ error: 'Missing address or chainId' });
     }
 
-    // Map chainId to viem chain object with fallback RPC URLs
+    // Map chainId to viem chain object with reliable RPC URLs
     const chainMap: Record<number, any> = {
       11155111: {
         ...sepolia,
@@ -601,15 +601,13 @@ app.post('/api/balance', async (req, res) => {
           default: {
             http: [
               'https://eth-sepolia.g.alchemy.com/public',
-              'https://eth-sepolia.g.alchemy.com/v2/demo',
-              'https://rpc.sepolia.org'
+              'https://eth-sepolia.g.alchemy.com/v2/demo'
             ]
           },
           public: {
             http: [
               'https://eth-sepolia.g.alchemy.com/public',
-              'https://eth-sepolia.g.alchemy.com/v2/demo',
-              'https://rpc.sepolia.org'
+              'https://eth-sepolia.g.alchemy.com/v2/demo'
             ]
           }
         }
@@ -638,8 +636,7 @@ app.post('/api/balance', async (req, res) => {
        if (chainId === 11155111) {
          const alternativeRPCs = [
            'https://eth-sepolia.g.alchemy.com/public',
-           'https://eth-sepolia.g.alchemy.com/v2/demo',
-           'https://rpc.sepolia.org'
+           'https://eth-sepolia.g.alchemy.com/v2/demo'
          ];
         
         for (const rpcUrl of alternativeRPCs) {
