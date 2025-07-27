@@ -28,25 +28,30 @@ export default defineConfig({
       manifest: {
         name: 'HAi Wallet',
         short_name: 'HAi Wallet',
-        description: 'Modern Digital Banking with AI',
-        theme_color: '#667eea',
-        background_color: '#667eea',
+        description: 'HAi Wallet - Execute transactions with natural language prompts',
+        theme_color: '#1a1a1a',
+        background_color: '#000000',
         display: 'standalone',
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
         icons: [
-          {
-            src: '/icon-192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: '/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
+            {
+                src: '/icon-192.png',
+                sizes: '192x192',
+                type: 'image/png',
+                purpose: 'any maskable'
+            },
+            {
+                src: '/icon-512.svg',
+                sizes: '512x512',
+                type: 'image/svg+xml',
+                purpose: 'any maskable'
+            }
+        ],
+        categories: ['finance', 'productivity'],
+        lang: 'en',
+        dir: 'ltr'
       }
     })
   ],
