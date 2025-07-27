@@ -15,6 +15,7 @@ import firebaseWrapper from './firebaseConfig';
 import admin from 'firebase-admin';
 import { Wallet, keccak256, toUtf8Bytes } from 'ethers';
 import { config } from './config';
+import { NLPResponse, NLPResult, NLPParameters, PromptRequest, QuoteExecuteRequest, ContactRequest, ContactResponse, ErrorResponse, SuccessResponse, Intent } from './types';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -35,47 +36,33 @@ const userWallets: Record<string, string> = {};
 
 // Contact management functions
 function addContact(uid: string, name: string, address: string) {
-  console.log(`🔍 Adding contact: ${name} -> ${address} for user ${uid}`);
-  console.log(`🔍 Current userContacts:`, userContacts);
-  console.log(`🔍 Current userContacts[${uid}]:`, userContacts[uid]);
-  
   if (!userContacts[uid]) {
     userContacts[uid] = {};
-    console.log(`🔍 Created new contact object for user ${uid}`);
   }
   userContacts[uid][name] = address;
-  console.log(`✅ Added contact: ${name} -> ${address} for user ${uid}`);
-  console.log(`🔍 Updated userContacts[${uid}]:`, userContacts[uid]);
-  console.log(`🔍 Full userContacts after update:`, userContacts);
 }
 
 function getContacts(uid: string): Record<string, string> {
-  console.log(`🔍 Getting contacts for user ${uid}`);
-  console.log(`🔍 Current userContacts:`, userContacts);
-  console.log(`🔍 userContacts[${uid}]:`, userContacts[uid]);
   const contacts = userContacts[uid] || {};
-  console.log(`🔍 Returning contacts:`, contacts);
   return contacts;
 }
 
 function deleteContact(uid: string, name: string) {
   if (userContacts[uid] && userContacts[uid][name]) {
     delete userContacts[uid][name];
-    console.log(`✅ Deleted contact: ${name} for user ${uid}`);
   }
 }
 
 function resolveContact(uid: string, name: string): string | null {
   const contacts = userContacts[uid] || {};
   const address = contacts[name];
-  console.log(`🔍 Resolving contact "${name}" for user ${uid}: ${address || 'NOT FOUND'}`);
   return address || null;
 }
 
 // Demo private key for testing (replace with real key for production)
 const DEMO_PRIVATE_KEY = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef";
 const WALLET_SERVER_SECRET = "hai-wallet-secret-key-2024";
-console.log('Loaded PRIVATE_KEY:', process.env.PRIVATE_KEY || 'Using demo key');
+
 
 // Generate deterministic wallet from email
 function generateDeterministicWallet(email: string): { address: string; privateKey: string } {
@@ -183,17 +170,13 @@ app.post('/api/relay/currencies', async (req, res) => {
 app.post('/api/relay/quote', async (req, res) => {
   try {
     const body = req.body;
-    console.log('📋 Quote request body:', JSON.stringify(body, null, 2));
     
     if (!body) return res.status(400).json({ error: 'Missing request body' });
     
-    console.log('🔧 Calling relayClient.getQuote...');
     const data = await relayClient.getQuote(body);
-    console.log('📋 Quote response from relay client:', JSON.stringify(data, null, 2));
     
     res.json(data);
   } catch (error: any) {
-    console.error('❌ Quote endpoint error:', error);
     await handleRelayError(error, res);
   }
 });
@@ -238,12 +221,7 @@ app.post('/api/relay/index-single-transaction', async (req, res) => {
 app.post('/api/relay/execute-quote', async (req, res) => {
   try {
     const { quote, uid } = req.body;
-    console.log('Received quote:', quote ? 'YES' : 'NO');
-    console.log('UID for execution:', uid);
     
-    if (quote) {
-      console.log('Quote:', JSON.stringify(quote, null, 2));
-    }
     if (!quote) {
       return res.status(400).json({ error: 'Missing quote' });
     }
@@ -259,24 +237,12 @@ app.post('/api/relay/execute-quote', async (req, res) => {
         // Remove 'user' prefix and timestamp suffix, then reconstruct email
         const emailParts = uidParts.slice(1, -1); // Remove first ('user') and last (timestamp)
         const userEmail = emailParts.join('@'); // Join with @ to reconstruct email
-        console.log(`🔍 UID parts:`, uidParts);
-        console.log(`🔍 Email parts:`, emailParts);
-        console.log(`🔍 Reconstructed email: ${userEmail}`);
         
         const wallet = generateDeterministicWallet(userEmail);
         privateKey = wallet.privateKey;
-        console.log(`🔐 Using user's private key for execution. Wallet address: ${wallet.address}`);
-        console.log(`🔍 Extracted email from UID: ${userEmail}`);
-        console.log(`🔍 UID parts:`, uidParts);
-        console.log(`🔍 Full UID received: ${uid}`);
-        console.log(`🔍 Generated wallet address: ${wallet.address}`);
-        console.log(`✅ Using generated wallet address for all operations`);
       } catch (error) {
-        console.error('❌ Error generating user wallet for execution:', error);
-        console.log('⚠️ Falling back to demo private key');
+        // Fallback to demo private key
       }
-    } else {
-      console.log('⚠️ No UID provided, using demo private key');
     }
 
     const walletClient = createWalletClientUtil(privateKey, baseSepolia);
@@ -306,9 +272,6 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
     if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
 
     // Step 1: Call NLP service
-    console.log(`🚀 Starting transaction with UID: ${uid}`);
-    console.log(`📝 Original prompt: ${prompt}`);
-    console.log(`🤖 Using NLP service at: ${config.nlp.getUrl()}`);
     
     const nlpResp = await fetch(`${config.nlp.getUrl()}/process_prompt`, {
       method: 'POST',
@@ -319,8 +282,7 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
       const err = await nlpResp.text();
       return res.status(500).json({ error: `NLP service error: ${err}` });
     }
-    const nlpData = await nlpResp.json();
-    console.log('🤖 NLP Service Response:', JSON.stringify(nlpData, null, 2));
+    const nlpData: NLPResponse = await nlpResp.json();
     
     if (!nlpData || nlpData.status !== 'success' || !nlpData.result) {
       return res.status(400).json({ error: 'Invalid NLP response' });
@@ -330,80 +292,32 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
       return res.status(400).json({ error: 'Missing intent or parameters from NLP' });
     }
     
-    console.log('🎯 NLP Intent:', intent);
-    console.log('📝 NLP Parameters (before contact resolution):', JSON.stringify(parameters, null, 2));
-    console.log('🔍 Parameter field check:');
-    console.log('   - parameters.to:', parameters.to);
-    console.log('   - parameters.recipient:', parameters.recipient);
-    console.log('   - parameters.amount:', parameters.amount);
-    console.log('   - parameters.amountIn:', parameters.amountIn);
-    console.log('   - parameters.value:', parameters.value);
-    console.log('   - parameters.quantity:', parameters.quantity);
-    
     // Fix parameter mapping - the NLP returns "to" but we need "recipient"
     if (parameters.to && !parameters.recipient) {
       parameters.recipient = parameters.to;
-      console.log('🔧 Fixed parameter mapping: parameters.to -> parameters.recipient:', parameters.recipient);
     }
-    console.log('🔍 Amount field check:');
-    console.log('   - parameters.amount:', parameters.amount);
-    console.log('   - parameters.amountIn:', parameters.amountIn);
-    console.log('   - parameters.value:', parameters.value);
-    console.log('   - parameters.quantity:', parameters.quantity);
     
     // Step 1.5: Resolve contact names to addresses if user is provided
-    console.log(`🔍 Contact Resolution Debug:`);
-    console.log(`   - UID: ${uid}`);
-    console.log(`   - Recipient: ${parameters.recipient}`);
-    console.log(`   - Parameters object:`, JSON.stringify(parameters, null, 2));
-    console.log(`   - All stored contacts:`, userContacts);
-    console.log(`   - userContacts keys:`, Object.keys(userContacts));
     
-    if (uid && parameters.recipient) {
-      console.log(`🔍 Attempting to resolve contact: "${parameters.recipient}" for user: ${uid}`);
-      console.log(`🔍 UID type: ${typeof uid}, Recipient type: ${typeof parameters.recipient}`);
-      console.log(`🔍 UID truthy: ${!!uid}, Recipient truthy: ${!!parameters.recipient}`);
-      
-      // First, let's check what contacts exist for this user
-      const allContacts = getContacts(uid);
-      console.log(`📋 All contacts for user ${uid}:`, allContacts);
-      console.log(`📋 Contact keys:`, Object.keys(allContacts));
-      console.log(`📋 Looking for contact: "${parameters.recipient}"`);
-      console.log(`📋 Available contacts:`, Object.keys(allContacts));
-      
-      const resolvedAddress = resolveContact(uid, parameters.recipient);
-      console.log(`🔍 Resolution result for "${parameters.recipient}":`, resolvedAddress);
-      
-      if (resolvedAddress) {
-        console.log(`✅ Resolved contact "${parameters.recipient}" to address: ${resolvedAddress}`);
-        parameters.recipient = resolvedAddress;
-        console.log(`✅ Updated parameters.recipient to: ${parameters.recipient}`);
-        console.log(`✅ Final parameters after resolution:`, JSON.stringify(parameters, null, 2));
-      } else {
-        console.log(`❌ Contact "${parameters.recipient}" not found for user ${uid}`);
-        console.log(`❌ Available contacts:`, allContacts);
-        // Check if it's already a valid address
-        if (!/^0x[a-fA-F0-9]{40}$/.test(parameters.recipient)) {
-          return res.status(400).json({ 
-            error: `Contact "${parameters.recipient}" not found. Please add this contact first or use a valid wallet address.` 
-          });
+          if (uid && parameters.recipient) {
+        // First, let's check what contacts exist for this user
+        const allContacts = getContacts(uid);
+        
+        const resolvedAddress = resolveContact(uid, parameters.recipient);
+        
+        if (resolvedAddress) {
+          parameters.recipient = resolvedAddress;
         } else {
-          console.log(`✅ "${parameters.recipient}" is already a valid wallet address`);
+          // Check if it's already a valid address
+          if (!/^0x[a-fA-F0-9]{40}$/.test(parameters.recipient)) {
+            return res.status(400).json({ 
+              error: `Contact "${parameters.recipient}" not found. Please add this contact first or use a valid wallet address.` 
+            });
+          }
         }
       }
-    } else {
-      console.log(`⚠️ No UID or recipient provided for contact resolution. UID: ${uid}, Recipient: ${parameters.recipient}`);
-    }
-    
-    // Debug: Log the parameters after contact resolution
-    console.log('📝 NLP Parameters (after contact resolution):', JSON.stringify(parameters, null, 2));
     
     // Step 2: Build quoteParams - Map parameters to expected format
-    console.log('🔧 Mapping parameters for buildQuoteParams...');
-    
-    // Map the parameters to the expected format
-    console.log('🔍 Original parameters from NLP:', JSON.stringify(parameters, null, 2));
-    console.log('🔍 Parameters after contact resolution:', JSON.stringify(parameters, null, 2));
     
     // Get the user's actual wallet address from the stored wallet
     let userWalletAddress = '0x1234567890abcdef1234567890abcdef1234567890'; // Fallback
@@ -421,33 +335,13 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
         const domain = emailParts.slice(1).join('.'); // Join domain parts with dots
         const userEmail = `${username}@${domain}`;
         
-        console.log(`🔍 UID parts:`, uidParts);
-        console.log(`🔍 Email parts:`, emailParts);
-        console.log(`🔍 Username: ${username}`);
-        console.log(`🔍 Domain: ${domain}`);
-        console.log(`🔍 Reconstructed email: ${userEmail}`);
-        
         const wallet = generateDeterministicWallet(userEmail);
         userWalletAddress = wallet.address; // Always use generated wallet address
-        
-        console.log(`🔐 Using user's private key for quote and execution. Wallet address: ${wallet.address}`);
-        console.log(`🔍 Extracted email from UID: ${userEmail}`);
-        console.log(`🔍 UID parts:`, uidParts);
-        console.log(`🔍 Full UID received: ${uid}`);
-        console.log(`🔍 Generated wallet address: ${wallet.address}`);
-        console.log(`✅ Using generated wallet address for all operations`);
       } catch (error) {
-        console.error('❌ Error generating user wallet for quote/execution:', error);
-        console.log('⚠️ Falling back to demo private key');
+        // Fallback to demo private key
       }
-    } else {
-      console.log('⚠️ No UID provided, using demo wallet address');
     }
 
-    console.log('🔍 Mapping parameters:');
-    console.log('   - from (userWalletAddress):', userWalletAddress);
-    console.log('   - to (parameters.recipient):', parameters.recipient);
-    
     // Extract amount from the correct location in the NLP response
     const tokenAmount = parameters.tokens?.[0]?.amount || parameters.amount || parameters.amountIn || parameters.value || parameters.quantity || '100';
     const tokenType = parameters.tokens?.[0]?.token || parameters.originCurrency || parameters.token || 'ETH';
@@ -456,21 +350,9 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
     const sourceNetwork = parameters.source_network || parameters.originNetwork || 'Base';
     const destNetwork = parameters.dest_network || parameters.destinationNetwork || 'Base';
     
-    console.log('🔍 Amount extraction:');
-    console.log('   - parameters.tokens[0].amount:', parameters.tokens?.[0]?.amount);
-    console.log('   - parameters.amount:', parameters.amount);
-    console.log('   - Final amount used:', tokenAmount);
-    console.log('   - Final token used:', tokenType);
-    
-    console.log('🔍 Network extraction:');
-    console.log('   - parameters.source_network:', parameters.source_network);
-    console.log('   - parameters.dest_network:', parameters.dest_network);
-    console.log('   - Final source_network:', sourceNetwork);
-    console.log('   - Final dest_network:', destNetwork);
-    
     const mappedParams = {
       from: userWalletAddress,
-      to: parameters.recipient,
+      to: parameters.recipient || parameters.to || '', // Ensure to is always a string
       source_network: sourceNetwork,
       dest_network: destNetwork,
       tokens: [{
@@ -481,164 +363,105 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
       query_type: null // Required by NLPParams interface
     };
     
-    console.log('🔧 Mapped parameters:', JSON.stringify(mappedParams, null, 2));
-    
-    const quoteParams = buildQuoteParams(intent, mappedParams);
-    
-    // Debug: Log the quote parameters being sent to Relay API
-    console.log('🔧 Quote Parameters being sent to Relay API:');
-    console.log(JSON.stringify(quoteParams, null, 2));
+    // Only proceed with supported intents
+    if (intent === 'Swap' || intent === 'Bridge' || intent === 'Transfer') {
+      const quoteParams = buildQuoteParams(intent as 'Swap' | 'Bridge' | 'Transfer', mappedParams);
 
-    // Use the user's actual private key for both quote and execution
-    let privateKey = process.env.PRIVATE_KEY || DEMO_PRIVATE_KEY;
-    
-    if (uid) {
+      // Use the user's actual private key for both quote and execution
+      let privateKey = process.env.PRIVATE_KEY || DEMO_PRIVATE_KEY;
+      
+      if (uid) {
+        try {
+          // Extract email from UID: user_email_timestamp -> email
+          // The email has dots replaced with underscores, so we need to reconstruct it
+          const uidParts = uid.split('_');
+          // Remove 'user' prefix and timestamp suffix, then reconstruct email
+          const emailParts = uidParts.slice(1, -1); // Remove first ('user') and last (timestamp)
+          
+          // Reconstruct email properly: first part is username, rest is domain
+          const username = emailParts[0];
+          const domain = emailParts.slice(1).join('.'); // Join domain parts with dots
+          const userEmail = `${username}@${domain}`;
+          
+          const wallet = generateDeterministicWallet(userEmail);
+          privateKey = wallet.privateKey;
+        } catch (error) {
+          // Fallback to demo private key
+        }
+      }
+
+      // Step 3: Get the quote
+      let quote: any;
       try {
-        // Extract email from UID: user_email_timestamp -> email
-        // The email has dots replaced with underscores, so we need to reconstruct it
-        const uidParts = uid.split('_');
-        // Remove 'user' prefix and timestamp suffix, then reconstruct email
-        const emailParts = uidParts.slice(1, -1); // Remove first ('user') and last (timestamp)
+        const quoteRes = await axios.post('http://localhost:3001/api/relay/quote', quoteParams);
+        quote = quoteRes.data;
         
-        // Reconstruct email properly: first part is username, rest is domain
-        const username = emailParts[0];
-        const domain = emailParts.slice(1).join('.'); // Join domain parts with dots
-        const userEmail = `${username}@${domain}`;
+        if (!quote) {
+          return res.status(500).json({ error: 'Quote response is null or undefined' });
+        }
         
-        console.log(`🔍 UID parts:`, uidParts);
-        console.log(`🔍 Email parts:`, emailParts);
-        console.log(`🔍 Username: ${username}`);
-        console.log(`🔍 Domain: ${domain}`);
-        console.log(`🔍 Reconstructed email: ${userEmail}`);
+        // Check for required fields in the new quote response structure
+        const requiredFields = ['steps', 'fees', 'details'];
+        const missingFields = requiredFields.filter(field => !quote[field]);
         
-        const wallet = generateDeterministicWallet(userEmail);
-        privateKey = wallet.privateKey;
-        console.log(`🔐 Using user's private key for quote and execution. Wallet address: ${wallet.address}`);
-        console.log(`🔍 Extracted email from UID: ${userEmail}`);
-        console.log(`🔍 UID parts:`, uidParts);
-        console.log(`🔍 Full UID received: ${uid}`);
-        console.log(`🔍 Generated wallet address: ${wallet.address}`);
-        console.log(`✅ Using generated wallet address for all operations`);
-      } catch (error) {
-        console.error('❌ Error generating user wallet for quote/execution:', error);
-        console.log('⚠️ Falling back to demo private key');
+        if (missingFields.length > 0) {
+          return res.status(500).json({ error: `Quote response missing required fields: ${missingFields.join(', ')}` });
+        }
+      } catch (quoteError: any) {
+        
+        if (quoteError.response?.data?.error) {
+          return res.status(quoteError.response.status).json({ 
+            error: `Quote API error: ${quoteError.response.data.error}`,
+            details: quoteError.response.data 
+          });
+        } else {
+          return res.status(500).json({ 
+            error: `Quote request failed: ${quoteError.message}`,
+            details: quoteError.toString()
+          });
+        }
+      }
+
+      // Step 4: Execute the quote using a live wallet
+      // Map supported testnet chain IDs to viem chain objects
+      const chainMap: Record<number, any> = {
+        11155111: sepolia,         // Ethereum Sepolia
+        84532: baseSepolia,       // Base Sepolia
+        11155420: optimismSepolia // Optimism Sepolia
+      };
+      
+      const chain = chainMap[quoteParams.originChainId];
+      
+      if (!chain) {
+        return res.status(400).json({ error: 'Unsupported chainId: ' + quoteParams.originChainId });
+      }
+      
+      const walletClient = createWalletClientUtil(privateKey, chain);
+      
+      try {
+        const result = await executeQuoteSteps(quote, walletClient, {
+          pollStatus: true,
+          pollIntervalMs: 5000,
+          pollMaxAttempts: 30,
+        });
+        
+        const { requestId, transactionHash } = result;
+        
+        res.json({ 
+          status: 'success', 
+          transactionHash: transactionHash || null,
+          requestId: requestId,
+          message: 'Transaction executed successfully!'
+        });
+      } catch (executionError: any) {
+        throw executionError; // Re-throw to be caught by the outer catch block
       }
     } else {
-      console.log('⚠️ No UID provided, using demo private key');
-    }
-
-    // Step 3: Get the quote
-    console.log('🔧 Sending quote request to Relay API...');
-    console.log('🔧 Quote request URL: http://localhost:3001/api/relay/quote');
-    console.log('🔧 Quote request body:', JSON.stringify(quoteParams, null, 2));
-    
-    let quote: any;
-    try {
-      const quoteRes = await axios.post('http://localhost:3001/api/relay/quote', quoteParams);
-      console.log('✅ Quote request successful');
-      console.log('📋 Quote response status:', quoteRes.status);
-      console.log('📋 Quote response headers:', quoteRes.headers);
-      quote = quoteRes.data;
-      console.log('📋 Quote response data:', JSON.stringify(quote, null, 2));
-      
-      if (!quote) {
-        console.error('❌ Quote response is null or undefined');
-        return res.status(500).json({ error: 'Quote response is null or undefined' });
-      }
-      
-      // Check for required fields in the new quote response structure
-      const requiredFields = ['steps', 'fees', 'details'];
-      const missingFields = requiredFields.filter(field => !quote[field]);
-      
-      if (missingFields.length > 0) {
-        console.error('❌ Quote response missing required fields:', missingFields);
-        console.error('❌ Quote response structure:', Object.keys(quote));
-        return res.status(500).json({ error: `Quote response missing required fields: ${missingFields.join(', ')}` });
-      }
-      
-      console.log('✅ Quote validation passed - all required fields found');
-      console.log('✅ Quote steps count:', quote.steps?.length || 0);
-      console.log('✅ Quote fees:', quote.fees);
-      console.log('✅ Quote details:', quote.details);
-    } catch (quoteError: any) {
-      console.error('❌ Quote request failed');
-      console.error('❌ Quote error status:', quoteError.response?.status);
-      console.error('❌ Quote error status text:', quoteError.response?.statusText);
-      console.error('❌ Quote error data:', quoteError.response?.data);
-      console.error('❌ Quote error message:', quoteError.message);
-      
-      if (quoteError.response?.data?.error) {
-        return res.status(quoteError.response.status).json({ 
-          error: `Quote API error: ${quoteError.response.data.error}`,
-          details: quoteError.response.data 
-        });
-      } else {
-        return res.status(500).json({ 
-          error: `Quote request failed: ${quoteError.message}`,
-          details: quoteError.toString()
-        });
-      }
-    }
-
-    // Step 4: Execute the quote using a live wallet
-    console.log('🚀 Starting quote execution...');
-    console.log('🔧 Using private key for execution:', privateKey.substring(0, 10) + '...');
-    console.log('🔧 Quote params originChainId:', quoteParams.originChainId);
-    
-    // Map supported testnet chain IDs to viem chain objects
-    const chainMap: Record<number, any> = {
-      11155111: sepolia,         // Ethereum Sepolia
-      84532: baseSepolia,       // Base Sepolia
-      11155420: optimismSepolia // Optimism Sepolia
-    };
-    
-    console.log('🔧 Available chains:', Object.keys(chainMap));
-    const chain = chainMap[quoteParams.originChainId];
-    console.log('🔧 Selected chain:', chain ? 'Found' : 'Not found');
-    
-    if (!chain) {
-      console.error('❌ Unsupported chainId:', quoteParams.originChainId);
-      return res.status(400).json({ error: 'Unsupported chainId: ' + quoteParams.originChainId });
-    }
-    
-    console.log('🔧 Creating wallet client...');
-    const walletClient = createWalletClientUtil(privateKey, chain);
-    console.log('✅ Wallet client created successfully');
-    
-    console.log('🔧 Executing quote steps...');
-    console.log('🔧 Quote object keys:', Object.keys(quote));
-    
-    try {
-      const result = await executeQuoteSteps(quote, walletClient, {
-        pollStatus: true,
-        pollIntervalMs: 5000,
-        pollMaxAttempts: 30,
-      });
-      
-      console.log('✅ Quote execution successful, result:', result);
-      
-      const { requestId, transactionHash } = result;
-      
-      console.log('🔍 Transaction hash:', transactionHash);
-      console.log('🔍 Request ID:', requestId);
-      
-      res.json({ 
-        status: 'success', 
-        transactionHash: transactionHash || null,
-        requestId: requestId,
-        message: 'Transaction executed successfully!'
-      });
-    } catch (executionError: any) {
-      console.error('❌ Quote execution failed');
-      console.error('❌ Execution error message:', executionError.message);
-      console.error('❌ Execution error stack:', executionError.stack);
-      throw executionError; // Re-throw to be caught by the outer catch block
+      return res.status(400).json({ error: `Unsupported intent: ${intent}` });
     }
   } catch (error) {
     const err = error as any;
     if (err.response) {
-      console.error('Execution error:', err.response.status, err.response.data);
-      
       // Extract the error message from the Relay API response
       let errorMessage = 'Transaction failed';
       if (err.response.data && err.response.data.error) {
@@ -656,7 +479,6 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
         details: err.response.data 
       });
     } else {
-      console.error('Execution error:', err.message);
       res.status(500).json({ error: err.message || 'Transaction failed' });
     }
   }
@@ -690,8 +512,6 @@ app.post('/api/auth/google', async (req, res) => {
       } else if (!userDoc.data()?.walletAddress) {
         await userRef.update({ walletAddress });
       }
-    } else {
-      console.log(`Demo: Storing wallet address for user ${uid}`);
     }
 
     res.json({ status: 'success', walletAddress });
@@ -715,7 +535,7 @@ app.get('/api/auth/wallet-address/:uid', async (req, res) => {
       return res.status(404).json({ error: 'Wallet address not found for this user' });
     }
 
-    console.log(`🔍 Retrieved wallet address for user ${uid}: ${walletAddress}`);
+
     
     res.json({ 
       status: 'success', 
@@ -737,8 +557,6 @@ app.post('/api/balance', async (req, res) => {
       return res.status(400).json({ error: 'Missing address or chainId' });
     }
 
-    console.log(`🔍 Balance request for chainId: ${chainId}, address: ${address}`);
-
     // Map chainId to viem chain object
     const chainMap: Record<number, any> = {
       11155111: sepolia,         // Ethereum Sepolia
@@ -748,11 +566,8 @@ app.post('/api/balance', async (req, res) => {
 
     const chain = chainMap[chainId];
     if (!chain) {
-      console.error(`❌ Unsupported chainId: ${chainId}`);
       return res.status(400).json({ error: 'Unsupported chainId' });
     }
-
-    console.log(`✅ Using chain: ${chain.name} (${chain.id})`);
 
     // Create public client for reading data
     const publicClient = createPublicClient({
@@ -764,7 +579,7 @@ app.post('/api/balance', async (req, res) => {
     const balance = await publicClient.getBalance({ address: address as `0x${string}` });
     const balanceInEth = Number(balance) / Math.pow(10, 18);
 
-    console.log(`💰 Raw balance: ${balance}, ETH balance: ${balanceInEth}`);
+
 
     res.json({ 
       status: 'success',
@@ -774,7 +589,6 @@ app.post('/api/balance', async (req, res) => {
       chainName: chain.name
     });
   } catch (error: any) {
-    console.error('Balance fetch error:', error);
     res.status(500).json({ 
       error: error.message || 'Failed to fetch balance',
       balance: '0.00'
@@ -802,8 +616,6 @@ app.post('/api/auth/email', async (req, res) => {
 
     // Store wallet address in memory for consistency (but we'll always regenerate)
     userWallets[uid] = wallet.address;
-    console.log(`🔐 Generated wallet address for user ${uid}: ${wallet.address}`);
-    console.log(`🔍 Email used for generation: ${email}`);
 
     // Store wallet address in Firestore if available
     if (firebaseWrapper.isInitialized()) {
@@ -813,8 +625,6 @@ app.post('/api/auth/email', async (req, res) => {
         walletAddress: wallet.address,
         createdAt: new Date()
       });
-    } else {
-      console.log(`Demo: Generated wallet for email ${email}: ${wallet.address}`);
     }
 
     res.json({ 
@@ -825,7 +635,6 @@ app.post('/api/auth/email', async (req, res) => {
     });
   } catch (error) {
     const err = error as any;
-    console.error('Email Auth Error:', err);
     res.status(500).json({ error: err.message || err.toString() });
   }
 });
@@ -836,26 +645,16 @@ app.post('/api/auth/email', async (req, res) => {
 app.post('/api/contacts', async (req, res) => {
   try {
     const { uid, name, address } = req.body;
-    console.log('🔍 POST /api/contacts received request:');
-    console.log('🔍 Request body:', req.body);
-    console.log('🔍 Extracted uid:', uid);
-    console.log('🔍 Extracted name:', name);
-    console.log('🔍 Extracted address:', address);
-    
     if (!uid || !name || !address) {
-      console.log('❌ Missing required fields');
       return res.status(400).json({ error: 'Missing uid, name, or address' });
     }
 
     // Validate wallet address format
     if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
-      console.log('❌ Invalid wallet address format:', address);
       return res.status(400).json({ error: 'Invalid wallet address format' });
     }
 
-    console.log('✅ All validations passed, calling addContact...');
     addContact(uid, name, address);
-    console.log('✅ Contact added successfully, sending response');
     res.json({ status: 'success', message: 'Contact added successfully' });
   } catch (error: any) {
     console.error('Add Contact Error:', error);
@@ -945,10 +744,8 @@ app.post('/api/debug/add-contact', async (req, res) => {
       return res.status(400).json({ error: 'Missing uid, name, or address' });
     }
 
-    console.log(`🧪 Debug: Adding contact ${name} -> ${address} for user ${uid}`);
     addContact(uid, name, address);
     const contacts = getContacts(uid);
-    console.log(`🧪 Debug: Contacts after adding:`, contacts);
     
     res.json({ 
       status: 'success', 
@@ -970,7 +767,6 @@ app.post('/api/debug/test-resolution', async (req, res) => {
       return res.status(400).json({ error: 'Missing uid or name' });
     }
 
-    console.log(`🧪 Debug: Testing resolution for ${name} for user ${uid}`);
     const allContacts = getContacts(uid);
     const resolvedAddress = resolveContact(uid, name);
     
@@ -994,7 +790,6 @@ app.post('/api/prompt', async (req, res) => {
     if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
 
     // Call NLP service
-    console.log(`🤖 Using NLP service at: ${config.nlp.getUrl()}`);
     const nlpResp = await fetch(`${config.nlp.getUrl()}/process_prompt`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1014,7 +809,7 @@ app.post('/api/prompt', async (req, res) => {
 // Start server if run directly
 if (require.main === module) {
   app.listen(port, () => {
-    console.log(`Relay API server listening on port ${port}`);
+    // Server started
   });
 }
 
