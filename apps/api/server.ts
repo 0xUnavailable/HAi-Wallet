@@ -578,12 +578,18 @@ app.post('/api/balance', async (req, res) => {
       11155111: {
         ...sepolia,
         rpcUrls: {
-          ...sepolia.rpcUrls,
           default: {
             http: [
+              'https://eth-sepolia.g.alchemy.com/public',
               'https://eth-sepolia.g.alchemy.com/v2/demo',
-              'https://rpc.sepolia.org',
-              'https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+              'https://rpc.sepolia.org'
+            ]
+          },
+          public: {
+            http: [
+              'https://eth-sepolia.g.alchemy.com/public',
+              'https://eth-sepolia.g.alchemy.com/v2/demo',
+              'https://rpc.sepolia.org'
             ]
           }
         }
@@ -608,13 +614,13 @@ app.post('/api/balance', async (req, res) => {
     try {
       balance = await publicClient.getBalance({ address: address as `0x${string}` });
     } catch (balanceError: any) {
-      // If the first RPC fails, try alternative endpoints for Sepolia
-      if (chainId === 11155111) {
-        const alternativeRPCs = [
-          'https://eth-sepolia.g.alchemy.com/v2/demo',
-          'https://sepolia.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-          'https://rpc.sepolia.org'
-        ];
+             // If the first RPC fails, try alternative endpoints for Sepolia
+       if (chainId === 11155111) {
+         const alternativeRPCs = [
+           'https://eth-sepolia.g.alchemy.com/public',
+           'https://eth-sepolia.g.alchemy.com/v2/demo',
+           'https://rpc.sepolia.org'
+         ];
         
         for (const rpcUrl of alternativeRPCs) {
           try {
@@ -622,7 +628,8 @@ app.post('/api/balance', async (req, res) => {
                chain: {
                  ...sepolia,
                  rpcUrls: {
-                   default: { http: [rpcUrl] }
+                   default: { http: [rpcUrl] },
+                   public: { http: [rpcUrl] }
                  }
                },
                transport: http()
