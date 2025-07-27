@@ -14,6 +14,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import firebaseWrapper from './firebaseConfig';
 import admin from 'firebase-admin';
 import { Wallet, keccak256, toUtf8Bytes } from 'ethers';
+import { config } from './config';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -307,8 +308,9 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
     // Step 1: Call NLP service
     console.log(`🚀 Starting transaction with UID: ${uid}`);
     console.log(`📝 Original prompt: ${prompt}`);
+    console.log(`🤖 Using NLP service at: ${config.nlp.getUrl()}`);
     
-    const nlpResp = await fetch('http://localhost:8000/process_prompt', {
+    const nlpResp = await fetch(`${config.nlp.getUrl()}/process_prompt`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
@@ -992,7 +994,8 @@ app.post('/api/prompt', async (req, res) => {
     if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
 
     // Call NLP service
-    const nlpResp = await fetch('http://localhost:8000/process_prompt', {
+    console.log(`🤖 Using NLP service at: ${config.nlp.getUrl()}`);
+    const nlpResp = await fetch(`${config.nlp.getUrl()}/process_prompt`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
