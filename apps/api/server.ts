@@ -461,7 +461,23 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
       // Step 4: Execute the quote using a live wallet
       // Map supported testnet chain IDs to viem chain objects
       const chainMap: Record<number, any> = {
-        11155111: sepolia,         // Ethereum Sepolia
+        11155111: {
+          ...sepolia,
+          rpcUrls: {
+            default: {
+              http: [
+                'https://eth-sepolia.g.alchemy.com/public',
+                'https://eth-sepolia.g.alchemy.com/v2/demo'
+              ]
+            },
+            public: {
+              http: [
+                'https://eth-sepolia.g.alchemy.com/public',
+                'https://eth-sepolia.g.alchemy.com/v2/demo'
+              ]
+            }
+          }
+        },
         84532: baseSepolia,       // Base Sepolia
         11155420: optimismSepolia // Optimism Sepolia
       };
