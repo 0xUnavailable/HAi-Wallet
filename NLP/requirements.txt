@@ -1,33 +1,33 @@
 # NLP Service Dependencies
 # Core NLP library for training and inference
-spacy>=3.7.0
+spacy>=3.5.0
 
 # Web framework for API endpoints
-fastapi>=0.104.0
+fastapi>=0.95.0
 
 # Data validation (required by FastAPI)
-pydantic>=2.0.0
+pydantic>=1.10.0
 
 # ASGI server for running FastAPI
-uvicorn[standard]>=0.24.0
+uvicorn[standard]>=0.20.0
 
 # Optional: For better JSON handling and validation
 python-multipart>=0.0.6
 
 # Optional: For CORS support in FastAPI
-python-cors>=0.0.6
+# Note: CORS is built into FastAPI, no additional package needed
 
 # Development dependencies (optional)
 # For testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
+pytest>=7.0.0
+pytest-asyncio>=0.20.0
 
 # For code formatting and linting
-black>=23.0.0
-flake8>=6.0.0
+black>=22.0.0
+flake8>=5.0.0
 
 # For type checking
-mypy>=1.5.0
+mypy>=1.0.0
 
 # Note: After installing spacy, you'll need to download the English language model:
 # python -m spacy download en_core_web_sm
