@@ -121,7 +121,14 @@ export function buildQuoteParams(intent: Intent, params: NLPParams) {
     originCurrency = getTokenAddress(params.tokens[0].token, params.source_network);
     destinationCurrency = getTokenAddress(params.tokens[0].token, params.dest_network);
     amount = parseAmount(params.tokens[0].amount!, params.tokens[0].token, params.source_network);
-    return {
+    
+    console.log('🔧 buildQuoteParams Transfer:');
+    console.log('   - user:', user);
+    console.log('   - recipient:', recipient);
+    console.log('   - originChainId:', originChainId);
+    console.log('   - destinationChainId:', destinationChainId);
+    
+    const result = {
       user,
       recipient,
       originChainId,
@@ -131,6 +138,9 @@ export function buildQuoteParams(intent: Intent, params: NLPParams) {
       amount: amount.toString(),
       tradeType: 'EXACT_INPUT',
     };
+    
+    console.log('🔧 buildQuoteParams result:', JSON.stringify(result, null, 2));
+    return result;
   } else {
     throw new Error(`Unsupported intent: ${intent}`);
   }

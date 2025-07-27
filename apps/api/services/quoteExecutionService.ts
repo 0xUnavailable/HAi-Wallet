@@ -63,7 +63,7 @@ export async function executeQuoteSteps(
   quote: Quote,
   walletClient: WalletClient,
   options: ExecuteOptions = {}
-): Promise<string | undefined> {
+): Promise<{ requestId: string | undefined; transactionHash?: string }> {
   const {
     pollStatus = true,
     pollIntervalMs = 3000,
@@ -71,6 +71,7 @@ export async function executeQuoteSteps(
     relayApiBase = 'https://api.testnets.relay.link',
   } = options;
 
+  let transactionHash: string | undefined;
 
   for (const step of quote.steps) { 
      if (!step.requestId) throw new Error('Missing requestId in quote');
@@ -105,6 +106,7 @@ export async function executeQuoteSteps(
           chain: walletClient.chain,
         });
         console.log(`Transaction sent: ${txHash}`);
+        transactionHash = txHash; // Store the transaction hash
         const receipt = await waitForTransactionReceipt(walletClient, txHash);
         if (receipt.status === 'reverted') {
           throw new Error(`Transaction ${txHash} reverted`);
@@ -149,7 +151,7 @@ export async function executeQuoteSteps(
       await pollExecutionStatus(step.check.endpoint, relayApiBase, pollIntervalMs, pollMaxAttempts);
     }
   }
-  return quote.requestId;
+  return { requestId: quote.requestId, transactionHash };
 }
 
 export async function pollExecutionStatus(

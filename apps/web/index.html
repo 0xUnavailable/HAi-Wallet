@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAi Wallet - Modern Digital Banking</title>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="description" content="Modern Digital Banking with AI">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Mobile Device Mockup */
+        .phone-mockup {
+            width: 420px;
+            height: 850px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 40px;
+            padding: 8px;
+            box-shadow: 
+                0 0 0 2px #333,
+                0 20px 60px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            height: 44px;
+            background: #000000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            position: relative;
+            z-index: 10;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Main Content */
+        .app-content {
+            height: calc(100% - 44px);
+            overflow-y: auto;
+            background: #000000;
+            position: relative;
+        }
+
+        /* Login Section */
+        .login-section {
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px 32px;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            font-size: 36px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 32px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Button Styles */
+        .btn {
+            width: 100%;
+            padding: 18px 24px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .btn-small {
+            padding: 12px 20px;
+            font-size: 14px;
+            width: auto;
+            min-width: 80px;
+        }
+
+        .btn-loading {
+            display: none;
+        }
+
+        .btn.loading .btn-loading {
+            display: inline;
+        }
+
+        .btn.loading span:not(.btn-loading) {
+            display: none;
+        }
+
+        /* Main App */
+        .main-app {
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #000000;
+        }
+
+        /* App Header */
+        .app-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .app-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .app-subtitle {
+            font-size: 16px;
+            opacity: 0.7;
+            color: #ffffff;
+        }
+
+        /* Wallet Cards */
+        .wallet-section {
+            padding: 20px;
+        }
+
+        .wallet-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .wallet-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .wallet-card.ethereum {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(29, 78, 216, 0.2) 100%);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .wallet-card.base {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .wallet-card.optimism {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .wallet-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .wallet-icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .wallet-card.ethereum .wallet-icon {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .wallet-card.base .wallet-icon {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+        }
+
+        .wallet-card.optimism .wallet-icon {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .wallet-balance {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+
+        .wallet-address {
+            font-size: 14px;
+            opacity: 0.6;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            word-break: break-all;
+            color: #ffffff;
+        }
+
+        /* Wallet Address Clipboard Section */
+        .wallet-address-section {
+            margin-bottom: 20px;
+        }
+
+        .address-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .address-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .address-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .address-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .address-title i {
+            color: #667eea;
+        }
+
+        .copy-btn {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+
+        .address-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .address-display span {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 13px;
+            color: #ffffff;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .copy-status {
+            font-size: 12px;
+            text-align: center;
+            min-height: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-status.success {
+            color: #22c55e;
+        }
+
+        .copy-status.error {
+            color: #ef4444;
+        }
+
+        /* Faucet Section */
+        .faucet-section {
+            margin-top: 16px;
+        }
+
+        .faucet-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .faucet-link:hover {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.3) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.2);
+            color: #16a34a;
+        }
+
+        .faucet-link i:first-child {
+            font-size: 18px;
+        }
+
+        .faucet-link i:last-child {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 6px;
+            margin: 0 20px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 14px 16px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-tab:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Contacts Tab */
+        .contacts-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #667eea;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .contact-form-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .contact-form-row .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .contact-form input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .contact-form input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .contacts-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(4px);
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+            font-size: 16px;
+        }
+
+        .contact-address {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-delete {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: rgba(220, 53, 69, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Transaction Tab */
+        .transaction-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .transaction-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .transaction-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .transaction-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .transaction-input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 12px;
+            margin: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        /* Status Messages */
+        .status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-weight: 600;
+            z-index: 1000;
+            max-width: 300px;
+            word-wrap: break-word;
+            display: none;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .status.info {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* PWA Install Prompt */
+        .pwa-install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pwa-install-prompt.show {
+            display: block;
+        }
+
+        .pwa-install-prompt h3 {
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .pwa-install-prompt p {
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pwa-install-prompt .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .pwa-install-prompt .btn {
+            flex: 1;
+            padding: 14px 20px;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 400px) {
+            .phone-mockup {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                padding: 0;
+            }
+            
+            .phone-screen {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-mockup">
+        <div class="phone-screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-left">
+                    <span id="currentTime">9:41</span>
+                </div>
+                <div class="status-right">
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-three-quarters"></i>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="app-content">
+                <!-- Login Section -->
+                <div id="loginSection" class="login-section">
+                    <div class="login-card">
+                        <div class="login-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="login-title">HAi Wallet</div>
+                        
+                        <form class="login-form" id="loginForm">
+                            <div class="input-group">
+                                <input type="email" id="emailInput" class="input-field" placeholder="Enter your email address" required>
+                            </div>
+                            <button type="submit" id="loginBtn" class="btn btn-primary">
+                                <span id="loginBtnText">Create Wallet & Login</span>
+                                <span id="loginBtnLoading" class="btn-loading">Creating Wallet...</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Main App -->
+                <div id="mainApp" class="main-app" style="display: none;">
+                    <!-- App Header -->
+                    <div class="app-header">
+                        <div class="app-title">HAi Wallet</div>
+                        <div class="app-subtitle">Modern Digital Banking</div>
+                    </div>
+
+                    <!-- Wallet Cards -->
+                    <div class="wallet-section">
+                        <div class="wallet-grid">
+                            <div class="wallet-card ethereum">
+                                <div class="wallet-header">
+                                    <div class="wallet-title">Ethereum Sepolia</div>
+                                    <div class="wallet-icon">
+                                        <i class="fab fa-ethereum"></i>
+                                    </div>
+                                </div>
+                                <div class="wallet-balance" id="ethBalance">0.00 ETH</div>
+                            </div>
+                            
+                            <div class="wallet-card base">
+                                <div class="wallet-header">
+                                    <div class="wallet-title">Base Sepolia</div>
+                                    <div class="wallet-icon">
+                                        <i class="fas fa-layer-group"></i>
+                                    </div>
+                                </div>
+                                <div class="wallet-balance" id="baseBalance">0.00 ETH</div>
+                            </div>
+                            
+                            <div class="wallet-card optimism">
+                                <div class="wallet-header">
+                                    <div class="wallet-title">Optimism Sepolia</div>
+                                    <div class="wallet-icon">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                </div>
+                                <div class="wallet-balance" id="optimismBalance">0.00 ETH</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Wallet Address Clipboard -->
+                        <div class="wallet-address-section">
+                            <div class="address-card">
+                                <div class="address-header">
+                                    <div class="address-title">
+                                        <i class="fas fa-wallet"></i>
+                                        Your Wallet Address
+                                    </div>
+                                    <button id="copyAddressBtn" class="copy-btn" title="Copy address">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <div class="address-display" id="walletAddressDisplay">
+                                    <span id="walletAddressText">Not connected</span>
+                                </div>
+                                <div class="copy-status" id="copyStatus"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Faucet Link -->
+                        <div class="faucet-section">
+                            <a href="https://cloud.google.com/application/web3/faucet/ethereum/sepolia" target="_blank" class="faucet-link">
+                                <i class="fas fa-faucet"></i>
+                                <span>Get Test ETH from Google Cloud Web3 Faucet</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Tabs -->
+                    <div class="nav-tabs">
+                        <div class="nav-tab active" data-tab="contacts">
+                            <i class="fas fa-users"></i> Contacts
+                        </div>
+                        <div class="nav-tab" data-tab="send">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </div>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content active" id="contactsTab">
+                        <div class="contacts-section">
+                            <div class="section-title">
+                                <i class="fas fa-users"></i>
+                                Contacts
+                            </div>
+                            
+                            <form class="contact-form" id="contactForm">
+                                <div class="contact-form-row">
+                                    <div class="input-group">
+                                        <input type="text" id="contactName" placeholder="Contact name" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" id="contactAddress" placeholder="Wallet address" required>
+                                    </div>
+                                    <button type="submit" id="addContactBtn" class="btn btn-primary btn-small">
+                                        <span>Add</span>
+                                        <span class="btn-loading">Adding...</span>
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <div class="contacts-list" id="contactsList">
+                                <!-- Contacts will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="sendTab">
+                        <div class="transaction-section">
+                            <div class="section-title">
+                                <i class="fas fa-paper-plane"></i>
+                                Send Transaction
+                            </div>
+                            
+                            <form class="transaction-form" id="transactionForm">
+                                <textarea 
+                                    id="transactionPrompt" 
+                                    class="transaction-input" 
+                                    placeholder="Describe your transaction in natural language...&#10;&#10;Examples:&#10;• Send 0.1 ETH to Bob&#10;• Transfer 50 USDC to 0x1234... on Ethereum&#10;• Bridge 0.05 ETH from Base to Optimism"
+                                    required
+                                ></textarea>
+                                <button type="submit" id="executeTransactionBtn" class="btn btn-primary">
+                                    <span id="executeTransactionBtnText">Execute Transaction</span>
+                                    <span id="executeTransactionBtnLoading" class="btn-loading">Processing...</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Navigation -->
+                    <div class="bottom-nav">
+                        <div class="nav-item active" data-tab="contacts">
+                            <div class="nav-icon"><i class="fas fa-users"></i></div>
+                            <div>Contacts</div>
+                        </div>
+                        <div class="nav-item" data-tab="send">
+                            <div class="nav-icon"><i class="fas fa-paper-plane"></i></div>
+                            <div>Send</div>
+                        </div>
+                        <div class="nav-item" id="logoutBtn">
+                            <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+                            <div>Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="statusMessage" class="status"></div>
+
+    <!-- PWA Install Prompt -->
+    <div id="pwaInstallPrompt" class="pwa-install-prompt">
+        <h3>Install HAi Wallet</h3>
+        <p>Install this app on your device for quick and easy access when you're on the go.</p>
+        <div class="btn-group">
+            <button id="pwaInstallBtn" class="btn btn-primary">Install</button>
+            <button id="pwaDismissBtn" class="btn btn-secondary">Not now</button>
+        </div>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+</body>
+</html> 
