@@ -282,12 +282,22 @@ app.post('/api/relay/quote-and-execute', async (req, res) => {
       const err = await nlpResp.text();
       return res.status(500).json({ error: `NLP service error: ${err}` });
     }
-    const nlpData: NLPResponse = await nlpResp.json();
+    const nlpData = await nlpResp.json();
     
-    if (!nlpData || nlpData.status !== 'success' || !nlpData.result) {
+    if (!nlpData || typeof nlpData !== 'object') {
+      return res.status(400).json({ error: 'Invalid NLP response format' });
+    }
+    
+    // Type guard to ensure we have a valid NLPResponse
+    if (!('status' in nlpData) || !('result' in nlpData)) {
+      return res.status(400).json({ error: 'NLP response missing required fields' });
+    }
+    
+    const typedNlpData = nlpData as NLPResponse;
+    if (typedNlpData.status !== 'success' || !typedNlpData.result) {
       return res.status(400).json({ error: 'Invalid NLP response' });
     }
-    const { intent, parameters } = nlpData.result;
+    const { intent, parameters } = typedNlpData.result;
     if (!intent || !parameters) {
       return res.status(400).json({ error: 'Missing intent or parameters from NLP' });
     }

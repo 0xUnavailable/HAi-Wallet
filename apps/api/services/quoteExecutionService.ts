@@ -104,6 +104,7 @@ export async function executeQuoteSteps(
           value: BigInt(value || 0),
           account: walletClient.account!,
           chain: walletClient.chain,
+          kzg: undefined, // Add kzg property to satisfy TypeScript
         });
         console.log(`Transaction sent: ${txHash}`);
         transactionHash = txHash; // Store the transaction hash
