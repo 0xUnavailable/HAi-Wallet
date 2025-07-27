@@ -32,5 +32,8 @@ mypy>=1.0.0
 # Note: After installing spacy, you'll need to download the English language model:
 # python -m spacy download en_core_web_sm
 # 
+# For deployment (Render), add this to your build command:
+# pip install -r requirements.txt && python -m spacy download en_core_web_sm
+# 
 # Or if you want to use the custom trained model, make sure the model files
 # are present in the model/model-best directory 

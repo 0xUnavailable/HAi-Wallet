@@ -15,13 +15,31 @@ logger = logging.getLogger(__name__)
 # Initialize FastAPI app
 app = FastAPI()
 
+# Run startup checks
+if __name__ == "__main__":
+    import startup
+    startup.main()
+
 # Load spaCy model (default or trained model if available)
+import os
+
+# Get the current directory and construct the model path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, "model", "model-best")
+
 try:
-    nlp = spacy.load("/home/oxunavailable/HAi Wallet/NLP/model/model-best")
-    logger.info("Loaded custom spaCy model from /home/oxunavailable/HAi Wallet/NLP/model/model-best")
+    nlp = spacy.load(model_path)
+    logger.info(f"Loaded custom spaCy model from {model_path}")
 except Exception as e:
-    nlp = spacy.load("en_core_web_sm")
-    logger.info("Failed to load custom model, using fallback model en_core_web_sm. Error: %s", str(e))
+    logger.warning(f"Failed to load custom model from {model_path}, using fallback model en_core_web_sm. Error: {str(e)}")
+    try:
+        nlp = spacy.load("en_core_web_sm")
+        logger.info("Successfully loaded fallback model en_core_web_sm")
+    except Exception as fallback_error:
+        logger.error(f"Failed to load fallback model: {str(fallback_error)}")
+        # Create a blank model as last resort
+        nlp = spacy.blank("en")
+        logger.info("Created blank spaCy model as last resort")
 
 # Register custom attributes on Doc
 Doc.set_extension("intent", default=None, force=True)
