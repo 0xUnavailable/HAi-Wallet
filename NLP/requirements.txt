@@ -1,0 +1,36 @@
+# NLP Service Dependencies
+# Core NLP library for training and inference
+spacy>=3.7.0
+
+# Web framework for API endpoints
+fastapi>=0.104.0
+
+# Data validation (required by FastAPI)
+pydantic>=2.0.0
+
+# ASGI server for running FastAPI
+uvicorn[standard]>=0.24.0
+
+# Optional: For better JSON handling and validation
+python-multipart>=0.0.6
+
+# Optional: For CORS support in FastAPI
+python-cors>=0.0.6
+
+# Development dependencies (optional)
+# For testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# For code formatting and linting
+black>=23.0.0
+flake8>=6.0.0
+
+# For type checking
+mypy>=1.5.0
+
+# Note: After installing spacy, you'll need to download the English language model:
+# python -m spacy download en_core_web_sm
+# 
+# Or if you want to use the custom trained model, make sure the model files
+# are present in the model/model-best directory 
